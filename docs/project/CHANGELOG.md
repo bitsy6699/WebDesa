@@ -4,6 +4,12 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [Phase 12: Deployment (Staging)] - 2026-07-10
+### Added
+- Deployment scripts for staging environment:
+  - `scripts/deploy-staging.sh`: Automated bash script to deploy code to staging server via SSH, install dependencies, run migrations, and verify health check endpoint. Includes a rollback mechanism in case of failures.
+  - `scripts/deploy.env.example`: Template for configuring the deployment environment variables (`STAGING_HOST`, `STAGING_USER`, `STAGING_PATH`, `DEPLOY_BRANCH`, `API_BASE_URL`).
+
 ## [Phase 11: Performance Optimization] - 2026-07-10
 ### Added
 - Two new database index migrations:

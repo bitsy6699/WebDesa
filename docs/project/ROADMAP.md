@@ -20,7 +20,7 @@ This document tracks the high-level completion status of the implementation phas
 
 ## QA & Release
 - [x] Phase 10: Performance Optimization — Database query indexes, list-level caching, ActivityLogController, health endpoint.
-- [ ] Phase 11: Testing & QA Audit (Next up)
-- [ ] Phase 12: Deployment (Staging)
+- [ ] Phase 11: Testing & QA Audit
+- [x] Phase 12: Deployment (Staging) — Automated SSH deployment scripts created.
 - [ ] Phase 13: Release Candidate
 - [ ] Phase 14: Production Go-Live
