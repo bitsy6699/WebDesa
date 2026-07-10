@@ -363,3 +363,68 @@ This document defines the REST API contract for the platform. The backend runs a
     }
   }
   ```
+
+---
+
+## 10. Health Check Endpoint
+
+### 10.1. Get Health Status
+- **Method:** `GET`
+- **Route:** `/health`
+- **Purpose:** Public status probe used by deployment verification tools.
+- **Response Body (200 OK):**
+  ```json
+  {
+    "success": true,
+    "data": {
+      "status": "ok",
+      "version": "1.0.0",
+      "timestamp": "2026-07-10T16:00:00+07:00"
+    }
+  }
+  ```
+
+---
+
+## 11. Activity Log Endpoints
+
+### 11.1. List Activity Logs
+- **Method:** `GET`
+- **Route:** `/admin/activity-logs`
+- **Purpose:** Retrieve a paginated log of administrative audits.
+- **Headers:** `Authorization: Bearer <token>`
+- **Request Parameters:**
+  - `page` (int, optional) — default: 1
+  - `per_page` (int, optional) — default: 15, max: 50
+  - `action` (string, optional) — filter by exact action slug (e.g. `potential.created`)
+- **Response Body (200 OK):**
+  ```json
+  {
+    "success": true,
+    "data": [
+      {
+        "id": "uuid",
+        "action": "potential.created",
+        "subject_id": "uuid-potential",
+        "subject_type": "App\\Models\\Potential",
+        "ip_address": "127.0.0.1",
+        "created_at": "2026-07-10T09:00:00Z",
+        "user": {
+          "id": "uuid-user",
+          "username": "admin"
+        }
+      }
+    ],
+    "meta": {
+      "current_page": 1,
+      "last_page": 3,
+      "per_page": 15,
+      "total": 40
+    },
+    "links": {
+      "prev": null,
+      "next": "/api/v1/admin/activity-logs?page=2"
+    }
+  }
+  ```
+

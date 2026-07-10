@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\ActivityLog;
 use App\Models\User;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 
 /**
  * ActivityLogService
@@ -48,5 +49,30 @@ class ActivityLogService extends BaseService
 
             return $activity;
         }, 'Gagal mencatat log aktivitas.');
+    }
+
+    /**
+     * Retrieve a paginated list of administrator activity logs.
+     * Eager loads user relations to avoid N+1 queries.
+     *
+     * @param  string|null  $action  Optional action filter slug
+     * @param  int  $perPage
+     * @param  int  $page
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator<\App\Models\ActivityLog>
+     */
+    public function list(?string $action, int $perPage, int $page): LengthAwarePaginator
+    {
+        return $this->executeSafely(function () use ($action, $perPage, $page) {
+            $query = ActivityLog::with('user');
+
+            if ($action !== null) {
+                $query->where('action', $action);
+            }
+
+            return $query->orderBy('created_at', 'desc')->paginate(
+                perPage: $perPage,
+                page: $page
+            );
+        }, 'Gagal memuat log aktivitas.');
     }
 }

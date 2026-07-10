@@ -11,7 +11,6 @@ use App\Support\PotentialFilter;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\DB;
 
 /**
  * PotentialService
@@ -40,44 +39,71 @@ class PotentialService extends BaseService
     public function list(PotentialFilter $filter): LengthAwarePaginator
     {
         return $this->executeSafely(function () use ($filter) {
-            // Eager load relations to prevent N+1 queries
-            $query = Potential::with(['category', 'location', 'coverImage']);
+            $isCacheable = $filter->search === null
+                && $filter->category === null
+                && $filter->featured === null
+                && $filter->status === null
+                && $filter->sort === 'latest'
+                && $filter->page === 1
+                && $filter->perPage === Constants::PAGINATION_DEFAULT_PER_PAGE;
 
-            // 1. Apply status scope
-            if ($filter->status !== null) {
-                $query->where('status', $filter->status);
-            } else {
-                $query->published(); // Public directory default
+            if ($isCacheable) {
+                return Cache::remember(
+                    Constants::CACHE_KEY_POTENTIALS_LIST,
+                    Constants::CACHE_TTL_FIFTEEN_MINUTES,
+                    fn () => $this->fetchListFromDatabase($filter)
+                );
             }
 
-            // 2. Apply category scope
-            if ($filter->category !== null) {
-                $query->inCategory($filter->category);
-            }
-
-            // 3. Apply search scope
-            if ($filter->search !== null) {
-                $query->search($filter->search);
-            }
-
-            // 4. Apply featured scope
-            if ($filter->featured !== null) {
-                if ($filter->featured) {
-                    $query->featured();
-                } else {
-                    $query->where('is_featured', false);
-                }
-            }
-
-            // 5. Apply sorting
-            $query = $this->applySorting($query, $filter->sort);
-
-            // 6. Paginate results
-            return $query->paginate(
-                perPage: $filter->perPage,
-                page: $filter->page
-            );
+            return $this->fetchListFromDatabase($filter);
         }, 'Gagal memuat daftar potensi.');
+    }
+
+    /**
+     * Fetch the potentials list directly from database.
+     *
+     * @param  \App\Support\PotentialFilter  $filter
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator<\App\Models\Potential>
+     */
+    protected function fetchListFromDatabase(PotentialFilter $filter): LengthAwarePaginator
+    {
+        // Eager load relations to prevent N+1 queries
+        $query = Potential::with(['category', 'location', 'coverImage']);
+
+        // 1. Apply status scope
+        if ($filter->status !== null) {
+            $query->where('status', $filter->status);
+        } else {
+            $query->published(); // Public directory default
+        }
+
+        // 2. Apply category scope
+        if ($filter->category !== null) {
+            $query->inCategory($filter->category);
+        }
+
+        // 3. Apply search scope
+        if ($filter->search !== null) {
+            $query->search($filter->search);
+        }
+
+        // 4. Apply featured scope
+        if ($filter->featured !== null) {
+            if ($filter->featured) {
+                $query->featured();
+            } else {
+                $query->where('is_featured', false);
+            }
+        }
+
+        // 5. Apply sorting
+        $query = $this->applySorting($query, $filter->sort);
+
+        // 6. Paginate results
+        return $query->paginate(
+            perPage: $filter->perPage,
+            page: $filter->page
+        );
     }
 
     /**
@@ -157,6 +183,7 @@ class PotentialService extends BaseService
 
             // Invalidate categories count cache
             $this->categoryService->clearCache();
+            $this->clearListCache();
 
             // Log activity
             $this->activityLogService->log(
@@ -223,6 +250,7 @@ class PotentialService extends BaseService
             Cache::forget("potential_detail_{$newCategorySlug}_{$potential->slug}");
 
             $this->categoryService->clearCache();
+            $this->clearListCache();
 
             // Log activity
             $this->activityLogService->log(
@@ -252,6 +280,7 @@ class PotentialService extends BaseService
             // Clear detail caching
             Cache::forget("potential_detail_{$potential->category->slug}_{$potential->slug}");
             $this->categoryService->clearCache();
+            $this->clearListCache();
 
             $this->activityLogService->log(
                 user: auth()->user(),
@@ -278,6 +307,7 @@ class PotentialService extends BaseService
             ]);
 
             Cache::forget("potential_detail_{$potential->category->slug}_{$potential->slug}");
+            $this->clearListCache();
 
             $this->activityLogService->log(
                 user: auth()->user(),
@@ -307,5 +337,13 @@ class PotentialService extends BaseService
             'latest' => $query->orderBy('created_at', 'desc'),
             default => $query->orderBy(Constants::DEFAULT_SORT_COLUMN, Constants::DEFAULT_SORT_DIRECTION),
         };
+    }
+
+    /**
+     * Clear the list-level caching keys.
+     */
+    public function clearListCache(): void
+    {
+        Cache::forget(Constants::CACHE_KEY_POTENTIALS_LIST);
     }
 }

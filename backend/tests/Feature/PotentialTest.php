@@ -278,4 +278,39 @@ class PotentialTest extends TestCase
         // Verify cache invalidation
         $this->assertFalse(Cache::has($cacheKey));
     }
+
+    /**
+     * Test public index default listing is served from cache and invalidated on write.
+     */
+    public function test_public_index_default_listing_is_served_from_cache(): void
+    {
+        Cache::forget(\App\Support\Constants::CACHE_KEY_POTENTIALS_LIST);
+
+        // Fetch once to warm cache
+        $this->getJson(route('potentials.index'))->assertStatus(200);
+
+        // Verify cache key exists
+        $this->assertTrue(Cache::has(\App\Support\Constants::CACHE_KEY_POTENTIALS_LIST));
+
+        // Store new potential via admin endpoint to trigger service-level invalidation
+        $payload = [
+            'category_id' => $this->umkmCategory->id,
+            'title' => 'New Honey Brand',
+            'description' => 'Test honey description.',
+            'status' => Status::Published->value,
+            'latitude' => -6.8000,
+            'longitude' => 107.9000,
+            'address' => 'Test Address',
+            'metadata' => [
+                'owner_name' => 'John Doe',
+            ]
+        ];
+
+        $this->actingAs($this->admin, 'sanctum')
+            ->postJson(route('admin.potentials.store'), $payload)
+            ->assertStatus(201);
+
+        // Assert cache key is invalidated (flushed)
+        $this->assertFalse(Cache::has(\App\Support\Constants::CACHE_KEY_POTENTIALS_LIST));
+    }
 }

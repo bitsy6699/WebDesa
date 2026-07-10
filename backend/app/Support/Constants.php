@@ -42,7 +42,9 @@ final class Constants
     public const CACHE_KEY_CATEGORIES = 'village_potentials_categories';
     public const CACHE_KEY_SETTINGS = 'village_site_settings';
     public const CACHE_KEY_STATISTICS = 'village_statistics_summary';
+    public const CACHE_KEY_POTENTIALS_LIST = 'village_potentials_list_default';
     public const CACHE_TTL_ONE_DAY = 86400; // in seconds
+    public const CACHE_TTL_FIFTEEN_MINUTES = 900; // in seconds
 
     // Rate Limiting (BR-SEC-01)
     public const RATE_LIMIT_API = 60; // requests per minute

@@ -7,7 +7,9 @@ use App\Exceptions\ApiException;
 use App\Models\Category;
 use App\Models\Location;
 use App\Models\Potential;
+use App\Support\Constants;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use PhpOffice\PhpSpreadsheet\IOFactory;
@@ -158,6 +160,7 @@ class ImportExportService extends BaseService
 
             // 8. Invalidate relevant caches
             $this->categoryService->clearCache();
+            Cache::forget(Constants::CACHE_KEY_POTENTIALS_LIST);
 
             return ['imported_count' => $importedCount];
         }, 'Gagal memproses file impor.');

@@ -7,6 +7,8 @@ use App\Http\Controllers\Api\V1\MediaController;
 use App\Http\Controllers\Api\V1\PotentialController;
 use App\Http\Controllers\Api\V1\SettingsController;
 use App\Http\Controllers\Api\V1\StatisticsController;
+use App\Http\Controllers\Api\V1\HealthController;
+use App\Http\Controllers\Api\V1\ActivityLogController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -38,6 +40,9 @@ Route::group([], function (): void {
 
     // Site-wide settings (Public read — BR-CON-01 fallback contact, map defaults, etc.)
     Route::get('/settings', [SettingsController::class, 'index'])->name('settings.index');
+
+    // Application Health Check Endpoint
+    Route::get('/health', [HealthController::class, 'check'])->name('health');
 });
 
 // =========================================================================
@@ -94,8 +99,6 @@ Route::group([
         Route::get('/export', [ImportExportController::class, 'export'])->name('admin.potentials.export');
     });
 
-    // Administrator Activity/Audit Logs (Placeholder)
-    Route::get('/activity-logs', function () {
-        return response()->json(['message' => 'Activity logs index placeholder']);
-    })->name('admin.activity-logs.index');
+    // Administrator Activity/Audit Logs
+    Route::get('/activity-logs', [ActivityLogController::class, 'index'])->name('admin.activity-logs.index');
 });
