@@ -1,106 +1,758 @@
-# Responsive Guidelines Specification
+# RESPONSIVE_GUIDELINES.md
 
-## Project: Website Potensi Desa Karamatwangi
-### Status: Approved
-### Version: 1.0.0
-### Date: 2026-07-10
+# Website Potensi Desa Karamatwangi
+## Responsive Design Guidelines
+**Status:** Approved  
+**Version:** 2.0.0  
+**Last Updated:** 2026-07-10
+
+---
+> [!IMPORTANT]
+> ## Official Visual Reference
+>
+> Seluruh implementasi UI frontend **WAJIB** mengacu pada visual mockup yang telah disetujui.
+>
+> **Visual Source of Truth**
+>
+> ```
+> docs/mockups/landing-page-reference.png
+> ```
+>
+> Apabila terdapat perbedaan antara dokumen spesifikasi dan visual mockup tersebut, maka **mockup menjadi acuan utama**.
+>
+> Dokumen ini hanya menjelaskan aturan implementasi teknis dari desain yang terdapat pada mockup.
+
+# 1. Purpose
+
+Dokumen ini menjadi standar implementasi responsive untuk seluruh Website Potensi Desa Karamatwangi.
+
+Target utama:
+
+- Mobile First
+- Tablet Friendly
+- Desktop Optimized
+- Konsisten dengan mockup yang telah disetujui
+- Tidak mengubah urutan informasi penting antar breakpoint
+
+Semua halaman harus terlihat baik pada ukuran layar mulai dari 320px hingga layar desktop besar.
 
 ---
 
-## 1. Breakpoint Dictionary
+# 2. Breakpoints
 
-The grid layout, columns, typography scaling, and margin spacing adapt dynamically across six primary screen dimensions:
+Menggunakan standar Tailwind CSS.
 
-| Breakpoint | Label | Viewport Range | Container Max Width | Grid Columns | Padding / Spacing | Typography Scale |
-| --- | --- | --- | --- | --- | --- | --- |
-| **Desktop XL** | `2xl` | `≥ 1536px` | `1400px` | 12 | `32px` | Display 100% |
-| **Desktop** | `xl` | `1280px – 1535px` | `1200px` | 12 | `24px` | Display 100% |
-| **Laptop** | `lg` | `1024px – 1279px` | `960px` | 12 | `20px` | Display 90% |
-| **Tablet** | `md` | `768px – 1023px` | `720px` | 6 | `16px` | Headings 85% |
-| **Large Mobile** | `sm` | `480px – 767px` | `100% - 32px` | 4 | `16px` | Headings 80% |
-| **Small Mobile** | `xs` | `< 480px` | `100% - 24px` | 4 | `12px` | Headings 75% |
-
----
-
-## 2. Navigation Transformation
-
-The header navigation adapts structurally to optimize interaction and save screen real estate:
-
-- **Desktop & Laptop (`≥ 1024px`):** Renders inline horizontal links. The Admin Dashboard entrance triggers as a clean Outline Button.
-- **Tablet (`768px – 1023px`):** Collapses page links into a minimal hamburger icon button (`44px` square). Active status renders a slide-in Hamburger drawer overlay.
-- **Mobile (`< 768px`):** The navbar is fixed to the screen top. Clicking the hamburger menu triggers a full-width Slide Drawer overlay. A sticky **"Hubungi Kami"** Floating Action Button (FAB) anchors to the bottom-right viewport corner.
+| Device | Width |
+|----------|--------|
+| Mobile | <640px |
+| Small Tablet | ≥640px |
+| Tablet | ≥768px |
+| Laptop | ≥1024px |
+| Desktop | ≥1280px |
+| Large Desktop | ≥1536px |
 
 ---
 
-## 3. Section Adaptation
+# 3. Container
 
-### 3.1. Landing Hero
-- **Desktop:** Left-to-right split screen layout. Visual photography is displayed on the right; title, tagline, search bar, and primary CTAs align on the left.
-- **Tablet:** Vertical layout. Visual photography fills the top block; search parameters and buttons sit directly below.
-- **Mobile:** Centered content layout. The background image sits directly behind the text overlay. The floating metrics block collapses from a grid layout into a horizontal, swipeable scroll container.
+Desktop
 
-### 3.2. Quick Categories
-- **Desktop:** 6-column grid displaying flat, clean category cards.
-- **Mobile:** Transforms into a single horizontal scroll panel. Visitors can swipe or scroll left/right to view category chips. Edge fade gradients signify scrollable content.
+```
+max-width:1280px
+```
 
-### 3.3. Featured Potentials Grid
-- **Desktop & Laptop:** 4-column horizontal card grid.
-- **Tablet:** 2-column card grid.
-- **Mobile:** 1-column layout. Standard grid transitions to a swipeable horizontal card carousel with snapping points.
+Tablet
 
-### 3.4. Interactive Map
-- **Desktop:** Left-hand sidebar panel (showing lists and search inputs) taking up 350px width, layout-split from the Leaflet map occupying the remaining viewport.
-- **Tablet:** Map extends to 100% width. Sidebar collapses into an expandable overlay control.
-- **Mobile:** Map occupies 100% of the active viewport area. Clicking a marker displays a slide-up **Bottom Sheet Detail Panel** from the screen's bottom edge (leaving the map visible above it) rather than displaying standard Leaflet popups which block coordinates visibility.
+```
+padding-inline:32px
+```
 
----
+Mobile
 
-## 4. Component Layout Specifications
+```
+padding-inline:20px
+```
 
-### 4.1. Unified Potential Card
-- **Grid Layout:** 
-  - Desktop: 4 cards per row.
-  - Tablet: 2 cards per row.
-  - Mobile: 1 card per row.
-- **Aspect Ratio:** Cover image stays constrained to a clean `16:9` ratio across all viewports.
-- **Typography Clamp:** Title is clamped to 1 line, short description is clamped to 2 lines to ensure card height alignment on grids.
-- **Contact CTA:** Button expands to full card width on mobile.
-
-### 4.2. Statistics & Charts
-- **Desktop:** Multi-column layout. Charts (Bar, Pie) render side-by-side.
-- **Mobile:** Stacks vertically. If charts exceed screen width, they scale down. Adjacent data tables collapse to show key rows with horizontal scroll.
-
-### 4.3. Data Tables (CMS)
-- **Desktop:** Standard multi-column headers.
-- **Tablet:** Renders horizontal scroll wrapper to browse overflow columns safely without layout break.
-- **Mobile:** Grid collapses completely. Columns transition into a card list format, where each row is represented as an independent list card displaying crucial fields (Title, Category, Status) and an action trigger.
-
-### 4.4. Forms
-- **Grid Columns:** Desktop uses 2-column grid alignment for fields. Mobile collapses inputs to a single vertical column.
-- **Touch Targets:** Form input fields, checkboxes, and select dropdowns must maintain a minimum click area of `44px` height on mobile.
-- **Coordinate Picker:** On mobile, map is disabled until tapped to prevent hijacking of page scrolls.
+Seluruh section menggunakan container yang sama.
 
 ---
 
-## 5. Media & Asset Responsiveness
+# 4. Header
 
-- **Images:** Utilizes standard HTML `<picture>` elements to serve scaled assets (e.g. mobile loads `400px` width WebP, desktop loads `1200px` width WebP).
-- **Lazy Loading:** All image thumbnails and gallery previews carry `loading="lazy"` tags.
-- **Skeletons:** Layout skeletons match the grid structure of the target page at that breakpoint.
+## Desktop
 
----
+Logo kiri
 
-## 6. Accessibility & Mobile Usability
+Menu tengah
 
-- **Landscape & Portrait:** Maps and tables adjust height dynamic overlays when mobile devices transition to landscape rotation.
-- **Gesture Control:** Leaflet map on mobile disables double-finger zoom/drag hijacking unless user explicitly taps a "Lock/Unlock Scroll" button overlay.
-- **Focus Indicators:** Interactive indicators expand to `3px` focus rings on mobile layouts for clear thumb selection confirmation.
+CTA kanan
+
+Sticky Navigation
 
 ---
 
-## 7. Future ACA Modularity
-All incoming categories (Tourism, Agriculture, Livestock, etc.) reuse these responsive guidelines:
-- Custom cards map directly into the responsive grid column limits.
-- Category detail pages automatically adjust columns from split-views (desktop) to single-column streams (mobile).
-- Custom database metrics in statistics automatically populate the responsive statistics dashboard charts.
-- CMS forms dynamically generate metadata fields in responsive stacked column layouts.
+## Tablet
+
+Logo
+
+↓
+
+Menu lebih rapat
+
+↓
+
+CTA tetap tampil
+
+---
+
+## Mobile
+
+Logo kiri
+
+↓
+
+Hamburger kanan
+
+↓
+
+Menu menjadi Drawer
+
+CTA Dashboard dipindahkan ke dalam drawer.
+
+---
+
+# 5. Hero Section
+
+Desktop
+
+```
+Split Layout
+
+Text kiri
+
+Quick Stats kanan
+```
+
+---
+
+Tablet
+
+```
+Text atas
+
+Quick Stats bawah
+```
+
+---
+
+Mobile
+
+```
+Judul
+
+↓
+
+Deskripsi
+
+↓
+
+Search Bar
+
+↓
+
+CTA Buttons
+
+↓
+
+Quick Stats
+```
+
+Quick Stats berubah menjadi grid 2 kolom.
+
+Hero image tetap memenuhi background.
+
+---
+
+# 6. Search Bar
+
+Desktop
+
+Lebar ±600px.
+
+Tablet
+
+Lebar penuh.
+
+Mobile
+
+100%
+
+Button tetap berada dalam satu baris.
+
+Tidak berpindah ke bawah.
+
+---
+
+# 7. CTA Buttons
+
+Desktop
+
+Horizontal
+
+```
+[ Jelajahi ]
+
+[ Lihat Peta ]
+```
+
+---
+
+Tablet
+
+Tetap horizontal.
+
+---
+
+Mobile
+
+Vertical Stack.
+
+```
+Jelajahi Potensi
+
+↓
+
+Lihat Peta
+```
+
+---
+
+# 8. Floating Categories
+
+Desktop
+
+6 Columns
+
+---
+
+Tablet
+
+3 Columns
+
+2 Rows
+
+---
+
+Mobile
+
+Horizontal Scroll
+
+```
+[UMKM][Wisata][Pertanian]→
+```
+
+Tidak boleh menjadi grid panjang ke bawah.
+
+---
+
+# 9. Statistics
+
+Desktop
+
+```
+4 Columns
+```
+
+Tablet
+
+```
+2 Columns
+```
+
+Mobile
+
+```
+2 Columns
+```
+
+Card tetap memiliki ukuran yang seragam.
+
+---
+
+# 10. Interactive Map
+
+Desktop
+
+```
+Text
+
+|
+
+Map
+```
+
+Split 40/60.
+
+---
+
+Tablet
+
+Text
+
+↓
+
+Map
+
+---
+
+Mobile
+
+Text
+
+↓
+
+Legend
+
+↓
+
+Button
+
+↓
+
+Map
+
+Map minimum height
+
+```
+350px
+```
+
+---
+
+# 11. Floating Map Detail
+
+Desktop
+
+Muncul di kanan bawah map.
+
+---
+
+Tablet
+
+Lebih kecil.
+
+---
+
+Mobile
+
+Bottom Sheet.
+
+Tidak menggunakan floating card.
+
+---
+
+# 12. Featured UMKM
+
+Desktop
+
+4 Card terlihat.
+
+---
+
+Laptop
+
+3 Card.
+
+---
+
+Tablet
+
+2 Card.
+
+---
+
+Mobile
+
+1 Card.
+
+Swiper aktif pada Tablet dan Mobile.
+
+---
+
+# 13. Product Card
+
+Desktop
+
+Hover Lift
+
+Image Zoom
+
+---
+
+Tablet
+
+Hover tetap aktif.
+
+---
+
+Mobile
+
+Hover dihilangkan.
+
+Menggunakan active state saja.
+
+---
+
+# 14. News Section
+
+Desktop
+
+3 Card.
+
+Tablet
+
+2 Card.
+
+Mobile
+
+1 Card.
+
+Swiper digunakan pada layar kecil.
+
+---
+
+# 15. Directory Toolbar
+
+Desktop
+
+Search
+
+Filter
+
+Sort
+
+Horizontal.
+
+---
+
+Tablet
+
+Search
+
+↓
+
+Filter
+
+↓
+
+Sort
+
+---
+
+Mobile
+
+Search penuh.
+
+Filter menjadi horizontal scroll chips.
+
+Sort dipindahkan ke bawah.
+
+---
+
+# 16. Directory Grid
+
+Desktop
+
+4 Columns
+
+---
+
+Laptop
+
+3 Columns
+
+---
+
+Tablet
+
+2 Columns
+
+---
+
+Mobile
+
+1 Column
+
+---
+
+# 17. Detail Page
+
+Desktop
+
+```
+Gallery
+
+|
+
+Information
+```
+
+---
+
+Tablet
+
+Gallery
+
+↓
+
+Information
+
+---
+
+Mobile
+
+Semua menjadi satu kolom.
+
+Metadata tetap muncul setelah deskripsi.
+
+---
+
+# 18. Footer
+
+Desktop
+
+4 Columns
+
+---
+
+Tablet
+
+2 Columns
+
+---
+
+Mobile
+
+1 Column
+
+Urutan
+
+Logo
+
+↓
+
+Quick Links
+
+↓
+
+Contact
+
+↓
+
+Map
+
+---
+
+# 19. Images
+
+Desktop
+
+Menggunakan ukuran penuh.
+
+Tablet
+
+Auto Resize.
+
+Mobile
+
+Cover image mengikuti aspect ratio.
+
+Tidak boleh stretch.
+
+Gunakan
+
+```
+object-cover
+```
+
+---
+
+# 20. Typography Scaling
+
+| Element | Desktop | Mobile |
+|----------|----------|----------|
+| Hero Title | 56px | 36px |
+| H1 | 40px | 30px |
+| H2 | 32px | 24px |
+| H3 | 24px | 20px |
+| Body | 16px | 15px |
+| Small | 14px | 13px |
+
+Gunakan `clamp()` apabila memungkinkan.
+
+---
+
+# 21. Spacing
+
+Desktop
+
+Section
+
+```
+96px
+```
+
+Tablet
+
+```
+72px
+```
+
+Mobile
+
+```
+56px
+```
+
+Gap antar card
+
+Desktop
+
+```
+32px
+```
+
+Tablet
+
+```
+24px
+```
+
+Mobile
+
+```
+16px
+```
+
+---
+
+# 22. Touch Target
+
+Seluruh tombol minimal
+
+```
+44px
+```
+
+Icon Button
+
+```
+44x44px
+```
+
+Chip
+
+```
+40px
+```
+
+---
+
+# 23. Animation
+
+Desktop
+
+Hover
+
+Lift
+
+Fade
+
+Image Zoom
+
+---
+
+Tablet
+
+Hover ringan.
+
+---
+
+Mobile
+
+Hover dihilangkan.
+
+Gunakan
+
+Tap Feedback.
+
+---
+
+# 24. Performance
+
+Lazy Load
+
+- Gallery
+- News
+- UMKM
+- Map
+
+Gunakan responsive image.
+
+Prioritaskan Hero Image.
+
+---
+
+# 25. Accessibility
+
+Kontras minimal WCAG AA.
+
+Keyboard Navigation wajib.
+
+Focus Ring terlihat.
+
+Alt text wajib.
+
+Semua Icon Button memiliki aria-label.
+
+---
+
+# 26. Responsive Verification Checklist
+
+Setiap halaman wajib diverifikasi pada:
+
+- 375px (Mobile)
+- 768px (Tablet)
+- 1024px (Laptop)
+- 1280px (Desktop)
+
+Checklist:
+
+- Layout tidak pecah
+- Tidak ada horizontal scroll
+- Typography proporsional
+- Button mudah ditekan
+- Image tidak stretch
+- Map tetap interaktif
+- Carousel berjalan normal
+- Footer tetap rapi
+- Header sticky berfungsi
+- Drawer mobile berjalan baik
+
+---
+
+---
+
+# Source Priority
+
+Urutan acuan implementasi frontend adalah sebagai berikut:
+
+1. `docs/mockups/landing-page-reference.png`
+2. `DESIGN_SYSTEM.md`
+3. `UI_UX_SPEC.md`
+4. `COMPONENT_LIBRARY.md`
+5. `RESPONSIVE_GUIDELINES.md`
+
+Developer maupun AI Assistant tidak diperbolehkan membuat interpretasi visual baru apabila sudah terdapat contoh pada mockup.
+
+Semua layout, spacing, typography, warna, hierarchy, dan komposisi mengikuti mockup tersebut.

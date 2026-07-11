@@ -1,116 +1,913 @@
-# UI/UX Specification
+# UI_UX_SPEC.md
 
-## Project: Website Potensi Desa Karamatwangi
-### Status: Approved
-### Version: 1.0.0
-### Date: 2026-07-10
+# Website Potensi Desa Karamatwangi
+## User Interface & User Experience Specification
+**Status:** Approved  
+**Version:** 2.0.0  
+**Last Updated:** 2026-07-10
+
+---
+> [!IMPORTANT]
+> ## Official Visual Reference
+>
+> Seluruh implementasi UI frontend **WAJIB** mengacu pada visual mockup yang telah disetujui.
+>
+> **Visual Source of Truth**
+>
+> ```
+> docs/mockups/landing-page-reference.png
+> ```
+>
+> Apabila terdapat perbedaan antara dokumen spesifikasi dan visual mockup tersebut, maka **mockup menjadi acuan utama**.
+>
+> Dokumen ini hanya menjelaskan aturan implementasi teknis dari desain yang terdapat pada mockup.
+
+# 1. Purpose
+
+Dokumen ini mendefinisikan seluruh struktur antarmuka (UI) dan perilaku interaksi (UX) Website Potensi Desa Karamatwangi.
+
+Semua implementasi frontend wajib mengikuti urutan section, layout, dan interaksi yang terdapat pada dokumen ini.
+
+Dokumen ini merupakan turunan langsung dari:
+
+- DESIGN_SYSTEM.md
+- Approved High-Fidelity Mockup
 
 ---
 
-## 1. Product Identity & Design Tone
-This platform is a **Digital Village Showcase Platform**, deliberately breaking away from traditional bureaucratic, text-heavy government portals. 
-- **Core Experience Concept:** A premium tourism portal and local product explorer designed to invite discovery.
-- **Brand Personality:** Inspiring, organic, modern, trustworthy, and community-centric.
-- **UX Writing Principles:**
-  - Avoid dry government terminology. Use warm, action-oriented labels.
-  - E.g., Replace *Data UMKM* with **"Explore Local Products"**.
-  - E.g., Replace *Statistik Desa* with **"Village Insights"**.
-  - E.g., Replace *Kontak* with **"Get in Touch"**.
+# 2. General Layout Structure
+
+Website menggunakan struktur halaman modern dengan pendekatan vertical scrolling.
+
+```
+Header
+
+Hero
+
+Floating Categories
+
+Interactive Map
+
+Featured UMKM
+
+News & Activities
+
+Footer
+```
+
+Semua section memiliki jarak visual yang konsisten.
 
 ---
 
-## 2. Homepage Content & Layout Flow
-The landing page coordinates a narrative arc guiding the visitor from introductory branding to direct local interactions. The scrolling order is defined as follows:
+# 3. Global Navigation
 
-```
-[ Hero Section + Global Search ]
-             ↓
-[ Quick Categories (Dynamic ACA) ]
-             ↓
-[ Featured Potentials (Highlight Cards) ]
-             ↓
-[ Interactive Map Explorer (Leaflet) ]
-             ↓
-[ Unified Potentials Grid (ACA Directory) ]
-             ↓
-[ Village Insights (Statistics Dashboard) ]
-             ↓
-[ Village News Feed Preview ]
-             ↓
-[ Footer Sitemap & Contact Info ]
-```
+## Position
 
-### 2.1. Hero Section
-- **Visuals:** Full-bleed background displaying high-quality aerial photography of Desa Karamatwangi.
-- **Content:**
-  - Premium title: *"Welcome to Desa Karamatwangi. Explore its people, products, nature, and opportunities."*
-  - Global Search Input.
-  - Primary CTA: **"Explore Potentials"** (Routes to listing catalog).
-  - Secondary CTA: **"Explore Map"** (Routes to interactive map view).
-  - Floating Metrics Overlay showing: *Total Village Potentials*, *Total Active UMKMs*, *Showcased Categories*, and *Dusun Count*.
-
-### 2.2. Quick Categories horizontal Navigation
-- Dynamic horizontal card container. Cards represent available potential types (UMKM, Tourism, Agriculture).
-- **Behavior:** These cards are dynamically generated from the CMS category catalog (ACA). If a category has no active, published entries, it is hidden from this view automatically.
-
-### 2.3. Featured Potentials
-- A clean row displaying listing cards marked by administrators as "Featured". 
-- Highlights top-performing local businesses or seasonal attractions to capture instant interest.
-
-### 2.4. Interactive Map Interface (Hero Feature)
-- The Leaflet map acts as the interactive exploration canvas on the homepage.
-- Visitors can zoom, toggle category filter overlays, select markers, and open preview popup modals containing thumbnails, ratings (future), and direct links to view detailed profile pages.
-
-### 2.5. Unified Potentials Grid
-- Renders listings in a unified responsive card layout.
-- **Unified Card Layout Principle:** To maintain future scalability, the site does not employ custom cards for different categories. Whether an entry is a UMKM, a Tourist Spot, or an Agricultural farm, it is represented by a single card layout containing:
-  1. Cover image.
-  2. Polymorphic category badge.
-  3. Title.
-  4. Short description.
-  5. Distance/Geographic locator.
-  6. Action CTA: **"Adaptive Contact Button"** / **"View Profile"**.
-
-### 2.6. Adaptive Contact UI Implementation
-- The card directory and detail page buttons contain a single button labeled **"Hubungi Penjual"** or **"Get in Touch"**. 
-- The interface never renders empty icons or dead-ends for missing social links. The button dynamically routes through the fallback contact logic determined in the business rules (Merchant WA $\rightarrow$ Phone $\rightarrow$ Email $\rightarrow$ Village Fallback WA), rendering the single active destination.
+Sticky Top
 
 ---
 
-## 3. Information Architecture
-The site navigation and page routing follows a nested directory approach designed to support the Adaptive Content Architecture:
+## Layout
 
 ```
-[Public Directory]
-  ├── Home (R-PUB-01)
-  ├── Profil Desa (R-PUB-02)
-  ├── Peta Potensi (R-PUB-03)
-  ├── Daftar Potensi (R-PUB-04)
-  │     └── [Category Name] -> UMKM, Wisata (ACA Dynamic Pages)
-  │            └── [Slug Details] (R-PUB-05)
-  └── Statistik (R-PUB-06)
+Logo
+
+Navigation Menu
+
+CTA Button
 ```
 
 ---
 
-## 4. Interaction Design
-- **Hover Effects:** Interactive cards, search bars, and buttons expand slightly (`scale-102`) and apply smooth shadow translations (`transition-all duration-300`).
-- **Map Popup Actions:** Pin selections open popup layouts displaying small imagery, merchant name, and a "Lihat Detail" link.
-- **Skeleton Loaders:** During data loading, card containers display shimmering placeholder shapes to decrease perceived loading times.
-- **Breadcrumb Navigation:** Renders on detail profiles (e.g., `Home > UMKM > Madu Asli Karamatwangi`) for clear spatial path hierarchy awareness.
-- **CMS Map Marker Drop:** In the back-office, adding a potential displays a map where the admin can click to set coordinates, instantly auto-populating coordinate text inputs.
+## Navigation Items
+
+- Beranda
+- Tentang Desa
+- Potensi Desa
+- UMKM
+- Berita
+- Statistik
+- Kontak
 
 ---
 
-## 5. Responsive Layout Adaptations
-- **Desktop Grid (> 1024px):** Renders a multi-column visual showcase. Interactive map runs in full horizontal split screen or grid containers.
-- **Tablet Grid (640px - 1024px):** Compresses page layouts to 2-column or double-deck structures. Navbar menu collapses into collapsible burger drawer.
-- **Mobile Grid (< 640px):** Transforms directory listings into a single-column vertical explorer stack. Map view takes up a fixed viewport area with overlay search buttons. Touch targets for all buttons extend to a minimum of `48px` to guarantee tap accessibility.
+## CTA
+
+Dashboard Admin
 
 ---
 
-## 6. Accessibility Requirements (WCAG 2.1 AA Compliance)
-- **Keyboard Navigation:** All interactive elements (links, filters, contact buttons, search inputs) support keyboard tab indexing, showing a visible outline state when focused.
-- **Screen Reader Support:** Semantic HTML structures utilized. Image tags require descriptive Alt text parameters. Icons require `aria-hidden="true"`.
-- **Text Readability:** Text sizing, color contrasts, and background overlays are designed to meet standard contrast accessibility ratios (4.5:1).
-- **Form Labels:** CMS creation inputs require adjacent visual helper text or explicit placeholder guides.
+## Behavior
+
+Saat pertama dibuka
+
+- transparent
+
+Saat scroll
+
+- background putih
+- shadow muncul
+- blur aktif
+
+Active menu
+
+- underline
+- warna primary
+
+---
+
+# 4. Landing Page Structure
+
+Landing page terdiri dari tujuh section utama.
+
+```
+1 Hero
+
+2 Floating Category
+
+3 Interactive Map
+
+4 Featured UMKM
+
+5 News
+
+6 Footer
+```
+
+Urutan tidak boleh berubah.
+
+---
+
+# 5. Hero Section
+
+## Layout
+
+Desktop
+
+```
+55%
+45%
+```
+
+Kiri
+
+- Welcome Label
+- Heading
+- Description
+- Search
+- CTA Buttons
+
+Kanan
+
+Quick Statistics Card
+
+---
+
+## Hero Content
+
+### Welcome
+
+```
+Selamat Datang di
+```
+
+---
+
+### Title
+
+```
+Desa Karamatwangi
+```
+
+Ukuran terbesar pada halaman.
+
+---
+
+### Description
+
+Menjelaskan potensi desa.
+
+Maksimal
+
+```
+3 baris
+```
+
+---
+
+### Search
+
+Input
+
+Button Cari
+
+Placeholder
+
+```
+Cari potensi desa,
+produk,
+atau lokasi...
+```
+
+---
+
+### CTA
+
+Button 1
+
+```
+Jelajahi UMKM
+```
+
+Button 2
+
+```
+Lihat Peta Desa
+```
+
+---
+
+## Background
+
+Landscape Village
+
+Overlay gelap
+
+---
+
+# 6. Statistics Card
+
+Position
+
+Floating
+
+Kanan Hero
+
+Grid
+
+```
+2 x 2
+```
+
+Isi
+
+Icon
+
+Value
+
+Label
+
+Data
+
+- UMKM
+- Jenis Usaha
+- Dusun
+- Wisata
+
+---
+
+## Interaction
+
+Hover
+
+- shadow
+- lift
+
+---
+
+# 7. Floating Category Bar
+
+Position
+
+Overlap Hero
+
+Style
+
+White Card
+
+Rounded
+
+Shadow
+
+---
+
+Jumlah kategori
+
+```
+6
+```
+
+Kategori
+
+- UMKM
+- Pertanian
+- Peternakan
+- Wisata
+- Sarana
+- Kegiatan
+
+---
+
+Interaction
+
+Hover
+
+- icon berubah warna
+- background berubah
+- cursor pointer
+
+Click
+
+Filter halaman terkait.
+
+---
+
+# 8. Interactive Map Section
+
+Layout
+
+```
+35%
+65%
+```
+
+---
+
+Kolom kiri
+
+Heading
+
+Description
+
+Legend
+
+Button
+
+---
+
+Kolom kanan
+
+Leaflet Map
+
+---
+
+Marker
+
+Berbeda warna berdasarkan kategori.
+
+---
+
+Popup
+
+Klik marker
+
+Menampilkan
+
+- Image
+- Judul
+- Deskripsi
+- Button Detail
+
+---
+
+Zoom
+
+Mouse Wheel
+
+Touch Gesture
+
+---
+
+# 9. Featured UMKM Section
+
+Layout
+
+Split
+
+```
+30%
+70%
+```
+
+---
+
+Kolom kiri
+
+Heading
+
+Description
+
+CTA
+
+---
+
+Kolom kanan
+
+Swiper Carousel
+
+---
+
+Card
+
+Image
+
+Wishlist
+
+Nama
+
+Kategori
+
+Lokasi
+
+Rating
+
+Social Links
+
+---
+
+Hover
+
+Image Zoom
+
+Card Lift
+
+Shadow
+
+---
+
+Button
+
+Previous
+
+Next
+
+---
+
+# 10. News Section
+
+Layout
+
+Sama seperti UMKM.
+
+---
+
+Card
+
+Image
+
+Date Badge
+
+Title
+
+Excerpt
+
+Read More
+
+---
+
+Interaction
+
+Hover
+
+Lift
+
+Read More berubah warna.
+
+---
+
+# 11. Footer
+
+Background
+
+Primary Green
+
+---
+
+Layout
+
+4 Columns
+
+---
+
+Column 1
+
+Logo
+
+Deskripsi
+
+Social Media
+
+---
+
+Column 2
+
+Quick Links
+
+---
+
+Column 3
+
+Contact
+
+Alamat
+
+Nomor
+
+Email
+
+---
+
+Column 4
+
+Village Map Illustration
+
+---
+
+Bottom Bar
+
+Copyright
+
+---
+
+# 12. Potentials Directory Page
+
+Layout
+
+```
+Header
+
+Page Banner
+
+Toolbar
+
+Grid
+
+Pagination
+```
+
+---
+
+Toolbar
+
+Search
+
+Category Filter
+
+Sorting
+
+---
+
+Grid
+
+Desktop
+
+```
+4 Columns
+```
+
+Tablet
+
+```
+2 Columns
+```
+
+Mobile
+
+```
+1 Column
+```
+
+---
+
+Card
+
+Image
+
+Category Badge
+
+Title
+
+Location
+
+Rating
+
+---
+
+Click
+
+Menuju Detail.
+
+---
+
+# 13. Potential Detail Page
+
+Structure
+
+```
+Cover
+
+Gallery
+
+Information
+
+Metadata
+
+Contact
+
+Related Potentials
+```
+
+---
+
+Cover
+
+Large Image
+
+---
+
+Gallery
+
+Horizontal Scroll
+
+---
+
+Information
+
+Title
+
+Category
+
+Description
+
+---
+
+Metadata
+
+Dynamic ACA
+
+Tidak boleh hardcoded.
+
+---
+
+Contact
+
+Adaptive Contact
+
+Prioritas
+
+1 WhatsApp
+
+2 Telepon
+
+3 Email
+
+4 Website
+
+---
+
+Related Potentials
+
+Minimal
+
+```
+4 Card
+```
+
+---
+
+# 14. Search Experience
+
+Search tersedia pada
+
+Landing
+
+Directory
+
+Map
+
+---
+
+Behavior
+
+Typing
+
+↓
+
+Debounce
+
+↓
+
+Request API
+
+↓
+
+Update Result
+
+---
+
+Jika kosong
+
+Tampilkan
+
+```
+Tidak ada hasil ditemukan.
+```
+
+---
+
+# 15. Loading States
+
+Semua request API wajib memiliki
+
+Skeleton
+
+Loading Spinner
+
+Empty State
+
+Error State
+
+---
+
+# 16. Empty State
+
+Icon
+
+Title
+
+Description
+
+CTA
+
+---
+
+Contoh
+
+```
+Belum ada data UMKM.
+```
+
+---
+
+# 17. Error State
+
+Friendly Message
+
+Retry Button
+
+---
+
+# 18. Animation Rules
+
+Button
+
+Hover
+
+Scale
+
+---
+
+Card
+
+Lift
+
+---
+
+Section
+
+Fade Up
+
+---
+
+Image
+
+Zoom
+
+---
+
+Navbar
+
+Transition
+
+---
+
+# 19. Accessibility
+
+Keyboard Navigation
+
+Focus Ring
+
+Semantic HTML
+
+ARIA Label
+
+Color Contrast WCAG AA
+
+---
+
+# 20. Responsive Behavior
+
+Desktop
+
+Semua section split layout.
+
+---
+
+Tablet
+
+Hero menjadi vertikal.
+
+Statistics pindah ke bawah Hero.
+
+Map menjadi vertikal.
+
+---
+
+Mobile
+
+Navbar
+
+Hamburger
+
+---
+
+Hero
+
+Vertical
+
+---
+
+Category
+
+Horizontal Scroll
+
+---
+
+Map
+
+Full Width
+
+---
+
+Carousel
+
+Swipe
+
+---
+
+Footer
+
+1 Column
+
+---
+
+# 21. UX Principles
+
+Seluruh halaman harus memenuhi prinsip berikut:
+
+- Mudah dipahami dalam <5 detik
+- CTA utama selalu terlihat
+- Maksimal 3 klik menuju informasi penting
+- Konsisten pada seluruh halaman
+- Mobile-first
+- Fast loading
+- Tidak ada layout shift
+
+---
+
+# 22. Source of Truth
+
+Prioritas implementasi UI adalah:
+
+1. Approved High-Fidelity Mockup
+2. UI_UX_SPEC.md
+3. DESIGN_SYSTEM.md
+4. COMPONENT_LIBRARY.md
+
+Frontend wajib mengikuti spesifikasi ini secara konsisten.
+# 23. Implementation Rules
+
+Developer dan AI Assistant WAJIB mengikuti aturan berikut:
+
+- Tidak mengubah urutan section Landing Page.
+- Tidak menghapus Floating Category Bar.
+- Tidak memindahkan Quick Statistics dari Hero.
+- Tidak mengganti layout split menjadi full-width tanpa persetujuan.
+- Tidak menggunakan komponen UI library yang mengubah tampilan visual.
+- Tidak menyederhanakan desain hanya demi mempercepat implementasi.
+- Semua perubahan visual harus tetap mempertahankan kesamaan minimal 95% terhadap approved mockup.
+---
+
+# Source Priority
+
+Urutan acuan implementasi frontend adalah sebagai berikut:
+
+1. `docs/mockups/landing-page-reference.png`
+2. `DESIGN_SYSTEM.md`
+3. `UI_UX_SPEC.md`
+4. `COMPONENT_LIBRARY.md`
+5. `RESPONSIVE_GUIDELINES.md`
+
+Developer maupun AI Assistant tidak diperbolehkan membuat interpretasi visual baru apabila sudah terdapat contoh pada mockup.
+
+Semua layout, spacing, typography, warna, hierarchy, dan komposisi mengikuti mockup tersebut.

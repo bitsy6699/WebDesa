@@ -14,6 +14,21 @@ This document serves as the authoritative implementation blueprint for **Website
 By mapping dependencies, sprints, and quality gates, we ensure the project adheres strictly to the approved **Adaptive Content Architecture (ACA)**. Success is defined as delivering a fully validated, WCAG AA accessible platform that supports future module expansions without requiring database schema modifications or frontend refactoring.
 
 ---
+## Frontend Design Authority
+
+Seluruh implementasi antarmuka Website Potensi Desa Karamatwangi wajib mengikuti visual mockup resmi yang telah disetujui.
+
+**Official Mockup Reference**
+
+```
+docs/mockups/landing-page-reference.png
+```
+
+Mockup tersebut menjadi **Source of Truth** untuk seluruh implementasi frontend.
+
+Dokumen desain seperti `DESIGN_SYSTEM.md`, `UI_UX_SPEC.md`, `COMPONENT_LIBRARY.md`, dan `RESPONSIVE_GUIDELINES.md` berfungsi sebagai penjabaran teknis dari mockup tersebut.
+
+Apabila terdapat perbedaan antara dokumen dan mockup, maka **mockup menjadi acuan utama**.
 
 ## 2. Overall Implementation Strategy
 
@@ -23,6 +38,9 @@ The implementation combines several core development strategies:
 - **Risk-First Development:** Core architectural layers (polymorphic database tables and ACA schema validations) are built first to resolve technical risks before designing visual pages.
 - **Continuous Validation:** Every feature slice must pass local linting and automated unit tests before proceeding to subsequent components.
 - **AI-Assisted Development:** Each task branch is structured to allow AI coding tools to read specifications and generate compile-safe code blocks matching our coding rules.
+- **Mockup-Driven UI Development:** Seluruh implementasi frontend mengikuti visual mockup resmi (`docs/mockups/landing-page-reference.png`). AI Assistant maupun developer tidak diperbolehkan membuat interpretasi layout baru apabila sudah terdapat referensi pada mockup.
+
+- **Design System Enforcement:** Seluruh komponen wajib menggunakan Design System yang telah ditetapkan pada folder `docs/design/` sehingga typography, spacing, warna, radius, shadow, dan animation tetap konsisten pada seluruh halaman.
 
 ---
 
@@ -158,6 +176,62 @@ gantt
   - Train village editors.
   - Perform exploratory manual QA checks.
 - **Deliverables:** Final approved release candidate.
+### Phase 13A: Frontend Foundation
+
+Objective:
+
+Membangun pondasi React + Vite, routing, Tailwind CSS, Atomic Design, Axios, React Query, serta struktur project frontend.
+
+Deliverables:
+
+- React Application
+- Atomic Design
+- Routing
+- API Client
+- Query Client
+
+### Phase 13B: Public Landing Page
+
+Objective:
+
+Mengimplementasikan Landing Page sesuai visual mockup menggunakan mock data.
+
+Deliverables:
+
+- Header
+- Hero Section
+- Statistics
+- Categories
+- Featured Potentials
+- Footer
+
+### Phase 13C: Public Directory Integration
+
+Objective:
+
+Menghubungkan Landing Page dan Public Directory dengan backend Laravel menggunakan REST API.
+
+Deliverables:
+
+- Category API
+- Statistics API
+- Potential API
+- ACA Metadata Renderer
+- Detail Page
+
+### Phase 13D: UI Polish
+
+Objective:
+
+Menyempurnakan seluruh UI agar sesuai dengan mockup final.
+
+Deliverables:
+
+- Responsive Layout
+- Animation
+- Typography
+- Accessibility
+- Visual Polish
 
 ### Phase 14: Production Go-Live
 - **Objective:** Launch live website.
@@ -207,6 +281,17 @@ The implementation timeline is divided into four two-week sprints:
 - **DoD:** Platform health checks pass, lighthouse score $\ge 90$, and production site is live on the village domain.
 
 ---
+## Design Documentation
+
+Seluruh implementasi frontend wajib membaca dokumen berikut sebelum melakukan pengembangan:
+
+1. docs/mockups/landing-page-reference.png
+2. docs/design/DESIGN_SYSTEM.md
+3. docs/design/UI_UX_SPEC.md
+4. docs/design/COMPONENT_LIBRARY.md
+5. docs/design/RESPONSIVE_GUIDELINES.md
+
+Urutan di atas bersifat mengikat. Mockup merupakan acuan visual utama, sedangkan dokumen lainnya menjelaskan aturan teknis implementasi.
 
 ## 7. Risk Management Matrix
 
@@ -215,7 +300,7 @@ The implementation timeline is divided into four two-week sprints:
 | **Technical** | JSON column queries execute slowly as catalog grows. | Medium | Restrict keyword searches to indexed core fields (title, description). Do not query JSON metadata parameters inside search filters. |
 | **Data Integrity** | Malformed JSON metadata enters database. | High | Enforce strict backend validation of incoming metadata payloads against category JSON-Schemas before executing database save transactions. |
 | **Operational** | Admin uploads massive images, slowing load speeds. | High | Implement automatic backend image compression, converting all uploads to optimized WebP formats (max 1200px width). |
-| **AI Integration** | AI tools invent APIs or duplicate components. | Medium | Enforce strict reading rules. AI assistants must read the specification files first and verify their code matches the coding guidelines. |
+| **AI Integration** | AI menghasilkan layout yang berbeda dari mockup resmi. | High | AI wajib membaca seluruh dokumen pada `docs/design/` serta menggunakan `docs/mockups/landing-page-reference.png` sebagai acuan visual utama sebelum membuat atau memodifikasi komponen frontend. |
 
 ---
 
@@ -238,3 +323,6 @@ To declare the implementation successful, the platform must satisfy these target
 - **Test Coverage:** $\ge 80\%$ test coverage on all backend service classes.
 - **Response Time:** API endpoints load in under 300ms under standard loads.
 - **ACA Scalability:** Adding a new category row in the database must render custom cards, chips, and maps without requiring a code deploy.
+- **UI Fidelity:** ≥95% kesesuaian visual terhadap `docs/mockups/landing-page-reference.png`.
+- **Responsive Quality:** Seluruh halaman tervalidasi pada viewport Mobile, Tablet, Laptop, dan Desktop tanpa layout break.
+- **Design Consistency:** Seluruh komponen menggunakan Design System yang terdokumentasi tanpa variasi styling di luar spesifikasi.

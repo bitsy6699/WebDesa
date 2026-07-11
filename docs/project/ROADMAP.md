@@ -23,4 +23,9 @@ This document tracks the high-level completion status of the implementation phas
 - [x] Phase 11: Testing & QA Audit (Backend) — Verified test coverage, API routes, security, and performance.
 - [x] Phase 12: Deployment (Staging) — Automated SSH deployment scripts created.
 - [x] Phase 13A: Frontend Foundation (React + Vite) — Core architecture, routing, API client, theme tokens.
+- [x] Phase 13B: Public Website UI — Atomic design components, landing page, Header/Footer, mock data.
+- [x] Phase 13C: Public Directory & Detail Pages — PotentialsDirectory (API-integrated), PotentialDetail (ACA MetadataRenderer), DirectoryToolbar, DirectoryGrid, AdaptiveContactButton. All mock data removed from public pages.
+- [x] Phase 13D: UI Polish & Design System — HeroBanner, Header, Footer, Button, Card, Badge, Chip, SearchBar, PotentialCard, StatisticsSection, FeaturedPotentialsSection, CategorySection, PotentialDetail, PotentialsDirectory. Full design token application, typography scale, spacing system, hover animations, WCAG AA focus rings.
+- [x] Phase 13E: Landing Page Revision — Portal Potensi Desa wording, premium map preview, ACA-compatible featured section, full landing page assembly.
+- [x] Phase 13F: Landing Page Redesign — real hero image, village logo navbar, clean hero (no category chips), premium map preview, floating category bar, Garut location references throughout.
 - [ ] Phase 14: Production Go-Live

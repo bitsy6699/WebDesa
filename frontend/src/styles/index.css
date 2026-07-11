@@ -1,6 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,600;0,700;0,800;1,700&family=Playfair+Display:ital,wght@0,700;0,800;1,700&family=Inter:wght@400;500;600&display=swap');
+@import 'leaflet/dist/leaflet.css';
 @import "tailwindcss";
-
 
 @config "../../tailwind.config.ts";
 
@@ -15,7 +15,7 @@
   --color-warning: var(--color-warning);
   --color-error: var(--color-error);
   --color-info: var(--color-info);
-  
+
   --color-neutral-50: var(--neutral-50);
   --color-neutral-100: var(--neutral-100);
   --color-neutral-200: var(--neutral-200);
@@ -26,23 +26,22 @@
   --color-neutral-700: var(--neutral-700);
   --color-neutral-800: var(--neutral-800);
   --color-neutral-900: var(--neutral-900);
-  
+
   --font-sans: 'Inter', sans-serif;
-  --font-heading: 'Plus Jakarta Sans', sans-serif;
-  
+  --font-heading: 'Playfair Display', Georgia, serif;
+
   --radius-sm: var(--radius-sm);
   --radius-md: var(--radius-md);
   --radius-lg: var(--radius-lg);
   --radius-xl: var(--radius-xl);
   --radius-2xl: var(--radius-2xl);
-  
+
   --shadow-sm: var(--shadow-sm);
   --shadow-md: var(--shadow-md);
   --shadow-lg: var(--shadow-lg);
   --shadow-xl: var(--shadow-xl);
   --shadow-glass: var(--shadow-glass);
 }
-
 
 /* -----------------------------------------------------------------------
  * Design System CSS Custom Properties
@@ -82,6 +81,7 @@
     --bg-surface: #ffffff;
     --bg-surface-alt: #f5f5f4;
     --bg-hero-overlay: rgba(28, 25, 23, 0.45);
+    --hero-overlay-color: rgba(11, 60, 53, 0.30);
     --border-default: #e7e5e4;
     --border-focus: #16a34a;
 
@@ -116,10 +116,26 @@
     color: var(--neutral-800);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    min-height: 100dvh;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-family: 'Playfair Display', Georgia, serif;
+  }
+
+  /* Consistent focus ring */
+  :focus-visible {
+    outline: 2px solid var(--border-focus);
+    outline-offset: 2px;
+  }
+
+  /* Suppress focus for mouse users */
+  :focus:not(:focus-visible) {
+    outline: none;
   }
 
   /* Respect reduced motion */
@@ -128,6 +144,237 @@
       animation-duration: 0.01ms !important;
       animation-iteration-count: 1 !important;
       transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
     }
+  }
+}
+
+/* -----------------------------------------------------------------------
+ * Typography helpers — DESIGN_SYSTEM.md §3.2
+ * ----------------------------------------------------------------------- */
+@layer utilities {
+  .text-display {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 3rem;        /* 48px */
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+  }
+  .text-h1 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 2.25rem;     /* 36px */
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.015em;
+  }
+  .text-h2 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.75rem;     /* 28px */
+    font-weight: 700;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+  }
+  .text-h3 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.375rem;    /* 22px */
+    font-weight: 600;
+    line-height: 1.3;
+  }
+  .text-h4 {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 1.125rem;    /* 18px */
+    font-weight: 600;
+    line-height: 1.35;
+  }
+  .text-body-lg {
+    font-size: 1.125rem;    /* 18px */
+    line-height: 1.6;
+  }
+  .text-body {
+    font-size: 1rem;        /* 16px */
+    line-height: 1.6;
+  }
+  .text-caption {
+    font-size: 0.875rem;    /* 14px */
+    line-height: 1.5;
+    letter-spacing: 0.01em;
+  }
+  .text-label {
+    font-size: 0.75rem;     /* 12px */
+    font-weight: 600;
+    line-height: 1.4;
+    letter-spacing: 0.04em;
+  }
+
+  /* Responsive display */
+  @media (max-width: 1023px) {
+    .text-display { font-size: 2rem; }
+  }
+  @media (max-width: 639px) {
+    .text-display { font-size: 1.75rem; }
+    .text-h1      { font-size: 1.5rem; }
+  }
+
+  /* Scrollbar hide utility for chip rows */
+  .scrollbar-none {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Container system — DESIGN_SYSTEM.md §7.1 */
+  .container {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  @media (min-width: 640px) {
+    .container { max-width: 720px; }
+  }
+  @media (min-width: 1024px) {
+    .container { max-width: 960px; }
+  }
+  @media (min-width: 1280px) {
+    .container { max-width: 1200px; }
+  }
+}
+
+/* -----------------------------------------------------------------------
+ * Skeleton shimmer animation — DESIGN_SYSTEM.md §8.17
+ * ----------------------------------------------------------------------- */
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@layer utilities {
+  .animate-shimmer {
+    background: linear-gradient(
+      90deg,
+      var(--neutral-200) 25%,
+      var(--neutral-100) 50%,
+      var(--neutral-200) 75%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.5s infinite;
+  }
+}
+
+/* -----------------------------------------------------------------------
+ * Section spacing helpers
+ * ----------------------------------------------------------------------- */
+@layer utilities {
+  .section-padding {
+    padding-top: 6rem;     /* 96px — desktop spec */
+    padding-bottom: 6rem;
+  }
+  @media (max-width: 639px) {
+    .section-padding {
+      padding-top: 3rem;   /* 48px */
+      padding-bottom: 3rem;
+    }
+  }
+}
+
+/* -----------------------------------------------------------------------
+ * Micro interactions & animations — DS v2.0 §22 / RESPONSIVE_GUIDELINES §23
+ * Duration: 200–300ms
+ * ----------------------------------------------------------------------- */
+
+/* Fade-in-up — for section entrance animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@layer utilities {
+  /* Section fade-in on scroll (apply via IntersectionObserver or Tailwind animate) */
+  .animate-fade-in-up {
+    animation: fadeInUp 0.4s cubic-bezier(0.4, 0, 0.2, 1) both;
+  }
+
+  /* Stagger delays for card grids */
+  .animation-delay-100 { animation-delay: 100ms; }
+  .animation-delay-200 { animation-delay: 200ms; }
+  .animation-delay-300 { animation-delay: 300ms; }
+
+  /* Hover lift — cards, category items */
+  .hover-lift {
+    transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+                box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .hover-lift:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px -8px rgba(11, 60, 53, 0.18);
+  }
+
+  /* Image zoom container — parent must be overflow-hidden */
+  .img-zoom > img,
+  .img-zoom img {
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .img-zoom:hover > img,
+  .img-zoom:hover img {
+    transform: scale(1.06);
+  }
+
+  /* Shadow transition for cards */
+  .shadow-transition {
+    transition: box-shadow 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+                transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .shadow-transition:hover {
+    box-shadow: 0 24px 48px -12px rgba(0, 0, 0, 0.14);
+  }
+
+  /* Button scale micro-interaction */
+  .btn-scale {
+    transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .btn-scale:hover {
+    transform: scale(1.02);
+  }
+  .btn-scale:active {
+    transform: scale(0.98);
+  }
+}
+
+/* -----------------------------------------------------------------------
+ * Responsive typography scaling — RESPONSIVE_GUIDELINES §20
+ * ----------------------------------------------------------------------- */
+@layer utilities {
+  /* Hero title: 56px desktop → 36px mobile */
+  .hero-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(2.25rem, 5vw, 3.5rem); /* 36px → 56px */
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.025em;
+  }
+}
+
+/* -----------------------------------------------------------------------
+ * Leaflet map overrides — prevent leaflet CSS from breaking layout
+ * ----------------------------------------------------------------------- */
+@layer base {
+  .leaflet-container {
+    font-family: 'Inter', sans-serif;
+  }
+  .leaflet-popup-content-wrapper {
+    border-radius: 12px !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12) !important;
+  }
+  .leaflet-popup-tip {
+    box-shadow: none !important;
   }
 }
