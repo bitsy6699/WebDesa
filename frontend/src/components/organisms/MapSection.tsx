@@ -309,9 +309,13 @@ export function MapSection() {
 
             {/* CTA */}
             <Link to="/map" tabIndex={-1} className="mt-2 self-start">
-              <Button variant="primary" size="md" className="gap-2 bg-[#0B3C35] hover:bg-[#2F855A]">
+              <Button
+                variant="primary"
+                size="md"
+                className="gap-2 rounded-full bg-[#0B3C35] hover:bg-[#2F855A] font-semibold"
+              >
                 <MapPin className="w-4 h-4" aria-hidden="true" />
-                Lihat Peta Lengkap
+                Lihat Peta Interaktif
                 <ArrowRight className="w-4 h-4" aria-hidden="true" />
               </Button>
             </Link>
@@ -319,7 +323,7 @@ export function MapSection() {
 
           {/* ── Right column (65%) — Static SVG Map Preview ────────── */}
           <div className="w-full lg:w-[65%]">
-            <div className="rounded-[28px] overflow-hidden shadow-2xl border border-[#E5E7EB]">
+            <div className="rounded-[32px] overflow-hidden border border-[#E5E7EB]" style={{ boxShadow: '0 24px 64px rgba(0,0,0,0.14)' }}>
               <div className="relative h-[380px] lg:h-[460px] w-full">
                 {/* SVG illustration map */}
                 <StaticVillageMap markers={displayMarkers} />

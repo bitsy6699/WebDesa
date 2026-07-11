@@ -1,7 +1,6 @@
 import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, MapPin, Star, ChevronLeft, ChevronRight } from 'lucide-react';
-import { Badge } from '@/components/atoms/Badge';
 import { Button } from '@/components/atoms/Button';
 import { IconButton } from '@/components/atoms/IconButton';
 import { Skeleton } from '@/components/atoms/Skeleton';
@@ -28,12 +27,23 @@ function FeaturedCard({ item }: { item: PotentialListItem }) {
   return (
     <Link
       to={`/potentials/${item.category.slug}/${item.slug}`}
-      className="group block focus:outline-none focus-visible:ring-2 focus-visible:ring-[--border-focus] focus-visible:ring-offset-2 rounded-[24px]"
+      className="group block focus:outline-none focus-visible:ring-2 focus-visible:ring-[--border-focus] focus-visible:ring-offset-2 rounded-3xl"
       aria-label={`Lihat detail ${item.title}`}
     >
-      <article className="rounded-[24px] bg-white border border-[#E5E7EB] shadow-md hover:shadow-2xl hover:-translate-y-1 transition-all duration-300 overflow-hidden h-full flex flex-col">
-        {/* Cover image */}
-        <div className="relative aspect-[4/3] w-full overflow-hidden bg-[--neutral-100] shrink-0">
+      <article
+        className="rounded-3xl bg-white overflow-hidden h-full flex flex-col transition-all duration-300"
+        style={{ boxShadow: '0 4px 20px rgba(0,0,0,0.08)' }}
+        onMouseEnter={(e) => {
+          (e.currentTarget as HTMLElement).style.transform = 'translateY(-8px)';
+          (e.currentTarget as HTMLElement).style.boxShadow = '0 20px 48px rgba(0,0,0,0.14)';
+        }}
+        onMouseLeave={(e) => {
+          (e.currentTarget as HTMLElement).style.transform = 'translateY(0)';
+          (e.currentTarget as HTMLElement).style.boxShadow = '0 4px 20px rgba(0,0,0,0.08)';
+        }}
+      >
+        {/* Cover image — 4:3 */}
+        <div className="relative overflow-hidden bg-[#F3F4F6] shrink-0" style={{ aspectRatio: '4/3' }}>
           <img
             src={item.cover_image_url ?? placeholderCard}
             alt={item.title}
@@ -41,29 +51,47 @@ function FeaturedCard({ item }: { item: PotentialListItem }) {
             loading="lazy"
             decoding="async"
           />
-          {/* Category badge — top-left */}
+          {/* Category badge */}
           <div className="absolute top-3 left-3">
-            <Badge color="primary">{item.category.label}</Badge>
+            <span
+              className="px-2.5 py-1 rounded-full text-[10px] font-bold text-white uppercase tracking-wide shadow-md"
+              style={{ backgroundColor: item.category.color_code ?? '#16a34a' }}
+            >
+              {item.category.label}
+            </span>
           </div>
         </div>
 
         {/* Content */}
-        <div className="p-4 flex-1 flex flex-col gap-2">
-          <h3 className="text-h4 text-[#1F2937] line-clamp-2 leading-snug">
+        <div className="p-5 flex-1 flex flex-col gap-3">
+          <h3
+            className="font-bold text-[#1F2937] line-clamp-2 leading-snug"
+            style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: '1.05rem' }}
+          >
             {item.title}
           </h3>
 
-          {/* Location + rating row */}
-          <div className="flex items-center justify-between gap-2 mt-auto pt-1">
+          {/* Location + rating */}
+          <div className="flex items-center justify-between gap-2 mt-auto">
             {item.location?.address ? (
-              <div className="flex items-center gap-1 text-caption text-[#6B7280] min-w-0">
+              <div className="flex items-center gap-1.5 text-[#6B7280] min-w-0">
                 <MapPin className="w-3.5 h-3.5 shrink-0 text-[#2F855A]" aria-hidden="true" />
-                <span className="line-clamp-1">{item.location.address}</span>
+                <span className="text-xs line-clamp-1">{item.location.address}</span>
               </div>
             ) : (
               <span />
             )}
             <MockRating />
+          </div>
+
+          {/* CTA */}
+          <div className="pt-2 mt-auto">
+            <span
+              className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#0B3C35] group-hover:gap-2.5 transition-all duration-200"
+            >
+              Lihat Detail
+              <ArrowRight className="w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-1" aria-hidden="true" />
+            </span>
           </div>
         </div>
       </article>

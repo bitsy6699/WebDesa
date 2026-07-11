@@ -1,19 +1,25 @@
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import { Header } from '@/components/organisms/Header';
 import { Footer } from '@/components/organisms/Footer';
 
 /**
  * PublicLayout — Template wrapper for all public-facing pages.
- * Renders a shared Navbar at the top, page content via <Outlet />,
- * and a Footer at the bottom.
  *
- * @see docs/engineering/FOLDER_STRUCTURE.md §3 Frontend Workspace
- * @see docs/design/DESIGN_SYSTEM.md §8.1 Navbar, §8.20 Footer
+ * Header is `fixed` so it overlays the hero on the homepage.
+ * On non-home pages, a spacer `<div>` of 88px compensates so content
+ * does not hide behind the fixed navbar.
+ *
+ * @see docs/design/DESIGN_SYSTEM.md §8.1 Navbar
  */
 export default function PublicLayout() {
+  const location = useLocation();
+  const isHomePage = location.pathname === '/';
+
   return (
     <div className="flex min-h-screen flex-col bg-[--bg-page]">
       <Header />
+      {/* Spacer for fixed header — only on non-home pages where hero doesn't absorb the height */}
+      {!isHomePage && <div className="h-[88px] shrink-0" aria-hidden="true" />}
       <main className="flex-1">
         <Outlet />
       </main>

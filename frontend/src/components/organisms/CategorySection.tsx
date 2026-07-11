@@ -54,11 +54,15 @@ function CategoryIcon({
 /**
  * CategorySection — Floating category bar that visually overlaps the hero bottom.
  *
- * Visual spec: DS v2.0
- * - Negative margin (-mt-16) creates an overlap effect over the section below hero
- * - White card with rounded-[28px] and shadow-xl
- * - Desktop: 6 columns; Tablet (md): 3 columns / 2 rows; Mobile: horizontal scroll
- * - Each item: vertical layout (icon top, label below), hover color shift
+ * Phase 13F spec:
+ * - -mt-[60px] overlap from hero
+ * - centered, max-width 1180px
+ * - white, rounded-3xl, shadow-xl, p-8
+ * - Desktop: 6 equal columns
+ * - Tablet (md): 3 columns
+ * - Mobile: horizontal scroll
+ * - Each card: icon in soft colored circle, label, hover translateY(-6px) + shadow
+ * - API data; fallback categories when empty
  *
  * @see docs/design/UI_UX_SPEC.md §6 Category Bar
  */
@@ -68,69 +72,71 @@ export function CategorySection({ categories, isLoading = false }: CategorySecti
 
   return (
     <section
-      className="-mt-16 relative z-10 px-4 sm:px-6 lg:px-8"
+      className="relative z-10 px-4 sm:px-6 lg:px-8"
+      style={{ marginTop: '-60px' }}
       aria-label="Kategori potensi desa"
     >
-      <div className="container mx-auto">
-        <div className="bg-white rounded-3xl shadow-[0_8px_40px_rgba(0,0,0,0.12)] p-6 md:p-8">
+      <div className="mx-auto" style={{ maxWidth: '1180px' }}>
+        <div
+          className="bg-white rounded-3xl p-6 md:p-8"
+          style={{ boxShadow: '0 8px 48px rgba(0,0,0,0.12)' }}
+        >
           {isLoading ? (
-            /* Loading skeleton */
             <div className="grid grid-cols-3 md:grid-cols-6 gap-4">
               {Array.from({ length: 6 }).map((_, i) => (
-                <div key={i} className="flex flex-col items-center gap-2 p-3">
-                  <Skeleton className="h-12 w-12 rounded-2xl" />
+                <div key={i} className="flex flex-col items-center gap-3 p-4">
+                  <Skeleton className="h-14 w-14 rounded-full" />
                   <Skeleton className="h-3 w-16 rounded-full" />
                 </div>
               ))}
             </div>
           ) : (
-            /* Category items */
             <div
               className={clsx(
-                // Mobile: horizontal scroll
-                'flex md:grid gap-4',
+                'flex md:grid gap-3',
                 'overflow-x-auto md:overflow-x-visible scrollbar-none',
-                // Tablet: 3 cols; Desktop: 6 cols
                 'md:grid-cols-3 lg:grid-cols-6',
               )}
             >
               {items.map((category) => {
                 const color = category.color_code ?? '#16a34a';
-                // Soft tint bg from hex — built at runtime via inline style
                 return (
                   <button
                     key={category.id}
                     type="button"
                     onClick={() => navigate(`/potentials?category=${category.slug}`)}
                     className={clsx(
-                      'group flex flex-col items-center gap-2 p-4 rounded-2xl border border-transparent',
+                      'group flex flex-col items-center gap-3 px-3 py-5',
+                      'rounded-2xl border border-transparent bg-white',
                       'transition-all duration-300 ease-out',
-                      'cursor-pointer shrink-0 md:shrink w-24 md:w-auto',
+                      'hover:-translate-y-[6px] hover:border-gray-100',
+                      'cursor-pointer shrink-0 md:shrink w-[88px] md:w-auto',
                       'focus:outline-none focus-visible:ring-2 focus-visible:ring-[--border-focus] focus-visible:ring-offset-2',
                     )}
-                    style={{ backgroundColor: 'white' }}
+                    style={{
+                      boxShadow: 'none',
+                    }}
                     onMouseEnter={(e) => {
-                      (e.currentTarget as HTMLButtonElement).style.backgroundColor = `${color}14`; // ~8% opacity tint
+                      (e.currentTarget as HTMLButtonElement).style.boxShadow =
+                        '0 8px 24px rgba(0,0,0,0.10)';
                     }}
                     onMouseLeave={(e) => {
-                      (e.currentTarget as HTMLButtonElement).style.backgroundColor = 'white';
+                      (e.currentTarget as HTMLButtonElement).style.boxShadow = 'none';
                     }}
                     aria-label={`Lihat potensi kategori ${category.label}`}
                   >
-                    {/* Icon container */}
+                    {/* Icon circle */}
                     <div
-                      className="w-12 h-12 rounded-2xl flex items-center justify-center transition-all duration-300 group-hover:scale-110"
-                      style={{
-                        backgroundColor: `${color}18`, // ~10% opacity tint
-                      }}
+                      className="w-14 h-14 rounded-full flex items-center justify-center transition-transform duration-300 group-hover:scale-105 shrink-0"
+                      style={{ backgroundColor: `${color}1a` }}
                     >
-                      <CategoryIcon iconKey={category.icon_key} color={color} size={22} />
+                      <CategoryIcon iconKey={category.icon_key} color={color} size={24} />
                     </div>
 
                     {/* Label */}
                     <span
-                      className="text-label text-[#1F2937] group-hover:text-[#0B3C35] font-semibold text-center leading-tight whitespace-nowrap"
-                      style={{ fontSize: '0.7rem' }}
+                      className="font-semibold text-center leading-tight text-[#374151] group-hover:text-[#0B3C35] transition-colors duration-200"
+                      style={{ fontSize: '0.72rem' }}
                     >
                       {category.label}
                     </span>
