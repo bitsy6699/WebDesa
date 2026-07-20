@@ -1,218 +1,233 @@
-import { useRef } from 'react';
+import { type ReactNode } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, MapPin, Star, ChevronLeft, ChevronRight } from 'lucide-react';
-import { Button } from '@/components/atoms/Button';
-import { IconButton } from '@/components/atoms/IconButton';
-import { Skeleton } from '@/components/atoms/Skeleton';
+import { motion, useReducedMotion } from 'framer-motion';
+import { ArrowRight, Sparkles } from 'lucide-react';
+import {
+  FeaturedLargeCard,
+  FeaturedSmallCard,
+  FeaturedLargeCardSkeleton,
+  FeaturedSmallCardSkeleton,
+} from '@/components/molecules/FeaturedPotentialCard';
+import { SectionHeader } from '@/components/molecules/SectionHeader';
+import { glassSurfaceSoft, glassButtonSubtle } from '@/lib/glassStyles';
 import type { PotentialListItem } from '@/types/Potential';
-import placeholderCard from '@/assets/images/placeholder-card.svg';
 
 export interface FeaturedPotentialsSectionProps {
   potentials: PotentialListItem[];
   isLoading?: boolean;
 }
 
-/** Mock star rating — backend does not provide ratings (per Phase 13E spec) */
-function MockRating({ value = 4.5 }: { value?: number }) {
+const REVEAL_TRANSITION = {
+  duration: 0.7,
+  ease: 'easeOut' as const,
+};
+
+function FeaturedCardReveal({ index, children }: { index: number; children: ReactNode }) {
+  const prefersReducedMotion = useReducedMotion();
+
+  if (prefersReducedMotion) {
+    return <>{children}</>;
+  }
+
   return (
-    <div className="flex items-center gap-1 text-[#D97706]">
-      <Star className="w-3.5 h-3.5 fill-current" aria-hidden="true" />
-      <span className="text-xs font-medium text-[#1F2937]">{value}</span>
-    </div>
+    <motion.div
+      initial={{ opacity: 0, y: 40, scale: 0.96 }}
+      whileInView={{ opacity: 1, y: 0, scale: 1 }}
+      viewport={{ once: true, amount: 0.15 }}
+      transition={{
+        ...REVEAL_TRANSITION,
+        delay: index * 0.12,
+      }}
+    >
+      {children}
+    </motion.div>
   );
 }
 
-/** Single card for the featured carousel */
-function FeaturedCard({ item }: { item: PotentialListItem }) {
+function SectionCTAButton({ to, label }: { to: string; label: string }) {
   return (
     <Link
-      to={`/potentials/${item.category.slug}/${item.slug}`}
-      className="group block focus:outline-none focus-visible:ring-2 focus-visible:ring-[--border-focus] focus-visible:ring-offset-2 rounded-3xl"
-      aria-label={`Lihat detail ${item.title}`}
+      to={to}
+      className="inline-flex shrink-0 items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-[#163A35] transition-all duration-200 hover:bg-[#184D47]/10 hover:text-[#0F3D34]"
+      style={{
+        ...glassButtonSubtle,
+        color: '#163A35',
+        border: '1px solid rgba(24,77,71,0.15)',
+        whiteSpace: 'nowrap',
+      }}
     >
-      <article
-        className="rounded-3xl bg-white overflow-hidden h-full flex flex-col transition-all duration-300"
-        style={{ boxShadow: '0 4px 20px rgba(0,0,0,0.08)' }}
-        onMouseEnter={(e) => {
-          (e.currentTarget as HTMLElement).style.transform = 'translateY(-8px)';
-          (e.currentTarget as HTMLElement).style.boxShadow = '0 20px 48px rgba(0,0,0,0.14)';
-        }}
-        onMouseLeave={(e) => {
-          (e.currentTarget as HTMLElement).style.transform = 'translateY(0)';
-          (e.currentTarget as HTMLElement).style.boxShadow = '0 4px 20px rgba(0,0,0,0.08)';
-        }}
-      >
-        {/* Cover image — 4:3 */}
-        <div className="relative overflow-hidden bg-[#F3F4F6] shrink-0" style={{ aspectRatio: '4/3' }}>
-          <img
-            src={item.cover_image_url ?? placeholderCard}
-            alt={item.title}
-            className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
-            loading="lazy"
-            decoding="async"
-          />
-          {/* Category badge */}
-          <div className="absolute top-3 left-3">
-            <span
-              className="px-2.5 py-1 rounded-full text-[10px] font-bold text-white uppercase tracking-wide shadow-md"
-              style={{ backgroundColor: item.category.color_code ?? '#16a34a' }}
-            >
-              {item.category.label}
-            </span>
-          </div>
-        </div>
-
-        {/* Content */}
-        <div className="p-5 flex-1 flex flex-col gap-3">
-          <h3
-            className="font-bold text-[#1F2937] line-clamp-2 leading-snug"
-            style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: '1.05rem' }}
-          >
-            {item.title}
-          </h3>
-
-          {/* Location + rating */}
-          <div className="flex items-center justify-between gap-2 mt-auto">
-            {item.location?.address ? (
-              <div className="flex items-center gap-1.5 text-[#6B7280] min-w-0">
-                <MapPin className="w-3.5 h-3.5 shrink-0 text-[#2F855A]" aria-hidden="true" />
-                <span className="text-xs line-clamp-1">{item.location.address}</span>
-              </div>
-            ) : (
-              <span />
-            )}
-            <MockRating />
-          </div>
-
-          {/* CTA */}
-          <div className="pt-2 mt-auto">
-            <span
-              className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#0B3C35] group-hover:gap-2.5 transition-all duration-200"
-            >
-              Lihat Detail
-              <ArrowRight className="w-3.5 h-3.5 transition-transform duration-200 group-hover:translate-x-1" aria-hidden="true" />
-            </span>
-          </div>
-        </div>
-      </article>
+      {label}
+      <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden="true" />
     </Link>
   );
 }
 
-/** Card width (px) used for scroll calculation */
-const CARD_SCROLL_AMOUNT = 340;
+function FeaturedEmptyState() {
+  return (
+    <div
+      className="flex flex-col items-center justify-center rounded-[32px] px-6 py-16 text-center"
+      style={glassSurfaceSoft}
+    >
+      <div
+        className="mb-6 flex h-20 w-20 items-center justify-center rounded-full"
+        style={{
+          background: 'rgba(255,255,255,0.25)',
+          border: '1px solid rgba(255,255,255,0.35)',
+        }}
+        aria-hidden="true"
+      >
+        <Sparkles className="h-9 w-9 text-[var(--color-primary)]" />
+      </div>
+
+      <h3 className="text-2xl font-bold text-[#163A35]">Belum Ada Potensi Unggulan</h3>
+      <p className="mt-3 max-w-md text-[15px] leading-[170%] text-[#667085]">
+        Data akan muncul setelah administrator menambahkan potensi unggulan.
+      </p>
+
+      <div className="mt-8">
+        <SectionCTAButton to="/potentials" label="Lihat Semua Potensi" />
+      </div>
+    </div>
+  );
+}
 
 /**
- * FeaturedPotentialsSection — Split 30/70 layout with CSS scroll-snap carousel.
+ * FeaturedPotentialsSection — Premium editorial layout.
  *
- * Left (30%): section kicker, title, description, prev/next buttons
- * Right (70%): CSS horizontal carousel with snap-start cards
- *
- * Uses native scroll-snap — zero additional dependencies.
+ * Desktop: 60% featured card + 40% stacked small cards
+ * Tablet:  featured card on top, two small cards below
+ * Mobile:  horizontal snap scroll with peek
  *
  * @see docs/design/UI_UX_SPEC.md §8 Featured UMKM Section
  */
 export function FeaturedPotentialsSection({ potentials, isLoading = false }: FeaturedPotentialsSectionProps) {
-  const carouselRef = useRef<HTMLDivElement>(null);
-
-  const scroll = (dir: 'left' | 'right') => {
-    carouselRef.current?.scrollBy({
-      left: dir === 'left' ? -CARD_SCROLL_AMOUNT : CARD_SCROLL_AMOUNT,
-      behavior: 'smooth',
-    });
-  };
-
-  if (!isLoading && (!potentials || potentials.length === 0)) return null;
+  const isEmpty = !isLoading && (!potentials || potentials.length === 0);
+  const [featured, ...rest] = potentials;
+  const smallCards = rest.slice(0, 2);
 
   return (
-    <section className="section-padding bg-white" aria-label="Potensi unggulan desa">
-      <div className="container mx-auto px-4">
-        <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
+    <section
+      className="relative overflow-hidden"
+      style={{
+        background: 'linear-gradient(180deg, #F8FAF8 0%, #F3F7F4 100%)',
+      }}
+      aria-label="Potensi unggulan desa"
+    >
+      {/* Subtle radial blur decoration */}
+      <div
+        className="pointer-events-none absolute inset-0"
+        style={{
+          background:
+            'radial-gradient(ellipse 80% 60% at 50% 45%, rgba(22,58,53,0.06) 0%, transparent 70%)',
+        }}
+        aria-hidden="true"
+      />
 
-          {/* ── Left column (30%) ──────────────────────────────────── */}
-          <div className="w-full lg:w-[30%] flex flex-col justify-center gap-6 lg:sticky lg:top-28 self-start">
-            {/* Section kicker */}
-            <p className="text-label uppercase tracking-widest text-[#D97706] font-semibold">
-              Unggulan
-            </p>
+      <div className="relative mx-auto max-w-[1320px] px-4 py-20 sm:px-6 lg:px-8 lg:py-28">
+        {/* ── Header ─────────────────────────────────────────────── */}
+        <SectionHeader
+          eyebrow="Potensi Pilihan"
+          title="Potensi Unggulan Desa Karamatwangi"
+          description="Menampilkan berbagai potensi terbaik Desa Karamatwangi yang memiliki nilai ekonomi, budaya, dan wisata sebagai identitas desa."
+          ctaTo={isEmpty ? undefined : '/potentials'}
+          ctaLabel={isEmpty ? undefined : 'Lihat Semua'}
+          className="mb-10"
+        />
 
-            {/* Title */}
-            <h2 className="text-h2 text-[#0B3C35] leading-tight">
-              Potensi Unggulan
-            </h2>
-
-            {/* Description */}
-            <p className="text-body text-[#6B7280] leading-relaxed">
-              Temukan potensi terbaik Desa Karamatwangi — dari wisata alam, produk lokal, hingga hasil pertanian berkualitas.
-            </p>
-
-            {/* CTA */}
-            <Link to="/potentials" tabIndex={-1} className="self-start">
-              <Button
-                variant="primary"
-                size="md"
-                className="gap-2 bg-[#0B3C35] hover:bg-[#2F855A] rounded-full"
-              >
-                Lihat Semua Potensi
-                <ArrowRight className="w-4 h-4" aria-hidden="true" />
-              </Button>
-            </Link>
-
-            {/* Prev/Next carousel controls */}
-            {!isLoading && potentials.length > 0 && (
-              <div className="flex items-center gap-3 mt-2">
-                <IconButton
-                  icon={<ChevronLeft className="w-5 h-5" />}
-                  aria-label="Geser kiri"
-                  variant="outline"
-                  size="md"
-                  onClick={() => scroll('left')}
-                />
-                <IconButton
-                  icon={<ChevronRight className="w-5 h-5" />}
-                  aria-label="Geser kanan"
-                  variant="outline"
-                  size="md"
-                  onClick={() => scroll('right')}
-                />
+        {/* ── Editorial content ──────────────────────────────────── */}
+        {isLoading ? (
+          <>
+            {/* Desktop & tablet loading */}
+            <div className="hidden md:block">
+              <div className="flex flex-col gap-6 lg:flex-row">
+                <div className="lg:w-[60%]">
+                  <FeaturedLargeCardSkeleton />
+                </div>
+                <div className="flex flex-col gap-6 lg:w-[40%]">
+                  <FeaturedSmallCardSkeleton />
+                  <FeaturedSmallCardSkeleton />
+                </div>
               </div>
-            )}
-          </div>
+            </div>
 
-          {/* ── Right column (70%) — CSS Carousel ─────────────────── */}
-          <div className="w-full lg:w-[70%] min-w-0">
-            {isLoading ? (
-              /* Loading skeleton */
-              <div className="flex gap-4 overflow-hidden">
-                {Array.from({ length: 3 }).map((_, i) => (
-                  <div key={i} className="shrink-0 w-[280px] md:w-[320px] space-y-3">
-                    <Skeleton className="h-[240px] w-full rounded-[24px]" />
-                    <Skeleton className="h-5 w-3/4 rounded" />
-                    <Skeleton className="h-4 w-1/2 rounded" />
-                  </div>
-                ))}
+            {/* Mobile loading */}
+            <div className="flex gap-4 overflow-hidden md:hidden">
+              <div className="w-[85vw] shrink-0">
+                <FeaturedLargeCardSkeleton />
               </div>
-            ) : (
-              <div
-                ref={carouselRef}
-                className="flex gap-4 overflow-x-auto scroll-smooth snap-x snap-mandatory scrollbar-none pb-2"
-                role="list"
-                aria-label="Daftar potensi unggulan desa"
-              >
-                {potentials.map((item) => (
-                  <div
-                    key={item.id}
-                    className="snap-start shrink-0 w-[280px] md:w-[320px]"
-                    role="listitem"
-                  >
-                    <FeaturedCard item={item} />
-                  </div>
-                ))}
+              <div className="w-[75vw] shrink-0">
+                <FeaturedSmallCardSkeleton />
               </div>
-            )}
-          </div>
+            </div>
+          </>
+        ) : isEmpty ? (
+          <FeaturedEmptyState />
+        ) : (
+          <>
+            {/* Desktop: 60 / 40 editorial split */}
+            <div className="hidden lg:flex gap-8">
+              {featured && (
+                <div className="w-[60%]">
+                  <FeaturedCardReveal index={0}>
+                    <FeaturedLargeCard item={featured} />
+                  </FeaturedCardReveal>
+                </div>
+              )}
+              {smallCards.length > 0 && (
+                <div className="flex w-[40%] flex-col gap-8">
+                  {smallCards.map((item, index) => (
+                    <div key={item.id} className="flex-1">
+                      <FeaturedCardReveal index={index + 1}>
+                        <FeaturedSmallCard item={item} />
+                      </FeaturedCardReveal>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
 
-        </div>
+            {/* Tablet: large on top, two small below */}
+            <div className="hidden md:flex md:flex-col md:gap-6 lg:hidden">
+              {featured && (
+                <FeaturedCardReveal index={0}>
+                  <FeaturedLargeCard item={featured} />
+                </FeaturedCardReveal>
+              )}
+              {smallCards.length > 0 && (
+                <div className="grid grid-cols-2 gap-7">
+                  {smallCards.map((item, index) => (
+                    <FeaturedCardReveal key={item.id} index={index + 1}>
+                      <FeaturedSmallCard item={item} />
+                    </FeaturedCardReveal>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Mobile: horizontal snap scroll */}
+            <div
+              className="flex gap-4 overflow-x-auto scroll-smooth snap-x snap-mandatory scrollbar-none pb-2 md:hidden"
+              role="list"
+              aria-label="Daftar potensi unggulan desa"
+            >
+              {potentials.map((item, index) => (
+                <div
+                  key={item.id}
+                  className={`snap-start shrink-0 ${index === 0 ? 'w-[85vw]' : 'w-[75vw]'}`}
+                  role="listitem"
+                >
+                  <FeaturedCardReveal index={Math.min(index, 2)}>
+                    {index === 0 ? (
+                      <FeaturedLargeCard item={item} />
+                    ) : (
+                      <FeaturedSmallCard item={item} />
+                    )}
+                  </FeaturedCardReveal>
+                </div>
+              ))}
+            </div>
+          </>
+        )}
       </div>
     </section>
   );

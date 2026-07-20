@@ -1,17 +1,16 @@
 import { type ReactNode } from 'react';
+import { CTASection } from '@/components/organisms/CTASection';
 
 export interface LandingPageTemplateProps {
   /** Section 1 — Hero with floating stats slot */
   hero: ReactNode;
-  /** Section 2 — Floating Category Bar (overlaps hero) */
-  categories: ReactNode;
-  /** Section 3 — Statistics grid */
+  /** Section 2 — Ringkasan Dashboard Statistik */
   statistics: ReactNode;
-  /** Section 4 — Interactive Map Preview */
-  map: ReactNode;
-  /** Section 5 — Potensi Unggulan Carousel */
+  /** Section 3 — Kategori Potensi */
+  categories: ReactNode;
+  /** Section 4 — Potensi Unggulan */
   featured: ReactNode;
-  /** Section 6 — Potensi Terbaru Grid (replaces News) */
+  /** Section 5 — Potensi Terbaru */
   news: ReactNode;
 }
 
@@ -19,11 +18,11 @@ export interface LandingPageTemplateProps {
  * LandingPageTemplate — Exact section order for the landing page.
  *
  * 1. Hero
- * 2. Floating Category Bar
- * 3. Statistics
- * 4. Interactive Map Preview
- * 5. Potensi Unggulan Carousel
- * 6. Potensi Terbaru Grid
+ * 2. Ringkasan Dashboard Statistik
+ * 3. Kategori Potensi
+ * 4. Potensi Unggulan
+ * 5. Potensi Terbaru
+ * 6. CTA Section
  * 7. Footer (rendered by PublicLayout)
  *
  * @see docs/design/UI_UX_SPEC.md §4
@@ -32,18 +31,17 @@ export function LandingPageTemplate({
   hero,
   categories,
   statistics,
-  map,
   featured,
   news,
 }: LandingPageTemplateProps) {
   return (
     <div className="flex flex-col w-full overflow-x-hidden">
       {hero}
-      {categories}
       {statistics}
-      {map}
+      {categories}
       {featured}
       {news}
+      <CTASection />
     </div>
   );
 }

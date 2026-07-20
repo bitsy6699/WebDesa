@@ -28,6 +28,8 @@ export interface PotentialListItem {
   cover_image_url: string | null;
   location: PotentialLocation | null;
   contact: Pick<PotentialContact, 'whatsapp'> | null;
+  /** ISO 8601 publish timestamp from GET /potentials */
+  created_at?: string;
 }
 
 /**
@@ -46,4 +48,5 @@ export interface PotentialDetail {
   contact: PotentialContact | null;
   /** ACA key-value metadata object. Keys and values are strings. */
   metadata: Record<string, string> | null;
+  created_at?: string;
 }

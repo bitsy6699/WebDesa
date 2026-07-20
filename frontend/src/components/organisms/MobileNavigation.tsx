@@ -64,16 +64,19 @@ export function MobileNavigation({
       />
 
       {/* Drawer panel */}
-      <div className="fixed inset-y-0 right-0 w-72 bg-[--bg-surface] shadow-[var(--shadow-xl)] flex flex-col">
+      <div className="fixed inset-y-0 right-0 w-72 rounded-l-[28px] border border-white/60 bg-white/95 shadow-[0_24px_70px_rgba(15,61,52,0.16)] backdrop-blur-[24px] flex flex-col">
 
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-[--border-default]">
-          <span className="text-base font-semibold text-[--neutral-900]">Menu</span>
+        <div className="flex items-center justify-between px-6 py-5 border-b border-neutral-100">
+          <div className="flex items-center gap-2">
+            <img src="/assets/images/logo-desa.png" alt="Logo Desa" className="w-8 h-8 object-contain" />
+            <span className="text-base font-bold text-slate-800">Portal Karamatwangi</span>
+          </div>
           <button
             type="button"
             onClick={onClose}
             aria-label="Tutup menu navigasi"
-            className="p-1.5 rounded-[--radius-md] text-[--neutral-500] hover:text-[--neutral-900] hover:bg-[--neutral-100] transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[--border-focus]"
+            className="p-2 rounded-full text-[--neutral-500] transition-all duration-200 ease-out hover:text-[--neutral-900] hover:bg-[--neutral-100] focus:outline-none focus-visible:ring-2 focus-visible:ring-[--border-focus] focus-visible:ring-offset-2"
           >
             ✕
           </button>
@@ -90,12 +93,12 @@ export function MobileNavigation({
                 onClick={onClose}
                 aria-current={active ? 'page' : undefined}
                 className={clsx(
-                  'flex items-center gap-3 px-4 py-2.5 rounded-xl text-[15px] font-medium',
-                  'transition-colors duration-200',
-                  'focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2F855A]',
+                  'flex items-center gap-3 px-4 py-3 rounded-2xl text-[15px] font-medium',
+                  'transition-all duration-200 ease-[cubic-bezier(0.4,0,0.2,1)]',
+                  'focus:outline-none focus-visible:ring-2 focus-visible:ring-[--border-focus] focus-visible:ring-offset-2',
                   active
-                    ? 'bg-[#0B3C35]/10 text-[#0B3C35] font-semibold'
-                    : 'text-[#374151] hover:bg-[#F9FAFB] hover:text-[#0B3C35]',
+                    ? 'bg-[#184D47]/10 text-[#184D47] font-semibold shadow-[0_12px_32px_rgba(24,77,71,0.10)]'
+                    : 'text-slate-700 hover:bg-[#F0FBF7] hover:text-[#0F3D34] hover:shadow-[0_12px_32px_rgba(15,61,52,0.08)]',
                 )}
               >
                 {link.label}
@@ -111,7 +114,6 @@ export function MobileNavigation({
               variant="primary"
               fullWidth
               className="rounded-full gap-2"
-              style={{ backgroundColor: '#0B3C35' }}
             >
               Dashboard Admin
             </Button>

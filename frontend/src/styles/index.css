@@ -28,7 +28,7 @@
   --color-neutral-900: var(--neutral-900);
 
   --font-sans: 'Inter', sans-serif;
-  --font-heading: 'Playfair Display', Georgia, serif;
+  --font-heading: 'Inter', sans-serif;
 
   --radius-sm: var(--radius-sm);
   --radius-md: var(--radius-md);
@@ -124,7 +124,7 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Playfair Display', Georgia, serif;
+    font-family: 'Inter', sans-serif;
   }
 
   /* Consistent focus ring */
@@ -154,34 +154,34 @@
  * ----------------------------------------------------------------------- */
 @layer utilities {
   .text-display {
-    font-family: 'Playfair Display', Georgia, serif;
-    font-size: 3rem;        /* 48px */
+    font-family: 'Inter', sans-serif;
+    font-size: 2.5rem;
     font-weight: 800;
-    line-height: 1.1;
+    line-height: 1.15;
     letter-spacing: -0.02em;
   }
   .text-h1 {
-    font-family: 'Playfair Display', Georgia, serif;
+    font-family: 'Inter', sans-serif;
     font-size: 2.25rem;     /* 36px */
     font-weight: 700;
     line-height: 1.2;
     letter-spacing: -0.015em;
   }
   .text-h2 {
-    font-family: 'Playfair Display', Georgia, serif;
+    font-family: 'Inter', sans-serif;
     font-size: 1.75rem;     /* 28px */
     font-weight: 700;
     line-height: 1.25;
     letter-spacing: -0.01em;
   }
   .text-h3 {
-    font-family: 'Playfair Display', Georgia, serif;
+    font-family: 'Inter', sans-serif;
     font-size: 1.375rem;    /* 22px */
     font-weight: 600;
     line-height: 1.3;
   }
   .text-h4 {
-    font-family: 'Playfair Display', Georgia, serif;
+    font-family: 'Inter', sans-serif;
     font-size: 1.125rem;    /* 18px */
     font-weight: 600;
     line-height: 1.35;
@@ -255,12 +255,16 @@
   .animate-shimmer {
     background: linear-gradient(
       90deg,
-      var(--neutral-200) 25%,
-      var(--neutral-100) 50%,
-      var(--neutral-200) 75%
+      rgba(255, 255, 255, 0.16) 25%,
+      rgba(255, 255, 255, 0.28) 50%,
+      rgba(255, 255, 255, 0.16) 75%
     );
     background-size: 200% 100%;
-    animation: shimmer 1.5s infinite;
+    animation: shimmer 1.6s infinite cubic-bezier(0.4, 0, 0.2, 1);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.15), 0 4px 12px rgba(0, 0, 0, 0.02);
   }
 }
 
@@ -353,10 +357,10 @@
  * Responsive typography scaling — RESPONSIVE_GUIDELINES §20
  * ----------------------------------------------------------------------- */
 @layer utilities {
-  /* Hero title: 56px desktop → 36px mobile */
+  /* Hero title: 72px desktop → 48px tablet → 36px mobile */
   .hero-title {
     font-family: 'Playfair Display', Georgia, serif;
-    font-size: clamp(2.25rem, 5vw, 3.5rem); /* 36px → 56px */
+    font-size: clamp(2.25rem, 6vw, 4.5rem); /* 36px → 48px → 72px */
     font-weight: 800;
     line-height: 1.1;
     letter-spacing: -0.025em;

@@ -16,6 +16,8 @@ export const API_ROUTES = {
 
   // §5 Public Categories
   CATEGORIES: '/categories',
+  ADMIN_CATEGORIES: '/admin/categories',
+  ADMIN_CATEGORY: (id: string) => `/admin/categories/${id}`,
 
   // §6 Public Settings
   SETTINGS: '/settings',

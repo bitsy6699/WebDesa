@@ -2,6 +2,63 @@
 
 All notable changes to this project will be documented in this file.
 
+## [Phase 13H v2: Premium Glassmorphism Dashboard & Category Polish] - 2026-07-11
+### Changed
+- **StatisticsSection**: Applied spec-exact glass values — `rgba(255,255,255,0.18)` bg, `blur(24px)`, border `rgba(255,255,255,0.28)`, shadow `rgba(16,24,40,0.10)`. Cards sized to `178px` height / `28px` padding / `28px` radius.
+- **StatisticsSection CountUp**: Upgraded to `duration=2000ms` ease-out-cubic animation triggered once on viewport entry via `IntersectionObserver`.
+- **StatisticsSection CTA**: Added shared "Lihat Statistik Lengkap" pill button (h-46px, rounded-full, glass bg, ArrowRight icon) on heading row right for desktop, below for mobile.
+- **StatisticsSection Spacing**: Responsive `paddingTop: clamp(32px, 6vw, 72px)` — comfortable gap from Hero.
+- **CategorySection Heading**: Added `text-3xl font-semibold tracking-tight` heading ("Kategori Potensi") + subtitle + 40px gap to card container.
+- **CategorySection CTA**: Added shared "Lihat Semua Kategori" pill CTA matching StatisticsSection design.
+- **CategorySection Container**: Wrapped category cards in a glassmorphic tray (`rgba(255,255,255,0.65)` bg, `blur(18px)`, `rounded-[28px]`, soft shadow).
+- **CategorySection Hover**: Enhanced hover to `translateY(-6px)`, brighter bg, increased shadow, icon `scale(1.10)`, all at `300ms ease-out`.
+
+### Changed
+- StatisticsSection: redesigned layout to be asymmetric (2 large cards, 2 list-based cards, 2 medium cards of varying heights), breaking standard Bootstrap grid styles.
+- Glassmorphism: applied `rgba(255,255,255,0.55)` background, `22px` blur, `white/35` translucent border, and soft drop shadows. Hover states scale to `1.02` with 3D tilt coordinates parallax.
+- Micro-Animations: integrated mount count-up animations for numbers, floating icons, and slow-moving radial background lights.
+- Background: set linear gradient `#F8FAF8` to `#F3F8F5` with two subtle, animated radial colored glows.
+
+## [Phase 13I: Landing Page Rendering Corrections] - 2026-07-11
+### Changed
+- Render Tree: reordered components inside `LandingPageTemplate.tsx` so the "Dashboard Ringkas Desa" (`StatisticsSection`) is rendered immediately below the `Hero`, and "Kategori Potensi" (`CategorySection`) is rendered below it.
+- CategorySection: removed the overlapping negative top margin (`-mt`, `-60px`) and replaced it with a clean `py-16` section padding.
+- Spacing & Flow: implemented a top-to-bottom background gradient in `CategorySection` (`#F3F8F5` to `#ffffff`) to seamlessly blend the sections.
+
+## [Phase 13H: Hero & Dashboard Ringkas Redesign] - 2026-07-11
+### Changed
+- HeroBanner: removed the floating Statistics Card, chips, and badges; configured left-aligned layout focused on core village branding.
+- Hero Overlay: implemented top-to-bottom dark green gradient transition (`rgba(15,61,52,0.82)` to `rgba(24,77,71,0.58)` to `transparent`) fading naturally into `#F8FAF8`.
+- Hero Typography: configured title font size (72px desktop / 56px tablet / 40px mobile), line-height 1.05, letter-spacing -0.03em, and description to 18px with `max-w-[650px]`.
+- Hero Search Bar: implemented glassmorphism (`bg-white/16`, blur 20px, border white 22%, height 60px) and a forest green submit button (`#184D47`).
+- Hero CTA: configured primary CTA to `#184D47` solid, secondary CTA to a semi-transparent white/14 glass button with white/20 border.
+- Header: updated scrolled nav text color to `#184D47` (with `#0F3D34` hover) and added an amber `#F59E0B` hover underline transition for active links.
+- Dashboard Ringkas Desa: completely replaced the old statistics section with a 3-column desktop / 2-column tablet grid featuring glassmorphic cards (55% white background, 18px backdrop blur, 35% white border) and staggered entrances (100ms delay increments).
+
+## [Phase 13F Visual Redesign & Branding consistency] - 2026-07-11
+### Changed
+- Footer Color Harmony: background changed to the Village Design System dark green gradient (`#0F3D34`, `#174F42`, `#1E5B4F`), removing slate colors.
+- Leaf Logo Replacement: substituted all leaf branding icons in Header, Footer, and Mobile Navigation with the official village logo (`/assets/images/logo-desa.png`), maintaining lucide icon fallback support.
+- Supported By: redesigned the bottom partner logo block to display real logo images (`logo-desa.png`, `logo-kkn.png`, `logo-kampus.png`) at `52px` height with graceful fallback labels.
+- Navigation: simplified link structure (Beranda, Potensi Desa, Kategori, Peta Potensi, Statistik, Kontak) and removed Tentang Desa and Berita references.
+- Header: integrated glass opacity, backdrop filter `blur(24px)`, and darker overlay.
+- Typography: limited serif font strictly to hero-title; applied Inter to all other elements and capped hero title sizes to 72px/48px/36px.
+- Section Spacing: standardized alternating section backgrounds and applied 96px vertical section margins.
+- Footer Redesign: replaced wave separators with a clean straight line divider, restructuring quick links, contact, location, and supported-by segments.
+- CTA Button Variants: updated CTA buttons in Hero banner and sections to use unified primary and secondary variants.
+
+## [Phase 13F UI Polish: Landing Page Polish & Visual Harmony] - 2026-07-11
+### Added
+- Standardized `Card` component props and styles across all sections (24px radius, soft shadow, translateY(-6px) hover lift, 300ms transition duration).
+- Standardized `Button` component to be fully rounded (`rounded-full`), with consistent sizing (sm=32px, md=40px, lg=48px) and spacing.
+- Cleaned up obsolete files: `NewsSection.tsx`, `src/mocks/news.ts`, and `src/mocks/home.ts`.
+
+### Changed
+- StatisticsSection: updated backgrounds to White / #F8FAFC, soft shadows, rounded 24px edges, and aligned with Primary Green brand color.
+- CTA Buttons: Refactored `MapSection`, `FeaturedPotentialsSection`, and `PotensiTerbaruSection` links to use the unified theme-based `Button` component.
+- MapSection: added `per_page` query option support in `FetchPotentialsParams` to fix TypeScript compilation issue.
+- Skeletons: resolved type errors by using standard Tailwind classes (`aspect-video` and sizes) instead of custom `style` props.
+
 ## [Phase 13F: Landing Page Redesign] - 2026-07-10
 ### Changed
 - HeroBanner: replaced placeholder SVG with real hero image (public/hero/hero-karamatwangi.jpg)

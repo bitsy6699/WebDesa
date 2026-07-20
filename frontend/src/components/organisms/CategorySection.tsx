@@ -1,16 +1,10 @@
 import { useNavigate } from 'react-router-dom';
-import {
-  Store,
-  Tractor,
-  Fish,
-  Map as MapIcon,
-  Building2,
-  Activity,
-  Layers,
-} from 'lucide-react';
+import { Store, Tractor, Fish, Map as MapIcon, Building2, Activity, Layers } from 'lucide-react';
 import { Skeleton } from '@/components/atoms/Skeleton';
+import { SectionHeader } from '@/components/molecules/SectionHeader';
 import type { Category } from '@/types/Category';
 import { clsx } from 'clsx';
+import { glassPanel } from '@/lib/glassStyles';
 
 export interface CategorySectionProps {
   categories: Category[];
@@ -37,34 +31,28 @@ function CategoryIcon({
   color: string;
   size?: number;
 }) {
-  const cls = `shrink-0 transition-colors duration-300`;
+  const cls = 'shrink-0 transition-colors duration-300';
   const style = { width: size, height: size, color };
-
   switch (iconKey) {
-    case 'store':   return <Store className={cls} style={style} aria-hidden="true" />;
-    case 'tractor': return <Tractor className={cls} style={style} aria-hidden="true" />;
-    case 'fish':    return <Fish className={cls} style={style} aria-hidden="true" />;
-    case 'map':     return <MapIcon className={cls} style={style} aria-hidden="true" />;
+    case 'store':    return <Store    className={cls} style={style} aria-hidden="true" />;
+    case 'tractor':  return <Tractor  className={cls} style={style} aria-hidden="true" />;
+    case 'fish':     return <Fish     className={cls} style={style} aria-hidden="true" />;
+    case 'map':      return <MapIcon  className={cls} style={style} aria-hidden="true" />;
     case 'building': return <Building2 className={cls} style={style} aria-hidden="true" />;
-    case 'activity': return <Activity className={cls} style={style} aria-hidden="true" />;
-    default:        return <Layers className={cls} style={style} aria-hidden="true" />;
+    case 'activity': return <Activity  className={cls} style={style} aria-hidden="true" />;
+    default:         return <Layers   className={cls} style={style} aria-hidden="true" />;
   }
 }
 
 /**
- * CategorySection — Floating category bar that visually overlaps the hero bottom.
+ * CategorySection — Kategori Potensi Desa.
  *
- * Phase 13F spec:
- * - -mt-[60px] overlap from hero
- * - centered, max-width 1180px
- * - white, rounded-3xl, shadow-xl, p-8
- * - Desktop: 6 equal columns
- * - Tablet (md): 3 columns
- * - Mobile: horizontal scroll
- * - Each card: icon in soft colored circle, label, hover translateY(-6px) + shadow
- * - API data; fallback categories when empty
- *
- * @see docs/design/UI_UX_SPEC.md §6 Category Bar
+ * Phase 13H spec:
+ * - Proper heading + subtitle
+ * - CTA on heading row (desktop right, mobile below)
+ * - 40px gap between title and cards
+ * - Premium card hover: lift, shadow, icon scale, brighter bg
+ * - Consistent design language with StatisticsSection
  */
 export function CategorySection({ categories, isLoading = false }: CategorySectionProps) {
   const navigate = useNavigate();
@@ -72,14 +60,30 @@ export function CategorySection({ categories, isLoading = false }: CategorySecti
 
   return (
     <section
-      className="relative z-10 px-4 sm:px-6 lg:px-8"
-      style={{ marginTop: '-60px' }}
+      id="categories"
+      className="relative z-10 overflow-hidden"
+      style={{
+        background: 'linear-gradient(180deg, #F4F8F6 0%, #ffffff 100%)',
+        paddingTop: 'clamp(48px, 6vw, 80px)',
+        paddingBottom: 'clamp(48px, 6vw, 96px)',
+      }}
       aria-label="Kategori potensi desa"
     >
-      <div className="mx-auto" style={{ maxWidth: '1180px' }}>
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8" style={{ maxWidth: '1240px' }}>
+
+        {/* ── Section header row ─────────────────────────────────── */}
+        <SectionHeader
+          eyebrow="Kategori"
+          title="Kategori Potensi"
+          description="Jelajahi potensi unggulan Desa Karamatwangi berdasarkan kategori."
+          ctaTo="/potentials"
+          ctaLabel="Lihat Semua Kategori"
+        />
+
+        {/* ── Category cards container ───────────────────────────── */}
         <div
-          className="bg-white rounded-3xl p-6 md:p-8"
-          style={{ boxShadow: '0 8px 48px rgba(0,0,0,0.12)' }}
+          className="rounded-[32px] p-6 md:p-8 lg:p-10"
+          style={glassPanel}
         >
           {isLoading ? (
             <div className="grid grid-cols-3 md:grid-cols-6 gap-4">
@@ -93,7 +97,7 @@ export function CategorySection({ categories, isLoading = false }: CategorySecti
           ) : (
             <div
               className={clsx(
-                'flex md:grid gap-3',
+                'flex md:grid gap-4 md:gap-5',
                 'overflow-x-auto md:overflow-x-visible scrollbar-none',
                 'md:grid-cols-3 lg:grid-cols-6',
               )}
@@ -107,30 +111,25 @@ export function CategorySection({ categories, isLoading = false }: CategorySecti
                     onClick={() => navigate(`/potentials?category=${category.slug}`)}
                     className={clsx(
                       'group flex flex-col items-center gap-3 px-3 py-5',
-                      'rounded-2xl border border-transparent bg-white',
+                      'rounded-2xl border border-transparent bg-white/10',
                       'transition-all duration-300 ease-out',
-                      'hover:-translate-y-[6px] hover:border-gray-100',
                       'cursor-pointer shrink-0 md:shrink w-[88px] md:w-auto',
-                      'focus:outline-none focus-visible:ring-2 focus-visible:ring-[--border-focus] focus-visible:ring-offset-2',
+                      'focus:outline-none focus-visible:ring-2 focus-visible:ring-[#184D47] focus-visible:ring-offset-2',
+                      'hover:bg-white/20 hover:-translate-y-1 hover:shadow-[0_18px_42px_rgba(15,61,52,0.16)]',
                     )}
-                    style={{
-                      boxShadow: 'none',
-                    }}
-                    onMouseEnter={(e) => {
-                      (e.currentTarget as HTMLButtonElement).style.boxShadow =
-                        '0 8px 24px rgba(0,0,0,0.10)';
-                    }}
-                    onMouseLeave={(e) => {
-                      (e.currentTarget as HTMLButtonElement).style.boxShadow = 'none';
-                    }}
                     aria-label={`Lihat potensi kategori ${category.label}`}
                   >
                     {/* Icon circle */}
                     <div
-                      className="w-14 h-14 rounded-full flex items-center justify-center transition-transform duration-300 group-hover:scale-105 shrink-0"
-                      style={{ backgroundColor: `${color}1a` }}
+                      className="w-14 h-14 rounded-full flex items-center justify-center flex-shrink-0"
+                      style={{
+                        backgroundColor: `${color}1a`,
+                        transition: 'transform 0.3s ease, background-color 0.3s ease',
+                      }}
                     >
-                      <CategoryIcon iconKey={category.icon_key} color={color} size={24} />
+                      <div className="transition-transform duration-300 group-hover:scale-110">
+                        <CategoryIcon iconKey={category.icon_key} color={color} size={24} />
+                      </div>
                     </div>
 
                     {/* Label */}
@@ -146,6 +145,7 @@ export function CategorySection({ categories, isLoading = false }: CategorySecti
             </div>
           )}
         </div>
+
       </div>
     </section>
   );

@@ -14,27 +14,24 @@ interface NavLink {
 
 const NAV_LINKS: NavLink[] = [
   { label: 'Beranda', href: '/' },
-  { label: 'Tentang Desa', href: '/#tentang' },
   { label: 'Potensi Desa', href: '/potentials' },
-  { label: 'Peta Potensi', href: '/map' },
-  { label: 'Berita', href: '/#berita' },
-  { label: 'Statistik', href: '/#statistik' },
-  { label: 'Kontak', href: '/#kontak' },
+  { label: 'Kategori', href: '/categories' },
+  { label: 'Statistik', href: '/statistics' },
 ];
 
-/** Village logo: /logo-desa.png with Leaf fallback. */
+/** Village logo: /assets/images/logo-desa.png with Leaf fallback. */
 function VillageLogo({ transparent }: { transparent: boolean }) {
   const [imgError, setImgError] = useState(false);
   return (
     <span
       className={clsx(
         'flex items-center justify-center w-10 h-10 rounded-xl transition-all duration-300 overflow-hidden shrink-0',
-        transparent ? '' : 'bg-[#0B3C35]',
+        transparent ? '' : 'bg-[--color-primary]',
       )}
     >
       {!imgError ? (
         <img
-          src="/logo-desa.png"
+          src="/assets/images/logo-desa.png"
           alt=""
           className="w-full h-full object-contain"
           onError={() => setImgError(true)}
@@ -58,8 +55,8 @@ function VillageLogo({ transparent }: { transparent: boolean }) {
  * - CTA: semi-transparent dark green (blends over hero image)
  *
  * Scrolled state (scroll ≥ 80px, or non-home pages):
- * - background: rgba(255,255,255,0.92)
- * - backdrop-filter: blur(18px)
+ * - background: rgba(255,255,255,0.85)
+ * - backdrop-filter: blur(24px)
  * - border-bottom: 1px solid rgba(0,0,0,0.05)
  * - soft shadow
  * - nav text: dark
@@ -111,10 +108,10 @@ export function Header() {
                 'border-b border-transparent',
               ]
             : [
-                'bg-[rgba(255,255,255,0.92)]',
-                '[backdrop-filter:blur(18px)]',
-                'border-b border-[rgba(0,0,0,0.05)]',
-                'shadow-[0_2px_20px_rgba(0,0,0,0.06)]',
+                'bg-white/95',
+                '[backdrop-filter:blur(20px)]',
+                'border-b border-neutral-200',
+                'shadow-sm',
               ],
         )}
       >
@@ -123,14 +120,14 @@ export function Header() {
           {/* ── Logo ────────────────────────────────────────────── */}
           <Link
             to="/"
-            className="flex items-center gap-2.5 rounded-xl shrink-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2F855A]"
+            className="flex items-center gap-2.5 rounded-xl shrink-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-[--border-focus]"
             aria-label={`${APP_NAME} — Kembali ke beranda`}
           >
             <VillageLogo transparent={isTransparent} />
             <span
               className={clsx(
                 'font-bold transition-colors duration-300 hidden sm:block text-base',
-                isTransparent ? 'text-white' : 'text-[#0B3C35]',
+                isTransparent ? 'text-white' : 'text-[#184D47]',
               )}
             >
               {APP_NAME}
@@ -139,7 +136,7 @@ export function Header() {
 
           {/* ── Desktop navigation ──────────────────────────────── */}
           <nav
-            className="hidden lg:flex items-center gap-0.5 flex-1 justify-center"
+            className="hidden lg:flex items-center gap-1 flex-1 justify-center"
             aria-label="Navigasi Utama"
           >
             {NAV_LINKS.map((link) => {
@@ -150,28 +147,27 @@ export function Header() {
                   to={link.href}
                   aria-current={active ? 'page' : undefined}
                   className={clsx(
-                    'relative px-3 py-2 rounded-lg text-sm font-medium whitespace-nowrap',
-                    'transition-all duration-200',
-                    'focus:outline-none focus-visible:ring-2 focus-visible:ring-[#2F855A]',
+                    'relative rounded-full px-4 py-2 text-sm font-medium tracking-[0.01em] whitespace-nowrap group',
+                    'transition-colors duration-200',
+                    'focus:outline-none focus-visible:ring-2 focus-visible:ring-[--border-focus]',
                     isTransparent
                       ? active
                         ? 'text-white font-semibold'
-                        : 'text-white/85 hover:text-white hover:bg-white/10'
+                        : 'text-white/80 hover:text-white'
                       : active
-                        ? 'text-[#0B3C35] font-semibold'
-                        : 'text-[#374151] hover:text-[#0B3C35] hover:bg-[#0B3C35]/5',
+                        ? 'text-[#184D47] font-semibold'
+                        : 'text-slate-700 hover:text-[#0F3D34]',
                   )}
                 >
                   {link.label}
-                  {active && (
-                    <span
-                      className={clsx(
-                        'absolute bottom-0.5 inset-x-3 h-0.5 rounded-full',
-                        isTransparent ? 'bg-white' : 'bg-[#0B3C35]',
-                      )}
-                      aria-hidden="true"
-                    />
-                  )}
+                  <span
+                    className={clsx(
+                      'absolute bottom-1 inset-x-3 h-[2px] rounded-full transition-transform duration-200 origin-center',
+                      isTransparent ? 'bg-white' : 'bg-[#184D47]',
+                      active ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100',
+                    )}
+                    aria-hidden="true"
+                  />
                 </Link>
               );
             })}
@@ -186,8 +182,8 @@ export function Header() {
                 className={clsx(
                   'gap-1.5 rounded-full font-semibold transition-all duration-300',
                   isTransparent
-                    ? 'bg-[#0B3C35]/70 border border-white/20 text-white hover:bg-[#0B3C35]/90 shadow-none'
-                    : 'bg-[#0B3C35] hover:bg-[#2F855A] text-white',
+                    ? 'bg-[#184D47]/85 border border-white/20 text-white hover:bg-[#0F3D34] shadow-none'
+                    : 'bg-[#184D47] hover:bg-[#0F3D34] text-white',
                 )}
               >
                 <LayoutDashboard className="w-3.5 h-3.5" aria-hidden="true" />
@@ -205,7 +201,9 @@ export function Header() {
             onClick={() => setIsMobileMenuOpen((v) => !v)}
             className={clsx(
               'lg:hidden',
-              isTransparent ? 'text-white hover:bg-white/15' : 'text-[#374151] hover:bg-[#F3F4F6]',
+              isTransparent
+                ? 'text-white hover:bg-white/15 focus-visible:ring-white/50'
+                : 'text-slate-700 hover:bg-slate-100 focus-visible:ring-[--border-focus]',
             )}
           />
         </div>

@@ -13,6 +13,9 @@ export function useCategories() {
   return useQuery<Category[], Error>({
     queryKey: CATEGORIES_QUERY_KEY,
     queryFn: fetchCategories,
-    staleTime: 5 * 60 * 1000, // Categories rarely change — 5 min cache
+    staleTime: 0,
+    refetchOnWindowFocus: true,
+    refetchOnReconnect: true,
+    refetchInterval: 30 * 1000,
   });
 }

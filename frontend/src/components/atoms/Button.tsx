@@ -6,6 +6,7 @@ import {
   type ElementType,
 } from 'react';
 import { clsx } from 'clsx';
+import { buttonBaseStyles } from '@/lib/uiStyles';
 
 type ButtonBaseProps = {
   variant?: 'primary' | 'secondary' | 'outline' | 'ghost';
@@ -28,37 +29,29 @@ type ButtonAsAnchor = ButtonBaseProps &
 
 type ButtonProps = ButtonAsButton | ButtonAsAnchor;
 
-const buttonBaseStyles =
-  'inline-flex items-center justify-center gap-2 font-semibold leading-none ' +
-  'transition-all duration-[--duration-fast] ease-[--ease-default] ' +
-  'focus:outline-none focus-visible:ring-2 focus-visible:ring-[--border-focus] focus-visible:ring-offset-2 ' +
-  'disabled:opacity-50 disabled:cursor-not-allowed disabled:pointer-events-none ' +
-  'aria-disabled:opacity-50 aria-disabled:cursor-not-allowed';
-
 const buttonVariants = {
   primary:
     'bg-[--color-primary] text-white ' +
-    'hover:bg-[--color-primary-dark] hover:-translate-y-0.5 hover:shadow-[var(--shadow-md)] ' +
-    'active:translate-y-0 active:shadow-none ' +
-    'shadow-[var(--shadow-sm)]',
+    'hover:bg-[--color-primary-dark] ' +
+    'shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)]',
   secondary:
-    'bg-[--color-secondary] text-white ' +
-    'hover:bg-[--color-secondary-light] hover:-translate-y-0.5 hover:shadow-[var(--shadow-md)] ' +
-    'active:translate-y-0 active:shadow-none ' +
-    'shadow-[var(--shadow-sm)]',
+    'border border-white bg-transparent text-white ' +
+    'hover:bg-white/10 ' +
+    'shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)]',
   outline:
-    'border-2 border-[--border-default] bg-transparent text-[--neutral-800] ' +
-    'hover:border-[--color-primary] hover:text-[--color-primary] hover:bg-[--neutral-50]',
+    'border border-[--border-default] bg-transparent text-[--neutral-800] ' +
+    'hover:border-[--color-primary] hover:text-[--color-primary] hover:bg-[--neutral-50] ' +
+    'shadow-[var(--shadow-sm)] hover:shadow-[var(--shadow-md)]',
   ghost:
     'bg-transparent text-[--neutral-700] ' +
     'hover:bg-[--neutral-100] hover:text-[--neutral-900]',
 };
 
-/* DS §8.5: sm=32px, md=40px, lg=48px */
+/* SM: 32px height, MD: 40px height, LG: 48px height with consistent horizontal padding */
 const buttonSizes = {
-  sm: 'h-8 min-w-[2rem] px-3 text-xs rounded-[--radius-sm]',
-  md: 'h-10 min-w-[2.5rem] px-4 text-sm rounded-[--radius-md]',
-  lg: 'h-12 min-w-[3rem] px-6 text-base rounded-[--radius-lg]',
+  sm: 'h-8 px-4 text-xs',
+  md: 'h-10 px-5 text-sm',
+  lg: 'h-12 px-6 text-base',
 };
 
 /**

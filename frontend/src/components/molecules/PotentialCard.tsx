@@ -35,7 +35,7 @@ export function PotentialCard({ potential }: PotentialCardProps) {
               <img
                 src={cover_image_url}
                 alt={title}
-                className="w-full h-full object-cover transition-transform duration-[--duration-slow] ease-[--ease-out] group-hover:scale-105"
+                className="w-full h-full object-cover transition-transform duration-300 ease-[--ease-out] group-hover:scale-105"
                 loading="lazy"
                 decoding="async"
               />

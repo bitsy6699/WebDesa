@@ -1,5 +1,6 @@
 import { type ButtonHTMLAttributes, forwardRef, type ReactNode } from 'react';
 import { clsx } from 'clsx';
+import { iconButtonBaseStyles } from '@/lib/uiStyles';
 
 export interface IconButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'primary' | 'secondary' | 'outline' | 'ghost';
@@ -17,8 +18,6 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
     { variant = 'ghost', size = 'md', icon, className, disabled, ...props },
     ref
   ) => {
-    const baseStyles = 'inline-flex items-center justify-center transition-colors duration-[--duration-fast] focus:outline-none focus-visible:ring-2 focus-visible:ring-[--border-focus] disabled:opacity-50 disabled:cursor-not-allowed rounded-full';
-    
     const variants = {
       primary: 'bg-[--color-primary] text-white hover:bg-[--color-primary-dark]',
       secondary: 'bg-[--color-secondary] text-white hover:bg-[--color-secondary-light]',
@@ -37,7 +36,7 @@ export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(
         ref={ref}
         disabled={disabled}
         className={clsx(
-          baseStyles,
+          iconButtonBaseStyles,
           variants[variant],
           sizes[size],
           className

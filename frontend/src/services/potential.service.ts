@@ -8,6 +8,7 @@ export interface FetchPotentialsParams {
   search?: string;
   category?: string;
   featured?: boolean;
+  per_page?: number;
 }
 
 /**

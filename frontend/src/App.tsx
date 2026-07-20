@@ -1,7 +1,14 @@
+import { Suspense } from 'react';
 import { RouterProvider } from 'react-router-dom';
 import router from '@/routes';
 import QueryProvider from '@/providers/QueryProvider';
 import AppErrorBoundary from '@/components/organisms/AppErrorBoundary';
+
+const LoadingScreen = () => (
+  <div className="flex min-h-screen items-center justify-center bg-[--bg-page] text-sm font-medium text-[--neutral-600]">
+    Memuat halaman…
+  </div>
+);
 
 /**
  * App — Application root.
@@ -15,7 +22,9 @@ export default function App() {
   return (
     <AppErrorBoundary>
       <QueryProvider>
-        <RouterProvider router={router} />
+        <Suspense fallback={<LoadingScreen />}>
+          <RouterProvider router={router} />
+        </Suspense>
       </QueryProvider>
     </AppErrorBoundary>
   );

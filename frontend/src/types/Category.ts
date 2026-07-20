@@ -8,6 +8,8 @@ export interface Category {
   slug: string;
   icon_key: string | null;
   color_code: string | null; // hex e.g. "#16A34A"
+  description?: string | null;
+  cover_image_url?: string | null;
 }
 
 /**

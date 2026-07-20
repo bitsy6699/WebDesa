@@ -27,5 +27,8 @@ This document tracks the high-level completion status of the implementation phas
 - [x] Phase 13C: Public Directory & Detail Pages — PotentialsDirectory (API-integrated), PotentialDetail (ACA MetadataRenderer), DirectoryToolbar, DirectoryGrid, AdaptiveContactButton. All mock data removed from public pages.
 - [x] Phase 13D: UI Polish & Design System — HeroBanner, Header, Footer, Button, Card, Badge, Chip, SearchBar, PotentialCard, StatisticsSection, FeaturedPotentialsSection, CategorySection, PotentialDetail, PotentialsDirectory. Full design token application, typography scale, spacing system, hover animations, WCAG AA focus rings.
 - [x] Phase 13E: Landing Page Revision — Portal Potensi Desa wording, premium map preview, ACA-compatible featured section, full landing page assembly.
-- [x] Phase 13F: Landing Page Redesign — real hero image, village logo navbar, clean hero (no category chips), premium map preview, floating category bar, Garut location references throughout.
+- [x] Phase 13F: Landing Page Redesign & Branding Consistency — Real hero, simplified navigation, glassmorphism header, restricted serif, dark green gradient footer, official village logo integration, and partner logo configurations.
+- [x] Phase 13H: Hero & Dashboard Ringkas Redesign — Removed stats card from hero, redesigned hero overlay gradients, set typography sizes, glassmorphic search bar, and added Dashboard Ringkas Desa grid section.
+- [x] Phase 13I: Landing Page Rendering Corrections — Corrected visual hierarchy rendering tree (Hero -> StatisticsSection -> CategorySection), removed overlapping negative top margins from Kategori Potensi, and implemented smooth background transitions.
+- [x] Phase 13K: Premium Village Dashboard Redesign — Converted StatisticsSection to an asymmetric glassmorphic dashboard with 3D cursor tilt parallax, count-up number animations, floating elements, and moving gradient lights.
 - [ ] Phase 14: Production Go-Live
