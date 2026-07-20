@@ -1,14 +1,14 @@
 import type { CategoryEmbed } from './Category';
 
 /** Location embedded in potential responses. */
-export interface PotentialLocation {
+interface PotentialLocation {
   latitude: number;
   longitude: number;
   address: string | null;
 }
 
 /** Contact block embedded in potential responses. */
-export interface PotentialContact {
+interface PotentialContact {
   whatsapp: string | null;
   phone: string | null;
   email: string | null;

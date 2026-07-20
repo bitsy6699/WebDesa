@@ -7,7 +7,7 @@ import { SpotlightSurface } from '@/components/atoms/SpotlightSurface';
 import type { PotentialListItem } from '@/types/Potential';
 import placeholderCard from '@/assets/images/placeholder-card.svg';
 
-export interface FeaturedPotentialCardProps {
+interface FeaturedPotentialCardProps {
   item: PotentialListItem;
   variant: 'large' | 'small';
 }

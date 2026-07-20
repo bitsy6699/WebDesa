@@ -1,7 +1,7 @@
-export const focusRingStyles =
+const focusRingStyles =
   'focus:outline-none focus-visible:ring-2 focus-visible:ring-[--border-focus] focus-visible:ring-offset-2';
 
-export const interactiveTransitionStyles =
+const interactiveTransitionStyles =
   'transition-all duration-200 ease-out will-change-transform transform-gpu';
 
 export const buttonBaseStyles =

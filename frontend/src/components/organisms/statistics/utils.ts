@@ -34,6 +34,3 @@ export function CountUp(value: number, triggered: boolean): string {
   return value.toLocaleString('id-ID');
 }
 
-export function CountUpString(value: number) {
-  return CountUp(value, true);
-}

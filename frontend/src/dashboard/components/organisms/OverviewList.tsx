@@ -1,7 +1,7 @@
 import { clsx } from 'clsx';
 import { DashboardCard } from '@/dashboard/components/organisms/DashboardCard';
 
-export interface OverviewListItem {
+interface OverviewListItem {
   title: string;
   meta: string;
   badge?: string;

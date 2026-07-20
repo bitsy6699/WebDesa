@@ -12,7 +12,7 @@ export interface SectionHeaderProps {
   className?: string;
 }
 
-export function SectionCTA({ to, label }: { to: string; label: string }) {
+function SectionCTA({ to, label }: { to: string; label: string }) {
   return (
     <Link
       to={to}

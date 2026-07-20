@@ -41,41 +41,4 @@ export function Reveal({ children, delay = 0, duration = 0.45, className }: Reve
   );
 }
 
-export interface RevealContainerProps {
-  children: ReactNode;
-  staggerDelay?: number;
-  className?: string;
-}
-
-/**
- * RevealContainer - Parent container for staggered reveals.
- * Spec:
- * - stagger: 80ms
- */
-export function RevealContainer({ children, staggerDelay = 0.08, className }: RevealContainerProps) {
-  const prefersReducedMotion = useReducedMotion();
-
-  if (prefersReducedMotion) {
-    return <div className={className}>{children}</div>;
-  }
-
-  return (
-    <motion.div
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, margin: '-20px' }}
-      variants={{
-        hidden: {},
-        visible: {
-          transition: {
-            staggerChildren: staggerDelay,
-          },
-        },
-      }}
-      className={className}
-    >
-      {children}
-    </motion.div>
-  );
-}
 

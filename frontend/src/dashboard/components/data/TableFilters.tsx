@@ -1,10 +1,7 @@
 import { type ReactNode } from 'react';
 import { DashboardButton } from '@/dashboard/components/atoms/DashboardButton';
 
-export interface FilterOption {
-  label: string;
-  value: string;
-}
+
 
 export interface TableFiltersProps {
   filters: ReactNode;

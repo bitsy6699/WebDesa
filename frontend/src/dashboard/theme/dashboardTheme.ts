@@ -65,8 +65,3 @@ export const dashboardTheme = {
   },
 } as const;
 
-export const dashboardSurfaceStyles = {
-  backgroundColor: dashboardTheme.colors.surface,
-  border: `1px solid ${dashboardTheme.colors.border}`,
-  boxShadow: dashboardTheme.shadows.sm,
-} as const;

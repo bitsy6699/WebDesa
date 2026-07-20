@@ -12,11 +12,7 @@ export const mockPotentials: MockRecord[] = [
   { id: 3, name: 'Bukit Panorama', status: 'Archived', category: 'Wisata Alam', updatedAt: '2 days ago' },
 ];
 
-export const mockCategories: MockRecord[] = [
-  { id: 10, name: 'Wisata Alam', status: 'Published', category: 'Taxonomy', updatedAt: 'Today' },
-  { id: 11, name: 'Kuliner', status: 'Draft', category: 'Taxonomy', updatedAt: 'Yesterday' },
-  { id: 12, name: 'Budaya', status: 'Published', category: 'Taxonomy', updatedAt: '3 days ago' },
-];
+
 
 export const mockMedia: MockRecord[] = [
   { id: 20, name: 'Hero-01.jpg', status: 'Published', category: 'Images', updatedAt: 'Today' },

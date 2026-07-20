@@ -1,9 +1,9 @@
 import { useRef, useState } from 'react';
 import type { MouseEvent, ReactNode } from 'react';
-import { Link } from 'react-router-dom';
-import { ArrowRight, Home, Grid2X2, Sprout, Star } from 'lucide-react';
+
+import { Home, Grid2X2, Sprout, Star } from 'lucide-react';
 import { useReducedMotion } from 'framer-motion';
-import { glassButtonSubtle } from '@/lib/glassStyles';
+
 import { CountUp, type StatItemRaw } from './utils';
 
 export interface StatItem {
@@ -105,41 +105,5 @@ export function GlassCard({
         {item.label}
       </span>
     </div>
-  );
-}
-
-export function SectionCTA({ to, label }: { to: string; label: string }) {
-  return (
-    <Link
-      to={to}
-      className="group inline-flex shrink-0 items-center gap-2 text-sm font-semibold text-[#184D47]"
-      style={{
-        ...glassButtonSubtle,
-        height: '46px',
-        paddingLeft: '24px',
-        paddingRight: '20px',
-        borderRadius: '999px',
-        borderWidth: '1.5px',
-        borderStyle: 'solid',
-        color: '#184D47',
-        transition: 'background 0.25s, box-shadow 0.25s, border-color 0.25s',
-        whiteSpace: 'nowrap',
-      }}
-      onMouseEnter={(event) => {
-        const el = event.currentTarget;
-        el.style.background = 'rgba(24,77,71,0.07)';
-        el.style.boxShadow = '0 8px 24px rgba(24,77,71,0.14)';
-        el.style.borderColor = 'rgba(24,77,71,0.38)';
-      }}
-      onMouseLeave={(event) => {
-        const el = event.currentTarget;
-        el.style.background = 'rgba(255,255,255,0.55)';
-        el.style.boxShadow = '0 4px 14px rgba(24,77,71,0.08)';
-        el.style.borderColor = 'rgba(24,77,71,0.22)';
-      }}
-    >
-      {label}
-      <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" aria-hidden="true" />
-    </Link>
   );
 }

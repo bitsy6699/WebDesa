@@ -3,7 +3,7 @@ import { clsx } from 'clsx';
 import { DashboardCard } from '@/dashboard/components/organisms/DashboardCard';
 import { EmptyTableState } from '@/dashboard/components/data/EmptyTableState';
 
-export interface DashboardDataTableColumn<T extends object> {
+interface DashboardDataTableColumn<T extends object> {
   key: keyof T;
   header: string;
   render?: (row: T) => ReactNode;

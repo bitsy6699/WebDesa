@@ -26,7 +26,7 @@ export interface PaginationMeta {
 }
 
 /** Pagination links block. §2.3 */
-export interface PaginationLinks {
+interface PaginationLinks {
   prev: string | null;
   next: string | null;
 }

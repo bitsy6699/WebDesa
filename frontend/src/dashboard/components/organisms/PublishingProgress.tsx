@@ -1,7 +1,7 @@
 import { ProgressIndicator } from '@/dashboard/components/molecules/ProgressIndicator';
 import { DashboardCard } from '@/dashboard/components/organisms/DashboardCard';
 
-export interface PublishingProgressItem {
+interface PublishingProgressItem {
   label: string;
   value: number;
   max?: number;

@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { fetchStatistics } from '@/services/statistics.service';
 import type { StatisticsSummary } from '@/types/Statistic';
 
-export const STATISTICS_QUERY_KEY = ['statistics', 'summary'] as const;
+const STATISTICS_QUERY_KEY = ['statistics', 'summary'] as const;
 
 /**
  * Hook to fetch the village statistics summary.

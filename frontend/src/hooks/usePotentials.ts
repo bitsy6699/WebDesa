@@ -3,7 +3,7 @@ import { fetchPotentials, type FetchPotentialsParams } from '@/services/potentia
 import type { PaginatedResponse } from '@/types/api';
 import type { PotentialListItem } from '@/types/Potential';
 
-export const POTENTIALS_QUERY_KEY = (params: FetchPotentialsParams) =>
+const POTENTIALS_QUERY_KEY = (params: FetchPotentialsParams) =>
   ['potentials', params] as const;
 
 /**

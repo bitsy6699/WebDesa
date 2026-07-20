@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { fetchPotentialDetail } from '@/services/potential.service';
 import type { PotentialDetail } from '@/types/Potential';
 
-export const POTENTIAL_DETAIL_QUERY_KEY = (categorySlug: string, slug: string) =>
+const POTENTIAL_DETAIL_QUERY_KEY = (categorySlug: string, slug: string) =>
   ['potentials', categorySlug, slug] as const;
 
 /**

@@ -65,7 +65,7 @@ export function useUpdateCategory() {
 export function useDeleteCategory() {
   const queryClient = useQueryClient();
 
-  return useMutation<void, Error, string>({
+  return useMutation<void, Error, string, { previous: Category[] | undefined }>({
     mutationFn: deleteCategory,
     onMutate: async (id) => {
       await queryClient.cancelQueries({ queryKey: CATEGORIES_QUERY_KEY });

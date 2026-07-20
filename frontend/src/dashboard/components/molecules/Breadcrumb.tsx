@@ -2,7 +2,7 @@ import { ChevronRight, Home } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { dashboardTheme } from '@/dashboard/theme/dashboardTheme';
 
-export interface BreadcrumbItem {
+interface BreadcrumbItem {
   label: string;
   to?: string;
 }

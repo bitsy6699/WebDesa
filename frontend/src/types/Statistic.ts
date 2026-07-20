@@ -9,13 +9,3 @@ export interface StatisticsSummary {
   total_dusun: number;
 }
 
-/**
- * A single display-ready statistic card model.
- * Derived from StatisticsSummary for presentation purposes.
- */
-export interface Statistic {
-  id: string;
-  label: string;
-  value: string | number;
-  icon?: string;
-}

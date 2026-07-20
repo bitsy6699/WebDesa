@@ -1,4 +1,4 @@
-export const glassBase = {
+const glassBase = {
   backdropFilter: 'blur(24px)',
   WebkitBackdropFilter: 'blur(24px)',
   border: '1px solid rgba(255,255,255,0.18)',
@@ -26,14 +26,6 @@ export const glassPanel = {
   boxShadow: '0 18px 50px rgba(16,24,40,0.08)',
 } as const;
 
-export const glassButton = {
-  background: 'rgba(255,255,255,0.55)',
-  backdropFilter: 'blur(12px)',
-  WebkitBackdropFilter: 'blur(12px)',
-  border: '1.5px solid rgba(24,77,71,0.22)',
-  boxShadow: '0 4px 14px rgba(24,77,71,0.08)',
-  transition: 'background-color 200ms ease, box-shadow 200ms ease, border-color 200ms ease, transform 200ms ease',
-} as const;
 
 export const glassButtonSubtle = {
   background: 'rgba(255,255,255,0.18)',
@@ -44,8 +36,3 @@ export const glassButtonSubtle = {
   transition: 'background-color 200ms ease, box-shadow 200ms ease, border-color 200ms ease, transform 200ms ease',
 } as const;
 
-export const glassButtonHover = {
-  background: 'rgba(24,77,71,0.07)',
-  borderColor: 'rgba(24,77,71,0.38)',
-  boxShadow: '0 8px 24px rgba(24,77,71,0.14)',
-} as const;

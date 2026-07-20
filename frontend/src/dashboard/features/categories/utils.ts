@@ -1,7 +1,7 @@
 import type { AxiosError } from 'axios';
 import type { Category } from '../../../types/Category';
 import type { ApiError } from '@/types/api';
-import type { CategoryDraft, CategoryRow, CategoryStatus } from './types';
+import type { CategoryDraft, CategoryRow } from './types';
 
 function normalizeSlug(value: string): string {
   return value.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
@@ -30,11 +30,8 @@ export function validateCategoryDraft(draft: CategoryDraft) {
   };
 }
 
-export function formatCategoryStatus(status: CategoryStatus | string): string {
-  return status ?? 'Draft';
-}
 
-export function buildCategoryRecord(category: Category): CategoryRow {
+function buildCategoryRecord(category: Category): CategoryRow {
   return {
     id: category.id,
     name: category.label,
