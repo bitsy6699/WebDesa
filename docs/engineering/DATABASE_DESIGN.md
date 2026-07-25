@@ -9,11 +9,11 @@
 
 ## 1. Database Philosophy & Technology Choice
 
-### 1.1. Why Relational & MySQL
-The platform uses **MySQL** as its relational database management system (RDBMS) for three reasons:
+### 1.1. Why Relational & PostgreSQL
+The platform uses **PostgreSQL** as its relational database management system (RDBMS) for three reasons:
 - **Data Integrity:** Enforces foreign keys, transaction ACID compliance, and unique constraints.
-- **Widespread Hosting Compatibility:** MySQL is supported on almost all standard hosting platforms.
-- **Hybrid JSON Support:** Modern MySQL supports native `JSON` columns, allowing us to combine structured relational indexing with polymorphic JSON document storage.
+- **Advanced JSON Support:** PostgreSQL offers native `JSONB` columns with indexing, allowing us to combine structured relational indexing with polymorphic JSON document storage.
+- **Rich Extension Ecosystem:** PostGIS for spatial queries, plus robust indexing capabilities for full-text search.
 
 ### 1.2. The Normalization vs. Flex Balance
 To avoid over-normalization (which introduces hundreds of joins and slow query loops) and under-normalization (which causes table bloat), the database separates:
@@ -111,7 +111,7 @@ The `categories` table stores a `schema_definition` JSON column that acts as a b
 
 When the CMS submits a save request:
 1. Fetch the selected category's `schema_definition`.
-2. Laravel validates the incoming `metadata` keys against the schema parameters.
+2. Express validation middleware validates the incoming `metadata` keys against the schema parameters.
 3. If clean, writes `metadata` JSON directly to the database.
 
 ---
@@ -220,7 +220,7 @@ graph TD
 ```mermaid
 sequenceDiagram
     participant Admin as Admin Panel
-    participant DB as MySQL DB
+    participant DB as PostgreSQL DB
     participant UI as Public Client
 
     Admin->>DB: Insert Category: 'Perikanan' with schema rules
@@ -234,5 +234,5 @@ sequenceDiagram
 ## 10. Relationship to Other Documents
 
 - **ACA:** This design serves as the storage mapping of the polymorphic content architecture.
-- **System Architecture:** Defines the data layer consumed by Laravel services and SQL controllers.
+- **System Architecture:** Defines the data layer consumed by Express services.
 - **ERD:** Guides the visual relationships and foreign keys defined in the entity-relationship map.

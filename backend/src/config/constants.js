@@ -1,0 +1,12 @@
+export const API_VERSION = 'v1';
+export const AUTH_TOKEN_NAME = 'admin-token';
+export const PAGINATION_DEFAULT_PER_PAGE = 12;
+export const PAGINATION_MAX_PER_PAGE = 50;
+export const SEARCH_MIN_LENGTH = 3;
+export const MEDIA_MAX_IMAGE_WIDTH = 1200;
+export const MEDIA_WEBP_QUALITY = 80;
+export const MEDIA_MAX_FILE_SIZE_MB = 5;
+export const CACHE_TTL_ONE_DAY = 86400;
+export const CACHE_TTL_FIFTEEN_MINUTES = 900;
+export const RATE_LIMIT_API = 60;
+export const RATE_LIMIT_LOGIN = 5;

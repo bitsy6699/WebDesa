@@ -1,0 +1,77 @@
+/**
+ * Map-specific styles — markers, clusters, popups.
+ */
+
+/* Custom marker icon base */
+.map-marker-icon {
+  background: transparent !important;
+  border: none !important;
+}
+
+/* Cluster icons */
+.map-cluster-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cluster-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  font-size: 12px;
+  font-weight: 700;
+  color: white;
+  background: rgba(24, 77, 71, 0.85);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  border: 2px solid white;
+}
+
+.cluster-small {
+  width: 30px;
+  height: 30px;
+  font-size: 11px;
+}
+
+.cluster-medium {
+  width: 36px;
+  height: 36px;
+  font-size: 12px;
+}
+
+.cluster-large {
+  width: 42px;
+  height: 42px;
+  font-size: 13px;
+}
+
+/* Popup container styling */
+.map-popup-container .leaflet-popup-content-wrapper {
+  padding: 0;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.12);
+}
+
+.map-popup-container .leaflet-popup-content {
+  margin: 0;
+  min-width: 240px;
+}
+
+.map-popup-container .leaflet-popup-tip {
+  background: white;
+  box-shadow: none;
+}
+
+/* Scrollbar hide for filter bar */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

@@ -24,15 +24,12 @@ The project directory is designed to maintain logical isolation, speed up onboar
 The root directory isolates frontend, backend, and documentation into distinct workspaces:
 
 ```
-karamatwangi-portal/
+webdesa/
  ├── docs/                 # Product, design, and engineering specifications
- ├── .ai/                  # Context schemas and prompt guidelines for AI assistants
  ├── frontend/             # React SPA client code (Vite-backed)
- ├── backend/              # Laravel 12 API service code
- ├── database/             # Raw SQL schemas, exports, and backup files
+ ├── backend/              # Express.js API service code
  ├── assets/               # Production graphic assets (logos, icons, illustrations)
- ├── scripts/              # Automation and deployment utility scripts
- └── references/           # External guides and mapping documentation
+ └── scripts/              # Automation and deployment utility scripts
 ```
 
 ### Folder Interaction Strategy
@@ -48,23 +45,21 @@ The React workspace uses standard Atomic Design patterns to separate UI componen
 
 ```
 frontend/src/
- ├── api/                  # Axios wrappers and API response interface typings
  ├── assets/               # Client-side local images and system icons
  ├── components/           # Reusable Atomic UI components
- │    ├── atoms/           # Buttons, inputs, badges (ATOM-01 to ATOM-15)
- │    ├── molecules/       # SearchBar, stat card, alert (MOL-01 to MOL-12)
- │    └── organisms/       # Navbar, map frame, potential grid (ORG-01 to ORG-18)
- ├── contexts/             # React authentication and configuration contexts
- ├── features/             # Feature-specific components and state loops
- │    ├── map/             # Map-specific layers and logic
- │    ├── directory/       # Potential grid directories and filter workflows
- │    └── cms/             # Admin forms, data tables, and media managers
- ├── hooks/                # Custom React hook utilities (e.g. useMap, useAuth)
- ├── layouts/              # Route templates (TPL-01 to TPL-08)
- ├── pages/                # Final view routes (PG-01 to PG-14)
- ├── styles/               # Global tailwind and CSS configurations
- ├── types/                # TypeScript interface type definitions
- └── utils/                # Date formatting and currency helper scripts
+ │    ├── atoms/           # Buttons, inputs, badges
+ │    ├── molecules/       # SearchBar, stat card, alert
+ │    └── organisms/       # Navbar, map frame, potential grid
+ ├── constants/            # Environment configurations and constants
+ ├── dashboard/            # Isolated CMS module (components, features, layouts, pages, theme)
+ ├── hooks/                # Custom React hook utilities (e.g. usePotentials)
+ ├── layouts/              # Route templates
+ ├── lib/                  # Core utilities and style helpers
+ ├── pages/                # Final view routes
+ ├── providers/            # Context providers (QueryProvider, etc.)
+ ├── routes/               # Routing configuration (router.jsx, routeModules.jsx)
+ ├── services/             # Axios API layer and service modules
+ └── styles/               # Global tailwind and CSS configurations
 ```
 
 ### ACA Impact on Frontend Structure
@@ -74,37 +69,33 @@ Because of the Adaptive Content Architecture, the frontend features no category-
 
 ## 4. Backend Workspace Structure (`backend/`)
 
-The Laravel directory maintains a strict Service-Oriented pattern:
+The Express directory maintains a strict Service-Oriented pattern:
 
 ```
 backend/
- ├── app/
- │    ├── Http/
- │    │    ├── Controllers/Api/V1/   # API Endpoint controllers (AuthController, etc.)
- │    │    ├── Middleware/           # Sanctum auth filters and rate limiters
- │    │    └── Requests/             # Input Form Requests and dynamic ACA validators
- │    ├── Models/                    # Eloquent database mapping models
- │    ├── Policies/                  # Admin CRUD action authorization rules
- │    ├── Providers/                 # Boot settings (App, Auth, Route)
- │    ├── Http/Resources/            # Data output transformations (PotentialResource, etc.)
- │    ├── Services/                  # Services: ImageProcessing, ImportExport, etc.
- │    ├── Observers/                 # Database log trigger hooks
- │    ├── Traits/                    # Reusable helper codes (e.g. HasUuid)
- │    └── Enums/                     # Status and type-safe enums (PotentialStatus)
- ├── config/                         # Laravel system configuration files
- ├── routes/                         # Route files (api.php, console.php)
- └── tests/                          # Automated backend feature and unit test suites
+ ├── prisma/
+ │    └── schema.prisma              # Database schema and model definitions
+ ├── src/
+ │    ├── controllers/               # API endpoint controllers (auth.js, potential.js, etc.)
+ │    ├── middleware/                 # JWT auth filters, upload config, error handler
+ │    ├── routes/                    # Express route definitions
+ │    ├── services/                  # Services: ImageProcessing, ImportExport, etc.
+ │    ├── validators/                # Request validation schemas
+ │    ├── utils/                     # Helper functions
+ │    └── server.js                  # Express app entry point
+ ├── uploads/                        # Uploaded media files
+ ├── prisma/                         # Prisma migrations and seed
+ └── package.json
 ```
 
 ---
 
-## 5. Database Workspace Structure (`database/`)
+## 5. Database Workspace
 
-- `migrations/`: Laravel database schema migrations.
-- `seeders/`: Seeders for setting up categories, admin profiles, and demo potentials.
-- `factories/`: Eloquent factories for writing automated testing records.
-- `schema/`: Raw visual relational ERD models.
-- `backup/`: Dump files of production and staging database states.
+Database schema and migrations live inside `backend/prisma/`:
+- `schema.prisma`: Model definitions and data source configuration.
+- `migrations/`: Prisma migration history.
+- `seed.js`: Seed script for setting up categories, admin profiles, and demo potentials.
 
 ---
 
@@ -122,13 +113,7 @@ docs/
 
 ---
 
-## 7. AI Workspace Structure (`.ai/`)
-
-Guidelines helping AI coding assistants parse the codebase without confusion:
-- `context/`: Text files mapping current project status.
-- `workflow/`: Guides detailing testing steps and lint validation tasks.
-- `knowledge/`: Architectural guidelines mapping ACA patterns.
-- `prompts/`: Standard prompt structures for code generation.
+---
 
 ---
 
@@ -150,11 +135,10 @@ Consistency in file and directory naming is strictly enforced:
 | Target | Convention | Example |
 | --- | --- | --- |
 | **Directories** | `kebab-case` | `components/organisms`, `activity-logs` |
-| **React Components** | `PascalCase` | `UnifiedPotentialCard.tsx`, `Button.tsx` |
-| **React Hooks** | `camelCase` starting with `use` | `usePotentialFilter.ts` |
-| **Laravel Controllers**| `PascalCase` with `Controller` suffix | `PotentialController.php` |
-| **Laravel Models** | `PascalCase` Singular | `Potential.php`, `Category.php` |
-| **Laravel Services** | `PascalCase` with `Service` suffix | `ImageProcessingService.php` |
+| **React Components** | `PascalCase` | `UnifiedPotentialCard.jsx`, `Button.jsx` |
+| **React Hooks** | `camelCase` starting with `use` | `usePotentialFilter.js` |
+| **Express Controllers**| `camelCase` | `potentialController.js` |
+| **Express Services** | `PascalCase` with `Service` suffix | `ImageProcessingService.js` |
 | **API Routes** | `kebab-case` plural | `/api/v1/potential-items` |
 | **Database Tables** | `snake_case` plural | `potentials`, `category_schemas` |
 
@@ -181,10 +165,8 @@ Features ──> Custom Hooks ──> Contexts ──> Services & API Wrapper (A
 ```mermaid
 graph TD
     Root[Project Root] --> Docs[docs/ Documentation]
-    Root --> AI[.ai/ Workspace Context]
     Root --> FE[frontend/ React SPA]
-    Root --> BE[backend/ Laravel 12 API]
-    Root --> DB[database/ MySQL migrations]
+    Root --> BE[backend/ Express.js API]
 ```
 
 ### 11.2. Frontend Folder Hierarchy
@@ -197,18 +179,17 @@ graph TD
     Components --> Molecules[molecules/ MOL]
     Components --> Organisms[organisms/ ORG]
     FE --> Features[features/ CMS, Map, Directory]
-    FE --> API[api/ Axios wrappers]
+    FE --> Services[services/ Axios wrappers]
 ```
 
 ### 11.3. Backend Folder Hierarchy
 ```mermaid
 graph TD
-    BE[backend/app] --> Http[Http/]
-    Http --> Ctrl[Controllers/Api/V1]
-    Http --> Req[Requests/ Dynamic Validations]
-    BE --> Models[Models/ Eloquent Mapping]
-    BE --> Services[Services/ Business Logic]
-    BE --> Resources[Http/Resources/ API JSON]
+    BE[backend/src] --> Ctrl[controllers/]
+    BE --> Routes[routes/]
+    BE --> MW[middleware/ JWT, Upload]
+    BE --> Svc[services/ Business Logic]
+    BE --> Val[validators/]
 ```
 
 ### 11.4. Documentation Hierarchy
@@ -219,10 +200,4 @@ graph TD
     Docs --> Eng[engineering/ ACA, DB, API Spec]
 ```
 
-### 11.5. AI Workspace Layout
-```mermaid
-graph TD
-    AI[.ai/] --> Context[context/ Active logs]
-    AI --> Workflow[workflow/ Testing checklists]
-    AI --> Knowledge[knowledge/ Code patterns]
-```
+

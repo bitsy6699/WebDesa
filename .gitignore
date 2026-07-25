@@ -1,1 +1,42 @@
-﻿
+﻿# Dependencies
+node_modules/
+.pnp.*
+.yarn/
+
+# Build output
+dist/
+dist-ssr/
+build/
+*.local
+
+# Environment files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor files
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.sw?
+*.suo
+
+# Uploads (user content)
+backend/uploads/*
+!backend/uploads/.gitkeep
+
+# Vite cache
+frontend/.vite/
+
+# Source materials (not part of the app)
+bahan/

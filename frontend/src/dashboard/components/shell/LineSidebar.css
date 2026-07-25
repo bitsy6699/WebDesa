@@ -1,0 +1,250 @@
+.line-sidebar {
+  --accent-color: #184D47;
+  --text-color: #78716C;
+  --marker-color: #E7E7E7;
+  --marker-length: 40px;
+  --marker-gap: 0px;
+  --tick-scale: 0.5;
+  --max-shift: 20px;
+  --item-gap: 2px;
+  --font-size: 0.8125rem;
+  --smoothing: 100ms;
+
+  position: relative;
+  display: flex;
+  flex: 1;
+  min-height: 0;
+}
+
+.line-sidebar--markers {
+  /* Marker visual only — no content padding.
+       Icons stay at consistent left position in both modes. */
+}
+
+.line-sidebar__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--item-gap);
+}
+
+/* Group */
+.line-sidebar__group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--item-gap);
+}
+
+.line-sidebar__group + .line-sidebar__group {
+  margin-top: 12px;
+}
+
+.line-sidebar__group-label {
+  font-size: 0.625rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #A8A29E;
+  padding: 0.5rem 0.75rem;
+  transition: opacity 220ms ease-out, height 220ms ease-out, padding 220ms ease-out;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.line-sidebar--collapsed .line-sidebar__group-label {
+  opacity: 0;
+  height: 0;
+  padding: 0;
+}
+
+/* Item */
+.line-sidebar__item {
+  position: relative;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background-color 150ms ease;
+}
+
+.line-sidebar__item:hover {
+  background-color: #F6F7F8;
+}
+
+.line-sidebar__item--active {
+  background-color: #F2F7F5 !important;
+}
+
+.line-sidebar__item::before {
+  content: '';
+  position: absolute;
+  inset: -2px -12px;
+  pointer-events: all;
+}
+
+/* Active accent bar — 3px left */
+.line-sidebar__accent {
+  position: absolute;
+  left: 0;
+  top: 7px;
+  bottom: 7px;
+  width: 3px;
+  background-color: #184D47;
+  border-radius: 0 2px 2px 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.line-sidebar__item-content {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  padding: 0.6875rem 0.75rem;
+  border-radius: 8px;
+}
+
+/* Icon — fixed left position via consistent padding, no centering */
+.line-sidebar__icon {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  z-index: 1;
+  color: var(--text-color);
+  transition: color 200ms ease;
+}
+
+.line-sidebar__item--active .line-sidebar__icon {
+  color: var(--accent-color);
+}
+
+/* Label — direction-dependent sequenced animation */
+.line-sidebar__label {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  font-size: var(--font-size);
+  font-weight: 500;
+  line-height: 1.2;
+  color: color-mix(in srgb, var(--accent-color) calc(var(--effect, 0) * 100%), var(--text-color));
+  transform: translateX(calc(var(--effect, 0) * var(--max-shift)));
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  transition: opacity 220ms ease-out 200ms, transform 220ms ease-out 200ms;
+}
+
+.line-sidebar--collapsed .line-sidebar__label {
+  opacity: 0;
+  transform: translateX(-8px);
+  transition: opacity 150ms ease-out 0ms, transform 150ms ease-out 0ms;
+}
+
+.line-sidebar__item--active .line-sidebar__label {
+  font-weight: 600;
+}
+
+.line-sidebar__text {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.line-sidebar__index {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  margin-right: 0.5rem;
+  font-size: 0.65rem;
+  opacity: calc(0.55 + var(--effect, 0) * 0.45);
+  flex-shrink: 0;
+}
+
+.line-sidebar__badge {
+  font-size: 0.6rem;
+  font-weight: 600;
+  padding: 0.0625rem 0.375rem;
+  border-radius: 6px;
+  background-color: rgba(24, 77, 71, 0.1);
+  color: #184D47;
+  flex-shrink: 0;
+  transition: opacity 220ms ease-out;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.line-sidebar--collapsed .line-sidebar__badge {
+  opacity: 0;
+  width: 0;
+  padding: 0;
+}
+
+/* Marker — positioned within the nav padding area so icons never shift */
+.line-sidebar__marker {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  height: 1px;
+  width: 16px;
+  background-color: color-mix(in srgb, var(--accent-color) calc(var(--effect, 0) * 100%), var(--marker-color));
+  transform-origin: left center;
+  transform: translateY(-50%) scaleX(calc(0.7 + var(--effect, 0) * 0.5));
+}
+
+.line-sidebar--markers .line-sidebar__item:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  top: calc(100% + var(--item-gap) / 2);
+  left: 0;
+  height: 1px;
+  width: 8px;
+  background-color: var(--marker-color);
+  opacity: 0.4;
+  transform: translateY(-50%);
+}
+
+.line-sidebar--scale-tick .line-sidebar__item:not(:last-child)::after {
+  transform-origin: left center;
+  transform: translateY(-50%) scaleX(calc(0.7 + var(--effect, 0) * 0.6));
+}
+
+/* Collapsed */
+.line-sidebar--collapsed .line-sidebar__marker,
+.line-sidebar--collapsed .line-sidebar__item::after {
+  display: none;
+}
+
+.line-sidebar--collapsed .line-sidebar__accent {
+  display: none;
+}
+
+/* Tooltip */
+.line-sidebar__tooltip {
+  pointer-events: none;
+  position: absolute;
+  left: calc(100% + 10px);
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 50;
+  opacity: 0;
+  transition: opacity 150ms ease;
+  white-space: nowrap;
+  border-radius: 6px;
+  border: 1px solid #E7E7E7;
+  background: white;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #1C1917;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.line-sidebar--collapsed .line-sidebar__item:hover .line-sidebar__tooltip {
+  opacity: 1;
+}

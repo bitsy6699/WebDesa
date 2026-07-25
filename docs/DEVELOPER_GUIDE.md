@@ -13,8 +13,8 @@ A digital platform to showcase the potentials (tourism, culture, MSMEs) of Karam
 
 **Architecture:**
 - **Frontend:** A React Single Page Application (SPA) built with Vite. It enforces strict separation of concerns between public-facing marketing views and the administrative CMS.
-- **Backend:** A Laravel (PHP) application serving RESTful APIs.
-- **API:** Communicates via standard JSON over HTTP, authenticated using Laravel Sanctum (cookie/token-based).
+- **Backend:** An Express.js (Node.js) application serving RESTful APIs.
+- **API:** Communicates via standard JSON over HTTP, authenticated using JWT (Bearer token).
 - **Public Website:** Highly visual, read-only interface optimized for performance and aesthetics.
 - **Dashboard (CMS):** A secure administrative module utilizing a robust, highly reusable component system to manage village potentials, categories, and media.
 
@@ -23,20 +23,21 @@ A digital platform to showcase the potentials (tourism, culture, MSMEs) of Karam
 ## 2. Technology Stack
 
 ### Frontend
-- **Framework:** React 18
-- **Language:** TypeScript (Strict Mode)
-- **Build Tool:** Vite
-- **Styling:** Tailwind CSS + Custom Design System
-- **Routing:** React Router v6
-- **Data Fetching & API State:** React Query (@tanstack/react-query) + Axios
-- **Animations:** Framer Motion
+- **Framework:** React 19
+- **Language:** JavaScript (ES6+)
+- **Build Tool:** Vite 8
+- **Styling:** Tailwind CSS v4 + Custom Design System
+- **Routing:** React Router v7
+- **Data Fetching & API State:** TanStack Query (@tanstack/react-query) + Axios
+- **Animations:** Framer Motion ^12.42.2
 - **Icons:** Lucide React
 
-### Backend (Reference)
-- **Framework:** Laravel 11
-- **Authentication:** Laravel Sanctum
-- **Database:** MySQL
-- **Media:** Optimized image processing (WebP conversion)
+### Backend
+- **Framework:** Express.js 4
+- **Authentication:** JWT (jsonwebtoken)
+- **ORM:** Prisma 6
+- **Database:** PostgreSQL 16
+- **Media:** Sharp (WebP conversion), Multer (file upload)
 
 ---
 
@@ -58,22 +59,22 @@ cp .env.example .env
 
 **3. Run Development Server**
 ```bash
-# Frontend
+# Frontend (terminal 1)
+cd frontend
 npm run dev
 
-# Backend (in a separate terminal)
-cd ../backend
-composer install
+# Backend (terminal 2)
+cd backend
 cp .env.example .env
-php artisan key:generate
-php artisan migrate --seed
-php artisan serve
+# Edit .env with your PostgreSQL connection string
+npx prisma migrate dev --name init
+node prisma/seed.js
+npm run dev
 ```
 
 **4. Quality Assurance Commands**
 Run these before any commit:
 - **Lint:** `npm run lint`
-- **Type Check:** `npm run type-check`
 - **Build:** `npm run build`
 
 ---
@@ -92,15 +93,15 @@ The `frontend/src` directory is strictly organized by domain and responsibility:
 - `pages/` -> Route entry components.
 - `routes/` -> Routing configuration (`router.tsx`, `routeModules.tsx`).
 - `services/` -> Axios API layer. No fetch logic should exist outside this folder.
-- `types/` -> Shared TypeScript interfaces and domain models.
-- `utils/` -> Helper functions (e.g., formatters).
+- `lib/` -> Core utilities and style helpers.
+- `routes/` -> Routing configuration.
 
 ---
 
 ## 5. Coding Standards
 
 - **Functional Components Only:** Use React functional components and hooks. No class components.
-- **TypeScript Only:** Every file must be typed. `any` is strictly prohibited.
+- **JavaScript Only:** All code is written in plain JavaScript (ES6+). No TypeScript.
 - **Prefer Composition:** Use `children` and composable components over passing massive prop objects.
 - **Keep Files Small:** If a component exceeds ~150 lines, it likely needs to be broken down.
 - **No Duplicated Logic:** Extract reusable functions to `utils/` or custom hooks.
@@ -132,10 +133,10 @@ The Dashboard (`src/dashboard/`) is treated as a sub-application to prevent UI b
 ## 8. API Rules
 
 - **Service Layer:** All API interactions must be encapsulated in `src/services/` (e.g., `category.service.ts`).
-- **Axios Usage:** Use the configured Axios singleton in `src/services/api.ts`. This handles interceptors, base URLs, and Sanctum tokens automatically.
+- **Axios Usage:** Use the configured Axios singleton in `src/services/api.js`. This handles interceptors, base URLs, and JWT tokens automatically.
 - **Loading States:** UI must explicitly handle loading states (using Skeleton loaders or spinners) while React Query is `isPending`.
 - **Error Handling:** Gracefully handle errors using React Query's `isError`. Use the `ToastWrapper` or `ErrorState` components to display issues.
-- **Response Mapping:** API envelopes (`ApiResponse<T>`, `PaginatedResponse<T>`) are strictly typed in `api.ts`. Services must unpack these envelopes and return clean domain data to the components.
+- **Response Mapping:** API responses follow a standard envelope format. Services unpack these responses and return clean domain data to the components.
 
 ---
 
@@ -213,12 +214,10 @@ Before every single commit, you **must** run and pass the following:
 
 ```bash
 npm run lint
-npm run type-check
 npm run build
 ```
 
 - `lint` ensures code style consistency and catches unused variables. Expected: 0 errors, 0 warnings.
-- `type-check` ensures TypeScript integrity (`tsc --noEmit`). Expected: No output (clean exit).
 - `build` ensures Vite can successfully bundle the application for production. Expected: Clean compilation logs.
 
 ---
@@ -245,7 +244,7 @@ npm run build
 
 - **Duplicating UI:** Building a custom button on a dashboard page instead of using `DashboardButton`.
 - **Inline Fetching:** Calling `axios.get` directly in a `useEffect` inside a component. (Always use React Query + Services).
-- **Ignoring TypeScript:** Using `any` or `@ts-ignore` to bypass type errors.
+- **Skipping Lint Checks:** Pushing code with lint warnings or errors.
 - **Public/Dashboard Contamination:** Importing a CMS dashboard layout component into the public homepage.
 - **Page-Specific Styles:** Writing custom CSS in `index.css` for a single page instead of using Tailwind utility classes.
 
@@ -273,5 +272,5 @@ npm run build
 1. **Extend, don't invent.** Check `src/dashboard/components` before creating new UI primitives.
 2. **Keep UI dumb.** Move business logic, data transformation, and fetching into services and custom hooks.
 3. **Respect the boundaries.** Public site components and Dashboard components live in separate worlds.
-4. **Validate aggressively.** A broken type-check or a lint warning is a failing build. Fix it immediately.
+4. **Validate aggressively.** A lint warning is a failing build. Fix it immediately.
 5. **Embrace React Query.** Let it handle your loading, caching, and background updating.

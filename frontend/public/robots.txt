@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Disallow: /dashboard/
+Disallow: /admin/
+Disallow: /login
+Disallow: /map
+Disallow: /demo/
+
+Sitemap: https://karamatwangi.desa.id/sitemap.xml

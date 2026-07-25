@@ -7,8 +7,8 @@ The project is structured as a modern web application separated into two primary
 - **Dashboard CMS**: A protected administrative interface for content managers to perform CRUD operations on potentials, categories, and media.
 
 **Technology Stack:**
-- **Frontend**: React 18, TypeScript, Vite, Tailwind CSS, React Router v6, React Query, Framer Motion, Lucide React.
-- **Backend**: Laravel (PHP) providing RESTful APIs via Sanctum authentication.
+- **Frontend**: React 19, Vite 8, Tailwind CSS v4, React Router v7, TanStack Query, Framer Motion, Lucide React.
+- **Backend**: Express.js (Node.js) providing RESTful APIs via JWT authentication, Prisma ORM, PostgreSQL.
 
 **Project Philosophy:**
 The architecture enforces strict separation of concerns. Public components are completely decoupled from dashboard components to ensure the administrative panel does not bloat the public bundle, while maximizing reuse of low-level atoms and design tokens.
@@ -38,12 +38,11 @@ The `frontend/src/` folder is strictly organized by responsibility:
 - **`dashboard/`**: The entire CMS module (isolated from the public site to prevent cross-contamination).
 - **`hooks/`**: Global custom React hooks (e.g., `usePotentials`, `useStatistics`).
 - **`layouts/`**: High-level page wrappers (e.g., `PublicLayout`, `BlankLayout`).
-- **`lib/`**: Core utilities and style helpers (e.g., `glassStyles.ts`, `utils.ts`).
-- **`pages/`**: Public-facing route components (e.g., `Home.tsx`, `MapExplorer.tsx`).
+- **`lib/`**: Core utilities and style helpers (e.g., `glassStyles.js`, `utils.js`).
+- **`pages/`**: Public-facing route components (e.g., `Home.jsx`, `MapExplorer.jsx`).
 - **`providers/`**: Context providers wrapping the React tree (e.g., `QueryProvider`).
-- **`routes/`**: Application routing configuration (`router.tsx`, `routeModules.tsx`).
+- **`routes/`**: Application routing configuration (`router.jsx`, `routeModules.jsx`).
 - **`services/`**: API interaction layer handling data fetching and mutation.
-- **`types/`**: Shared TypeScript interfaces and domain models.
 
 ---
 
@@ -95,14 +94,6 @@ The data access layer resides in `src/services/`.
 - **Data Flow**: Services are strictly invoked inside React Query hooks (found in `src/hooks/` and `src/dashboard/features/`) which provide caching, invalidation, and state management to the UI.
 
 ---
-
-## 8. Types
-
-TypeScript interfaces are centralized in `src/types/`.
-
-- **API Models**: Envelopes wrapping network responses (`ApiResponse<T>`, `PaginatedResponse<T>`) located in `api.ts`.
-- **Domain Types**: Core domain entities (`Potential.ts`, `Category.ts`, `Statistic.ts`).
-- **UI Models**: Component-specific prop types reside directly within the component file to keep them tightly coupled.
 
 ---
 
@@ -178,7 +169,7 @@ graph TD
     
     DashFeatures --> ReactQuery[React Query Hooks]
     ReactQuery --> Services[Axios Services]
-    Services --> Backend[(Laravel API)]
+    Services --> Backend[(Express API)]
 ```
 
 ---
@@ -188,7 +179,7 @@ graph TD
 - **Strict Separation**: Public components must never import dashboard components, and vice versa.
 - **Feature-First Architecture**: Group complex state, hooks, and UI under `features/<feature-name>` rather than spreading them across the root directories.
 - **No Inline Fetches**: All network requests must pass through Axios service layers and React Query hooks. No `fetch()` inside components.
-- **Types Extraction**: Export interfaces representing domain entities to `src/types/`.
+- **Types Extraction**: Define entity schemas at the service layer.
 - **Component Reusability**: Favor extending shared tables and forms (e.g. `DashboardDataTable`) over building custom ones per page.
 
 ---
@@ -212,7 +203,7 @@ graph TD
 - **Components**: ~26 public components, ~62 dashboard components.
 - **Services**: 4 core API services.
 - **Hooks**: ~4 global hooks, multiple feature-bound hooks.
-- **Types**: 5 domain-level type definitions.
+- **Types**: 5 domain-level model definitions.
 - **Features**: 1 fully structured feature module (`categories`).
 
 ---
@@ -226,4 +217,4 @@ graph TD
   4. Export it to a simple wrapper in `src/dashboard/pages/`.
   5. Add the route lazily in `src/routes/routeModules.tsx`.
 - **Updating the Theme**: Dashboard colors are hard-bound in `dashboardTheme.ts`. Public styles heavily utilize Tailwind utility classes and local CSS custom properties in `index.css`.
-- **Backend Sync**: When updating Laravel models, always mirror the interfaces within `src/types/` to prevent UI mismatches.
+- **Backend Sync**: When updating Prisma schema, ensure API response formats align with frontend expectations.

@@ -1,0 +1,149 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  username  String   @unique @db.VarChar(50)
+  password  String   @db.VarChar(255)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  potentials    Potential[]     @relation("PotentialsCreatedBy")
+  activityLogs  ActivityLog[]
+
+  @@map("users")
+}
+
+model Category {
+  id        String   @id @default(uuid())
+  label     String   @unique @db.VarChar(50)
+  slug      String   @unique @db.VarChar(50)
+  iconKey   String?  @map("icon_key") @db.VarChar(50)
+  colorCode String?  @map("color_code") @db.VarChar(7)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  schema   CategorySchema?
+  potentials Potential[]
+
+  @@map("categories")
+}
+
+model CategorySchema {
+  id               String @id @default(uuid())
+  categoryId       String @unique @map("category_id")
+  schemaDefinition Json   @map("schema_definition")
+  createdAt        DateTime @default(now()) @map("created_at")
+  updatedAt        DateTime @updatedAt @map("updated_at")
+
+  category Category @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+
+  @@map("category_schemas")
+}
+
+model Location {
+  id        String   @id @default(uuid())
+  latitude  Decimal  @db.Decimal(10, 8)
+  longitude Decimal  @db.Decimal(11, 8)
+  address   String   @db.VarChar(255)
+  dusun     String?  @db.VarChar(100)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  potential Potential?
+
+  @@index([latitude, longitude])
+  @@index([dusun])
+  @@map("locations")
+}
+
+model Media {
+  id        String   @id @default(uuid())
+  filename  String   @db.VarChar(255)
+  filepath  String   @db.VarChar(255)
+  filetype  String   @db.VarChar(50)
+  filesize  Int
+  altText   String?  @map("alt_text") @db.VarChar(255)
+  createdAt DateTime @default(now()) @map("created_at")
+
+  potentialsAsCover Potential[] @relation("CoverImage")
+  potentials        PotentialMedia[]
+
+  @@map("media")
+}
+
+model Potential {
+  id            String   @id @default(uuid())
+  categoryId    String   @map("category_id")
+  title         String   @db.VarChar(150)
+  slug          String   @unique @db.VarChar(150)
+  description   String   @db.Text
+  status        String   @default("draft") @db.VarChar(20)
+  coverImageId  String?  @map("cover_image_id")
+  locationId    String   @unique @map("location_id")
+  metadata      Json?
+  isFeatured    Boolean  @default(false) @map("is_featured")
+  createdById   String   @map("created_by_id")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @updatedAt @map("updated_at")
+  deletedAt     DateTime? @map("deleted_at")
+
+  category     Category        @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+  coverImage   Media?          @relation("CoverImage", fields: [coverImageId], references: [id], onDelete: SetNull)
+  location     Location        @relation(fields: [locationId], references: [id], onDelete: Cascade)
+  creator      User            @relation("PotentialsCreatedBy", fields: [createdById], references: [id], onDelete: Restrict)
+  gallery      PotentialMedia[]
+
+  @@index([title])
+  @@index([status, deletedAt])
+  @@index([categoryId, status, deletedAt])
+  @@index([isFeatured, status, deletedAt])
+  @@index([createdById])
+  @@map("potentials")
+}
+
+model PotentialMedia {
+  potentialId String @map("potential_id")
+  mediaId     String @map("media_id")
+  sortOrder   Int    @default(0) @map("sort_order")
+
+  potential Potential @relation(fields: [potentialId], references: [id], onDelete: Cascade)
+  media     Media     @relation(fields: [mediaId], references: [id], onDelete: Cascade)
+
+  @@id([potentialId, mediaId])
+  @@map("potential_media")
+}
+
+model ActivityLog {
+  id          String   @id @default(uuid())
+  userId      String   @map("user_id")
+  action      String   @db.VarChar(100)
+  subjectId   String?  @map("subject_id")
+  subjectType String?  @map("subject_type") @db.VarChar(100)
+  ipAddress   String   @map("ip_address") @db.VarChar(45)
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([subjectId])
+  @@index([subjectType])
+  @@map("activity_logs")
+}
+
+model Setting {
+  key       String   @id @db.VarChar(50)
+  value     String?  @db.Text
+  type      String   @default("string") @db.VarChar(20)
+  group     String   @default("general") @db.VarChar(50)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@index([group])
+  @@map("settings")
+}

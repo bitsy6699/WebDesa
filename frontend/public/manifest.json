@@ -1,0 +1,19 @@
+{
+  "name": "Portal Potensi Desa Karamatwangi",
+  "short_name": "Potensi Desa",
+  "description": "Portal digital potensi Desa Karamatwangi — UMKM, wisata, pertanian, dan budaya.",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ],
+  "theme_color": "#184D47",
+  "background_color": "#F8FAF8",
+  "display": "standalone",
+  "start_url": "/",
+  "scope": "/",
+  "lang": "id",
+  "orientation": "portrait-primary"
+}

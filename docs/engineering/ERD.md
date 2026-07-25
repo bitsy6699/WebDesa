@@ -39,7 +39,7 @@ The system contains eight core database tables:
   - `id` (UUID, PK): Unique identifier.
   - `username` (VARCHAR(50), Unique, Indexed): Log identity.
   - `password` (VARCHAR(255)): Cryptographic password string.
-  - `remember_token` (VARCHAR(100), Nullable): Standard Laravel remember token.
+  - `remember_token` (VARCHAR(100), Nullable): Token for persistent sessions.
   - `created_at`, `updated_at` (TIMESTAMP): Creation and update tracking.
 
 ### 3.2. Entity: `categories`

@@ -46,10 +46,10 @@ The development phase builds directly upon three preceding layers of documentati
 
 The Development Layer consists of six detailed specification files:
 
-- **[CODING_RULES.md](file:///c:/KKN/POTENSIDESA/docs/development/CODING_RULES.md):** Defines language rules (TypeScript, PHP 8.3+), framework formatting standards (Laravel 12, React 18+), and code structure instructions.
+- **[CODING_RULES.md](file:///c:/KKN/POTENSIDESA/docs/development/CODING_RULES.md):** Defines language rules (JavaScript, Node.js 22+), framework formatting standards (Express.js 4, React 19), and code structure instructions.
 - **[NAMING_CONVENTION.md](file:///c:/KKN/POTENSIDESA/docs/development/NAMING_CONVENTION.md):** Standardizes naming patterns for directories, frontend classes, backend services, routes, and database tables.
 - **[GIT_WORKFLOW.md](file:///c:/KKN/POTENSIDESA/docs/development/GIT_WORKFLOW.md):** Defines branching models, commit message specifications (Conventional Commits), and release guidelines.
-- **[TESTING.md](file:///c:/KKN/POTENSIDESA/docs/development/TESTING.md):** Outlines testing pipelines (Vitest, PHPUnit), test coverage goals, and verification strategies.
+- **[TESTING.md](file:///c:/KKN/POTENSIDESA/docs/development/TESTING.md):** Outlines testing pipeline (Vitest), test coverage goals, and verification strategies.
 - **[CODE_REVIEW.md](file:///c:/KKN/POTENSIDESA/docs/development/CODE_REVIEW.md):** Details pull request validation steps, automated linter checking, and peer audit guidelines.
 - **[PROMPTS.md](file:///c:/KKN/POTENSIDESA/docs/development/PROMPTS.md):** Defines standard prompt templates for AI coding assistants.
 
@@ -106,6 +106,6 @@ A task or feature branch is officially considered complete and ready to merge on
 - [ ] **Responsive Design:** Interfaces function correctly across all breakpoints.
 - [ ] **Accessibility (WCAG AA):** Focus rings are visible, touch targets are $\ge 44\text{px}$, and ARIA labels are configured.
 - [ ] **API Conformance:** Endpoints match the path and JSON schema defined in `API_SPEC.md`.
-- [ ] **Tests Passing:** Vitest (frontend) and PHPUnit (backend) suites run successfully with $\ge 80\%$ test coverage.
-- [ ] **Code Formatting:** Code passes Laravel Pint and ESLint format checks with zero warnings.
+- [ ] **Tests Passing:** Vitest suites run successfully with $\ge 80\%$ test coverage.
+- [ ] **Code Formatting:** Code passes oxlint checks with zero warnings.
 - [ ] **Documentation Update:** Any new API response structure, helper, or config is added to the specifications.

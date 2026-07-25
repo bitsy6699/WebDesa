@@ -43,15 +43,15 @@ This platform is a digital village showcase designed to promote local potentials
 ### 2.1. Product Perspective
 The platform is structured as a decoupled web application comprising:
 1. **Public Web Interface:** Built using React + Vite + Tailwind CSS, consuming a REST API.
-2. **Backend API Service:** Powered by Laravel 12, serving JSON payloads, securing admin routes via Laravel Sanctum, and managing assets using Laravel Storage.
-3. **Database Engine:** MySQL to store system parameters, user credentials, category types, and potential entries.
+2. **Backend API Service:** Powered by Express.js (Node.js), serving JSON payloads, securing admin routes via JWT authentication, and managing assets via multer and sharp.
+3. **Database Engine:** PostgreSQL to store system parameters, user credentials, category types, and potential entries.
 
 ```mermaid
 graph TD
-    Client[React Frontend] <--> API[Laravel 12 API Gateway]
-    API <--> Auth[Laravel Sanctum]
-    API <--> Storage[Laravel Storage / Assets]
-    API <--> DB[(MySQL Database)]
+    Client[React Frontend] <--> API[Express.js API Gateway]
+    API <--> Auth[JWT Auth]
+    API <--> Storage[Multer / Sharp / Assets]
+    API <--> DB[(PostgreSQL Database)]
 ```
 
 ### 2.2. Product Functions
@@ -68,7 +68,7 @@ graph TD
 
 ### 2.4. Operating Environment
 - **Client Side:** Modern web browsers (Chrome, Edge, Firefox, Safari) running on mobile (iOS, Android) and desktop OS.
-- **Server Runtime:** PHP 8.2+ with MySQL 8.0+.
+- **Server Runtime:** Node.js 22+ with PostgreSQL 16+.
 - **File System:** Standard filesystem directories mapped via Laravel Storage.
 
 ### 2.5. Constraints
@@ -82,7 +82,7 @@ graph TD
 
 ### 2.7. Dependencies
 - Availability of OpenStreetMap tiles.
-- Active PHP hosting platform supporting Laravel 12 configurations.
+- Active Node.js hosting platform supporting Express.js.
 
 ---
 
@@ -189,13 +189,13 @@ graph TD
 #### 3.2.1. Authentication
 - **Objective:** Secure the administrative workspace.
 - **Inputs:** Username, password.
-- **Outputs:** Session token (Laravel Sanctum), access to Dashboard.
+- **Outputs:** JWT token, access to Dashboard.
 - **Preconditions:** Admin page loaded.
 - **Main Flow:**
-  1. User inputs credentials on login page.
-  2. Laravel Sanctum validates credentials against the database.
-  3. Returns a secure token, stored in client-side secure cookies.
-  4. Client routes user to `/admin/dashboard`.
+1. User inputs credentials on login page.
+2. Express JWT middleware validates credentials against the database.
+3. Returns a secure JWT token, stored in client-side storage.
+4. Client routes user to `/admin/dashboard`.
 - **Alternative Flow:** None.
 - **Exception Handling:** Displays *"Username atau password salah"* (Wrong username or password) upon auth mismatch. Lock login attempts for 60 seconds after 5 consecutive failures.
 - **Validation Rules:** Username and password are required. Max length 50 characters.
@@ -207,8 +207,8 @@ graph TD
 - **Preconditions:** User is authenticated.
 - **Main Flow:**
   1. Admin uploads an image (JPG/PNG).
-  2. Laravel backend captures the upload.
-  3. Backend applies compression, converts the image to WebP, and scales the width to a maximum of 1200px.
+   2. Express backend captures the upload via multer.
+   3. Backend applies compression, converts the image to WebP via sharp, and scales the width to a maximum of 1200px.
   4. Saves to storage and returns file URL.
 - **Alternative Flow:** None.
 - **Exception Handling:** Block uploads that exceed size limits or fail MIME type checks.
@@ -274,17 +274,16 @@ graph TD
 - Database tables must use indexing on category types, search tags, and geographical coordinates.
 
 ### 4.3. Security
-- Admin panel routes `/admin/*` must remain inaccessible without valid Sanctum tokens.
-- All forms must carry CSRF protection.
-- SQL inputs must be sanitized using Eloquent parameter binding.
-- Password hashes must use secure algorithms (e.g., bcrypt with high work factor).
+- Admin panel routes `/admin/*` must remain inaccessible without valid JWT tokens.
+- SQL inputs must be sanitized using Prisma parameterized queries.
+- Password hashes must use bcrypt.
 
 ### 4.4. Availability & Reliability
 - The application must target **99.9% uptime** on standard hosting systems.
 - Database operations must utilize database transaction blocks during multi-row updates (e.g., during Excel import) to ensure database integrity is preserved if errors occur.
 
 ### 4.5. Maintainability
-- Separation of concerns: Laravel handles business logic, database queries, and exports, while React handles map manipulation, UI routes, and search queries.
+- Separation of concerns: Express handles business logic, database queries, and exports, while React handles map manipulation, UI routes, and search queries.
 - Clean code architecture: Avoid inline styles; utilize structured CSS utility classes (Tailwind).
 
 ### 4.6. Accessibility (WCAG 2.1 AA)
