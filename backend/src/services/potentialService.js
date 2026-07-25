@@ -1,6 +1,7 @@
 import prisma from '../config/database.js';
 import { generateSlug } from '../utils/slug.js';
 import { logAction } from './activityLogService.js';
+import { resolveMediaUrl } from './mediaService.js';
 
 export async function list({ search, category, featured, status, sort, page, perPage }) {
   const where = { deletedAt: null };
@@ -209,7 +210,7 @@ function formatPotentialSummary(p) {
     slug: p.slug,
     category: p.category,
     short_description: p.description?.substring(0, 120) + (p.description?.length > 120 ? '...' : ''),
-    cover_image_url: p.coverImage ? `/uploads/${p.coverImage.filepath}` : null,
+    cover_image_url: p.coverImage ? resolveMediaUrl(p.coverImage.filepath) : null,
     location: {
       latitude: Number(p.location.latitude),
       longitude: Number(p.location.longitude),
@@ -229,8 +230,8 @@ function formatPotentialDetail(p) {
     slug: p.slug,
     description: p.description,
     category: p.category,
-    cover_image_url: p.coverImage ? `/uploads/${p.coverImage.filepath}` : null,
-    gallery: p.gallery?.map((g) => `/uploads/${g.media.filepath}`) || [],
+    cover_image_url: p.coverImage ? resolveMediaUrl(p.coverImage.filepath) : null,
+    gallery: p.gallery?.map((g) => resolveMediaUrl(g.media.filepath)) || [],
     location: {
       latitude: Number(p.location.latitude),
       longitude: Number(p.location.longitude),

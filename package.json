@@ -1,14 +1,10 @@
 {
-  "name": "webdesa-backend",
+  "name": "webdesa",
   "version": "1.0.0",
   "private": true,
   "type": "module",
   "scripts": {
-    "start": "node src/server.js",
-    "dev": "node --watch src/server.js",
-    "db:push": "prisma db push",
-    "db:seed": "node prisma/seed.js",
-    "db:reset": "prisma db push --force-reset && node prisma/seed.js"
+    "postinstall": "npx prisma generate --schema=backend/prisma/schema.prisma"
   },
   "dependencies": {
     "@prisma/client": "^6.12.0",

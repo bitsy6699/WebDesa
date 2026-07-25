@@ -1,15 +1,9 @@
-import { unlink } from 'fs/promises';
-import { join, dirname } from 'path';
-import { fileURLToPath } from 'url';
 import sharp from 'sharp';
 import { v4 as uuidv4 } from 'uuid';
 import prisma from '../config/database.js';
 import { logAction } from './activityLogService.js';
+import { uploadFile, deleteFile } from './storageService.js';
 import { MEDIA_MAX_IMAGE_WIDTH, MEDIA_WEBP_QUALITY } from '../config/constants.js';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-const UPLOAD_DIR = join(__dirname, '..', '..', 'uploads', 'media');
 
 export async function list(page = 1, perPage = 12) {
   const [data, total] = await Promise.all([
@@ -23,7 +17,7 @@ export async function list(page = 1, perPage = 12) {
 
   const formatted = data.map((m) => ({
     ...m,
-    filepath: `/uploads/${m.filepath}`,
+    filepath: resolveMediaUrl(m.filepath),
     filesize: Number(m.filesize),
   }));
 
@@ -32,19 +26,18 @@ export async function list(page = 1, perPage = 12) {
 
 export async function upload(file, userId, ipAddress) {
   const filename = `media_${uuidv4()}.webp`;
-  const filepath = join(UPLOAD_DIR, filename);
 
-  await sharp(file.buffer)
+  const buffer = await sharp(file.buffer)
     .resize(MEDIA_MAX_IMAGE_WIDTH, null, { withoutEnlargement: true })
     .webp({ quality: MEDIA_WEBP_QUALITY })
-    .toFile(filepath);
+    .toBuffer();
 
-  const relativePath = filename;
+  const { filePath } = await uploadFile(buffer, filename, 'image/webp');
 
   const media = await prisma.media.create({
     data: {
       filename: file.originalname,
-      filepath: relativePath,
+      filepath: filePath,
       filetype: 'image/webp',
       filesize: file.size,
     },
@@ -65,9 +58,21 @@ export async function remove(id, userId, ipAddress) {
     throw Object.assign(new Error('Media masih digunakan oleh data potensi.'), { statusCode: 422 });
   }
 
-  const filePath = join(UPLOAD_DIR, media.filepath);
-  await unlink(filePath).catch(() => {});
+  await deleteFile(media.filepath).catch(() => {});
   await prisma.media.delete({ where: { id } });
 
   await logAction(userId, 'delete_media', id, 'Media', ipAddress);
+}
+
+export function resolveMediaUrl(filepath) {
+  if (!filepath) return null;
+  if (filepath.startsWith('http')) return filepath;
+
+  const supabaseUrl = process.env.SUPABASE_URL;
+  const bucket = process.env.SUPABASE_STORAGE_BUCKET || 'webdesa-media';
+  if (supabaseUrl) {
+    return `${supabaseUrl}/storage/v1/object/public/${bucket}/${filepath}`;
+  }
+
+  return `/uploads/${filepath}`;
 }
