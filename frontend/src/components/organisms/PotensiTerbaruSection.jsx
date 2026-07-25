@@ -19,10 +19,10 @@ export function PotensiTerbaruSection({ id, potentials, isLoading = false }) {
   return (
     <section
       ref={sectionRef}
-      id={id || 'chapter-5'}
+      id={id}
       className="relative overflow-hidden"
       style={{
-        background: '#FAFBFA',
+        background: 'var(--bg-page)',
         paddingTop: 'clamp(80px, 10vw, 120px)',
         paddingBottom: 'clamp(72px, 8vw, 104px)',
       }}

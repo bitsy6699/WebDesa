@@ -79,7 +79,6 @@ export function FAQSection({ faqs = DEFAULT_FAQS }) {
 
   return (
     <section
-      id="chapter-5"
       className="relative overflow-hidden"
       style={{
         background: 'var(--bg-page)',

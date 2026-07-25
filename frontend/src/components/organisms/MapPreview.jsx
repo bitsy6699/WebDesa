@@ -44,9 +44,9 @@ export function MapPreview({ potentials = [] }) {
   return (
     <section
       ref={sectionRef}
-      id="chapter-4"
       className="relative overflow-hidden"
       style={{
+        background: 'var(--bg-page)',
         paddingTop: 'clamp(80px, 10vw, 120px)',
         paddingBottom: 'clamp(72px, 8vw, 104px)',
       }}

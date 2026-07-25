@@ -31,10 +31,10 @@ export function FeaturedPotentialsSection({ id, potentials, isLoading = false })
 
   return (
     <section
-      id={id || 'chapter-3'}
+      id={id}
       className="relative overflow-hidden"
       style={{
-        background: '#F3F8F5',
+        background: 'var(--bg-surface-alt)',
         paddingTop: 'clamp(80px, 10vw, 120px)',
         paddingBottom: 'clamp(72px, 8vw, 104px)',
       }}

@@ -38,10 +38,9 @@ export function ContactSection() {
 
   return (
     <section
-      id="chapter-6"
       className="relative overflow-hidden"
       style={{
-        background: '#FAFBFA',
+        background: 'var(--bg-surface-alt)',
         paddingTop: 'clamp(80px, 10vw, 120px)',
         paddingBottom: 'clamp(72px, 8vw, 104px)',
       }}

@@ -15,10 +15,10 @@ export function CTASection({ id }) {
   return (
     <section
       ref={sectionRef}
-      id={id || 'chapter-6'}
+      id={id}
       className="relative overflow-hidden"
       style={{
-        background: '#184D47',
+        background: 'var(--color-primary)',
         paddingTop: 'clamp(80px, 10vw, 120px)',
         paddingBottom: 'clamp(72px, 8vw, 104px)',
       }}
@@ -37,7 +37,7 @@ export function CTASection({ id }) {
         }}
       />
 
-      <div className="absolute inset-0 bg-gradient-to-t from-[#184D47] via-[#184D47]/70 to-[#184D47]/90 pointer-events-none" aria-hidden="true" />
+      <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-primary)] via-[var(--color-primary)]/70 to-[var(--color-primary)]/90 pointer-events-none" aria-hidden="true" />
 
       <FloatingParticle count={6} baseColor="rgba(255,255,255,0.08)" speed={0.6} />
 

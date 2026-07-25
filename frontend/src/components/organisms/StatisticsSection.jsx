@@ -51,13 +51,13 @@ export function StatisticsSection({ id, summary }) {
 
   if (isLoading) {
     return (
-      <section ref={sectionRef} id={id || 'chapter-4'} className="relative overflow-hidden" style={{ background: '#0F3D34', paddingTop: 'clamp(80px, 10vw, 120px)', paddingBottom: 'clamp(72px, 8vw, 104px)' }}>
+      <section ref={sectionRef} id={id} className="relative overflow-hidden" style={{ background: 'var(--bg-surface-alt)', paddingTop: 'clamp(80px, 10vw, 120px)', paddingBottom: 'clamp(72px, 8vw, 104px)' }}>
         <div className="mx-auto max-w-[1160px] px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
             {Array.from({ length: 4 }).map((_, i) => (
               <div key={i} className="text-center">
-                <div className="h-16 w-32 mx-auto rounded-lg bg-white/5 animate-pulse" />
-                <div className="h-4 w-24 mx-auto mt-3 rounded-full bg-white/5 animate-pulse" />
+                <div className="h-16 w-32 mx-auto rounded-lg bg-[var(--color-primary)]/5 animate-pulse" />
+                <div className="h-4 w-24 mx-auto mt-3 rounded-full bg-[var(--color-primary)]/5 animate-pulse" />
               </div>
             ))}
           </div>
@@ -80,11 +80,11 @@ export function StatisticsSection({ id, summary }) {
   return (
     <section
       ref={sectionRef}
-      id={id || 'chapter-4'}
+      id={id}
       aria-label="Statistik Desa"
       className="relative overflow-hidden"
       style={{
-        background: '#0F3D34',
+        background: 'var(--bg-surface-alt)',
         paddingTop: 'clamp(80px, 10vw, 120px)',
         paddingBottom: 'clamp(72px, 8vw, 104px)',
       }}
@@ -97,16 +97,16 @@ export function StatisticsSection({ id, summary }) {
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundAttachment: prefersReducedMotion ? 'scroll' : 'fixed',
-          filter: 'blur(40px) saturate(0.3) brightness(0.4)',
+          filter: 'blur(40px) saturate(0.3)',
           transform: 'scale(1.15)',
         }}
       />
 
-      <div className="absolute inset-0 bg-gradient-to-b from-[#0F3D34]/80 via-[#0F3D34]/60 to-[#0F3D34]/80 pointer-events-none" aria-hidden="true" />
+      <div className="absolute inset-0 bg-gradient-to-b from-[var(--bg-surface-alt)]/90 via-[var(--bg-surface-alt)]/70 to-[var(--bg-surface-alt)]/90 pointer-events-none" aria-hidden="true" />
 
       <div className="relative z-10 mx-auto max-w-[1160px] px-4 sm:px-6 lg:px-8 text-center">
         <motion.p
-          className="text-xs font-semibold uppercase tracking-[0.22em] text-white/40"
+          className="text-xs font-semibold uppercase tracking-[0.22em] text-[var(--text-muted)]"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
@@ -114,7 +114,7 @@ export function StatisticsSection({ id, summary }) {
           Desa dalam Angka
         </motion.p>
         <motion.h2
-          className="mt-3 font-heading text-[2rem] font-bold leading-[1.15] tracking-[-0.02em] text-white sm:text-[2.5rem] lg:text-[2.75rem]"
+          className="mt-3 font-heading text-[2rem] font-bold leading-[1.15] tracking-[-0.02em] text-[var(--text-primary)] sm:text-[2.5rem] lg:text-[2.75rem]"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -143,7 +143,7 @@ export function StatisticsSection({ id, summary }) {
         >
           <Link
             to="/statistics"
-            className="inline-flex items-center gap-2 text-sm font-semibold text-white/70 hover:text-white transition-colors group"
+            className="inline-flex items-center gap-2 text-sm font-semibold text-[var(--color-primary)] hover:text-[var(--color-primary-dark)] transition-colors group"
           >
             Lihat Statistik Lengkap
             <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />

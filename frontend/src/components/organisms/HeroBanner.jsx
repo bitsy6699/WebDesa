@@ -43,9 +43,8 @@ export function HeroBanner({ title, description, image }) {
   return (
     <section
       ref={sectionRef}
-      id="chapter-1"
       className="relative flex items-center overflow-hidden"
-      style={{ minHeight: '100dvh', backgroundColor: '#0F3D34' }}
+      style={{ minHeight: '100dvh', backgroundColor: 'var(--color-primary-dark)' }}
       aria-labelledby="hero-title"
     >
       <motion.div
@@ -69,21 +68,21 @@ export function HeroBanner({ title, description, image }) {
         <div
           className="absolute inset-0"
           style={{
-            background: 'linear-gradient(180deg, rgba(11,40,35,0.75) 0%, rgba(15,61,52,0.45) 35%, rgba(15,61,52,0.15) 65%, rgba(15,61,52,0.6) 100%)',
+            background: 'linear-gradient(180deg, rgba(15,61,52,0.75) 0%, rgba(15,61,52,0.45) 35%, rgba(15,61,52,0.15) 65%, rgba(15,61,52,0.6) 100%)',
           }}
         />
 
         <div
           className="absolute inset-0 hidden sm:block"
           style={{
-            background: 'linear-gradient(90deg, rgba(11,40,35,0.4) 0%, transparent 50%)',
+            background: 'linear-gradient(90deg, rgba(15,61,52,0.4) 0%, transparent 50%)',
           }}
         />
 
         <div
           className="absolute inset-0"
           style={{
-            background: 'radial-gradient(ellipse 75% 65% at 50% 50%, transparent 40%, rgba(11,40,35,0.35) 100%)',
+            background: 'radial-gradient(ellipse 75% 65% at 50% 50%, transparent 40%, rgba(15,61,52,0.35) 100%)',
           }}
         />
       </motion.div>
@@ -180,9 +179,9 @@ export function HeroBanner({ title, description, image }) {
         className="absolute bottom-0 left-0 right-0 z-10 h-16 sm:h-24 pointer-events-none"
         aria-hidden="true"
         style={{
-          background: 'linear-gradient(to top, #ffffff 0%, transparent 100%)',
-          maskImage: 'linear-gradient(to top, #ffffff 0%, transparent 100%)',
-          WebkitMaskImage: 'linear-gradient(to top, #ffffff 0%, transparent 100%)',
+          background: 'linear-gradient(to top, var(--bg-page) 0%, transparent 100%)',
+          maskImage: 'linear-gradient(to top, var(--bg-page) 0%, transparent 100%)',
+          WebkitMaskImage: 'linear-gradient(to top, var(--bg-page) 0%, transparent 100%)',
         }}
       />
     </section>
