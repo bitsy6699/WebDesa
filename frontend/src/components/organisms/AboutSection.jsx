@@ -2,7 +2,6 @@ import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, useReducedMotion, useScroll, useTransform, useSpring, useInView } from 'framer-motion';
 import { LazyImage } from '@/components/molecules/LazyImage';
-import { LeafFloat } from '@/lib/atmosphere';
 import { HERO_2 } from '@/lib/imageCompositions';
 
 function AnimatedCounter({ value, label, suffix = '' }) {
@@ -59,10 +58,7 @@ export function AboutSection() {
         paddingBottom: 'clamp(72px, 8vw, 104px)',
       }}
       aria-label="Tentang Desa Karamatwangi"
-    >
-      <LeafFloat count={2} color="#6FAE8F" />
-
-      <div className="container relative z-10 mx-auto max-w-[1120px] px-5 sm:px-6 lg:px-8">
+    >      <div className="container relative z-10 mx-auto max-w-[1120px] px-5 sm:px-6 lg:px-8">
         <motion.div
           className="mx-auto max-w-[680px] text-center"
           variants={sectionReveal}

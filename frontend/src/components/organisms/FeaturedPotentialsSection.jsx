@@ -8,7 +8,6 @@ import {
   FeaturedSmallCardSkeleton,
 } from '@/components/molecules/FeaturedPotentialCard';
 import { HERO_1 } from '@/lib/imageCompositions';
-import { FloatingParticle } from '@/lib/atmosphere';
 
 const stag = {
   hidden: { opacity: 0 },
@@ -49,9 +48,6 @@ export function FeaturedPotentialsSection({ id, potentials, isLoading = false })
           backgroundPosition: 'center',
         }}
       />
-
-      <FloatingParticle count={4} baseColor="rgba(24,77,71,0.12)" speed={0.5} />
-
       <div className="relative mx-auto max-w-[1320px] px-4 sm:px-6 lg:px-8">
         <motion.div
           className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4 mb-10"

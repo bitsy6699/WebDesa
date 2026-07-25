@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion';
 import { MapPin, Compass, Map } from 'lucide-react';
 import { MagneticButton } from '@/components/atoms/MagneticButton';
-import { FloatingParticle } from '@/lib/atmosphere';
 import { HERO_1 } from '@/lib/imageCompositions';
 
 const TITLE_LINE_1 = 'Desa';
@@ -86,9 +85,6 @@ export function HeroBanner({ title, description, image }) {
           }}
         />
       </motion.div>
-
-      <FloatingParticle count={8} baseColor="rgba(255,255,255,0.15)" speed={0.7} />
-
       <motion.div
         className="relative z-10 mx-auto w-full max-w-[1440px] px-5 sm:px-8 lg:px-12"
         style={{

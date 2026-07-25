@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion';
 import { ArrowRight, BarChart3 } from 'lucide-react';
 import { HERO_1 } from '@/lib/imageCompositions';
-import { FloatingParticle } from '@/lib/atmosphere';
 
 export function CTASection({ id }) {
   const prefersReducedMotion = useReducedMotion();
@@ -38,9 +37,6 @@ export function CTASection({ id }) {
       />
 
       <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-primary)] via-[var(--color-primary)]/70 to-[var(--color-primary)]/90 pointer-events-none" aria-hidden="true" />
-
-      <FloatingParticle count={6} baseColor="rgba(255,255,255,0.08)" speed={0.6} />
-
       <div className="relative z-10 mx-auto max-w-[980px] px-4">
         <div className="relative overflow-hidden rounded-[40px] px-6 py-16 text-center sm:px-10 sm:py-18 lg:px-16 lg:py-20">
           <div className="relative z-10 mx-auto flex max-w-[640px] flex-col items-center">
