@@ -14,13 +14,14 @@ export function LandingPageTemplate({
 }) {
   return (
     <div className="flex flex-col w-full overflow-x-hidden">
-      {/* Chapter 1 — Welcome: Hero — #0F3D34 */}
-      {hero}
+      <section id="chapter-1">
+        {hero}
+      </section>
 
-      {/* Chapter 2 — Nature: About — #FFFFFF */}
-      {about}
+      <section id="chapter-2">
+        {about}
+      </section>
 
-      {/* Interstitial — poetic breathing moment */}
       <StoryDivider
         title="Di sinilah alam bercerita tentang ketenangan."
         subtitle="Dataran Tinggi Garut"
@@ -28,22 +29,25 @@ export function LandingPageTemplate({
         showIcon
       />
 
-      {/* Chapter 3 — Village Life: Featured + Categories — #F3F8F5 / #FFF */}
-      {featured}
-      {categories}
+      <section id="chapter-3">
+        {featured}
+        {categories}
+      </section>
 
-      {/* Chapter 4 — Explore: Map + Statistics — #FFF / #0F3D34 */}
-      {mapPreview}
-      {statistics}
+      <section id="chapter-4">
+        {mapPreview}
+        {statistics}
+      </section>
 
-      {/* Chapter 5 — Community: Latest + FAQ — #FFF */}
-      {news}
-      {faq}
+      <section id="chapter-5">
+        {news}
+        {faq}
+      </section>
 
-      {/* Chapter 6 — Connect: Contact + CTA — #FAFBFA / #184D47 */}
-      {contact}
-
-      <CTASection id="eksplorasi" />
+      <section id="chapter-6">
+        {contact}
+        <CTASection id="eksplorasi" />
+      </section>
     </div>
   );
 }

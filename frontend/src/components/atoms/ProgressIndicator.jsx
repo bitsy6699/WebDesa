@@ -2,12 +2,12 @@ import { useState, useEffect } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 
 const CHAPTERS = [
-  { label: 'Welcome', number: '01' },
-  { label: 'Nature', number: '02' },
-  { label: 'Village Life', number: '03' },
-  { label: 'Explore', number: '04' },
-  { label: 'Community', number: '05' },
-  { label: 'Connect', number: '06' },
+  { label: 'Beranda', number: '01' },
+  { label: 'Tentang', number: '02' },
+  { label: 'Unggulan', number: '03' },
+  { label: 'Jelajah', number: '04' },
+  { label: 'Terbaru', number: '05' },
+  { label: 'Kontak', number: '06' },
 ];
 
 export function ProgressIndicator() {
