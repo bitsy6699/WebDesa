@@ -10,8 +10,6 @@ const CHAPTERS = [
   { label: 'Kontak', number: '06' },
 ];
 
-const DARK_SECTIONS = [0, 5];
-
 export function ProgressIndicator() {
   const [activeIndex, setActiveIndex] = useState(0);
   const prefersReducedMotion = useReducedMotion();
@@ -38,11 +36,8 @@ export function ProgressIndicator() {
 
   if (prefersReducedMotion) return null;
 
-  const isDark = DARK_SECTIONS.includes(activeIndex);
-  const dotColor = isDark ? '#FFFFFF' : '#184D47';
-
   return (
-    <div className="fixed right-6 top-1/2 -translate-y-1/2 z-50 hidden lg:flex flex-col items-end gap-4 pointer-events-none">
+    <div className="fixed right-6 top-1/2 -translate-y-1/2 z-50 hidden lg:flex flex-col items-end gap-4 pointer-events-none" style={{ mixBlendMode: 'difference' }}>
       {CHAPTERS.map((ch, i) => (
         <div
           key={ch.number}
@@ -51,7 +46,7 @@ export function ProgressIndicator() {
         >
           {i === activeIndex && (
             <motion.span
-              className={`text-xs font-medium tracking-wider ${isDark ? 'text-white' : 'text-primary'}`}
+              className="text-xs font-medium text-white tracking-wider"
               initial={{ opacity: 0, x: 8 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.3 }}
@@ -60,11 +55,10 @@ export function ProgressIndicator() {
             </motion.span>
           )}
           <div
-            className="rounded-full transition-all duration-500"
+            className="rounded-full bg-white transition-all duration-500"
             style={{
               width: i === activeIndex ? 10 : 6,
               height: i === activeIndex ? 10 : 6,
-              backgroundColor: dotColor,
               opacity: i === activeIndex ? 1 : 0.3,
             }}
           />
