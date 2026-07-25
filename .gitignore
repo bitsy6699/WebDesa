@@ -40,3 +40,5 @@ frontend/.vite/
 
 # Source materials (not part of the app)
 bahan/
+.vercel
+.env*

@@ -5,6 +5,9 @@ import { PAGINATION_DEFAULT_PER_PAGE } from '../config/constants.js';
 
 export async function index(req, res, next) {
   try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) return validationError(res, errors.array());
+
     const result = await potentialService.list({
       search: req.query.search,
       category: req.query.category,

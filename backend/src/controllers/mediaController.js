@@ -1,9 +1,13 @@
+import { validationResult } from 'express-validator';
 import * as mediaService from '../services/mediaService.js';
-import { success, noContent, paginated, notFound, error } from '../utils/response.js';
+import { success, noContent, paginated, notFound, error, validationError } from '../utils/response.js';
 import { PAGINATION_DEFAULT_PER_PAGE } from '../config/constants.js';
 
 export async function index(req, res, next) {
   try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) return validationError(res, errors.array());
+
     const page = parseInt(req.query.page) || 1;
     const perPage = parseInt(req.query.per_page) || PAGINATION_DEFAULT_PER_PAGE;
     const result = await mediaService.list(page, perPage);

@@ -17,24 +17,31 @@ export async function importPotentials(file, userId, ipAddress) {
     throw Object.assign(new Error('File kosong atau tidak ada data.'), { statusCode: 422 });
   }
 
-  const errors = [];
+  const allErrors = [];
   const validRows = [];
 
   for (let i = 0; i < rows.length; i++) {
     const row = rows[i];
     const rowNum = i + 2;
+    const rowErrors = [];
 
-    if (!row.category_id) errors.push(`Baris ${rowNum}: category_id wajib diisi.`);
-    if (!row.title) errors.push(`Baris ${rowNum}: title wajib diisi.`);
+    if (!row.category_id) rowErrors.push(`Baris ${rowNum}: category_id wajib diisi.`);
+    if (!row.title) rowErrors.push(`Baris ${rowNum}: title wajib diisi.`);
 
-    if (errors.length === 0) {
+    if (rowErrors.length === 0) {
       const category = await prisma.category.findUnique({ where: { id: row.category_id } });
-      if (!category) errors.push(`Baris ${rowNum}: kategori dengan id "${row.category_id}" tidak ditemukan.`);
+      if (!category) rowErrors.push(`Baris ${rowNum}: kategori dengan id "${row.category_id}" tidak ditemukan.`);
     }
 
-    if (errors.length === 0) {
+    if (rowErrors.length > 0) {
+      allErrors.push(...rowErrors);
+    } else {
       validRows.push(row);
     }
+  }
+
+  if (allErrors.length > 0) {
+    throw Object.assign(new Error('Validasi import gagal'), { statusCode: 422, details: allErrors });
   }
 
   if (errors.length > 0) {

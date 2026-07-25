@@ -1,6 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom';
 import PublicLayout from '@/layouts/PublicLayout';
-import AdminLayout from '@/layouts/AdminLayout';
+
 import BlankLayout from '@/layouts/BlankLayout';
 import { DashboardLayout } from '@/dashboard/layouts/DashboardLayout';
 import ProtectedRoute from '@/components/ProtectedRoute';
@@ -13,7 +13,7 @@ import {
   AboutPage,
   ContactPage,
   Login,
-  AdminPanel,
+
   NotFound,
   StatisticsPage,
   DashboardOverviewPage,
@@ -42,15 +42,6 @@ const router = createBrowserRouter([
       { path: '/about', element: <AboutPage /> },
       { path: '/contact', element: <ContactPage /> },
       { path: '/demo/feature-showcase', element: <FeatureShowcaseDemo /> },
-    ],
-  },
-  {
-    element: <ProtectedRoute />,
-    children: [
-      {
-        element: <AdminLayout />,
-        children: [{ path: '/admin', element: <AdminPanel /> }],
-      },
     ],
   },
   {

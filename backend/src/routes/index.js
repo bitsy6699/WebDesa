@@ -3,7 +3,8 @@ import multer from 'multer';
 import { authenticate } from '../middleware/auth.js';
 import { loginValidation, updateProfileValidation, updatePasswordValidation } from '../validators/authValidator.js';
 import { storeCategoryValidation, updateCategoryValidation } from '../validators/categoryValidator.js';
-import { storePotentialValidation, updatePotentialValidation } from '../validators/potentialValidator.js';
+import { storePotentialValidation, updatePotentialValidation, potentialListValidation } from '../validators/potentialValidator.js';
+import { mediaListValidation } from '../validators/mediaValidator.js';
 import * as authController from '../controllers/authController.js';
 import * as categoryController from '../controllers/categoryController.js';
 import * as potentialController from '../controllers/potentialController.js';
@@ -26,7 +27,7 @@ const upload = multer({
   },
 });
 
-router.get('/potentials', potentialController.index);
+router.get('/potentials', potentialListValidation, potentialController.index);
 router.get('/potentials/:category/:slug', potentialController.show);
 router.get('/categories', categoryController.index);
 router.get('/statistics/summary', statisticsController.getSummary);
@@ -48,7 +49,7 @@ router.put('/admin/potentials/:id', authenticate, updatePotentialValidation, pot
 router.delete('/admin/potentials/:id', authenticate, potentialController.destroy);
 router.patch('/admin/potentials/:id/toggle-featured', authenticate, potentialController.toggleFeatured);
 
-router.get('/admin/media', authenticate, mediaController.index);
+router.get('/admin/media', authenticate, mediaListValidation, mediaController.index);
 router.post('/admin/media/upload', authenticate, upload.single('file'), mediaController.store);
 router.delete('/admin/media/:id', authenticate, mediaController.destroy);
 

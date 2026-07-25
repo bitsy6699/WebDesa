@@ -1,7 +1,10 @@
 import jwt from 'jsonwebtoken';
 import prisma from '../config/database.js';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'fallback-secret';
+if (!process.env.JWT_SECRET) {
+  throw new Error('JWT_SECRET environment variable is required.');
+}
+const JWT_SECRET = process.env.JWT_SECRET;
 
 export async function authenticate(req, res, next) {
   const authHeader = req.headers.authorization;

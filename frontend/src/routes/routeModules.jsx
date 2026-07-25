@@ -8,7 +8,6 @@ export const MapExplorer = lazy(() => import('@/pages/MapExplorer'));
 export const AboutPage = lazy(() => import('@/pages/AboutPage'));
 export const ContactPage = lazy(() => import('@/pages/ContactPage'));
 export const Login = lazy(() => import('@/pages/Login'));
-export const AdminPanel = lazy(() => import('@/pages/AdminPanel'));
 export const NotFound = lazy(() => import('@/pages/NotFound'));
 export const StatisticsPage = lazy(() => import('@/pages/StatisticsPage'));
 

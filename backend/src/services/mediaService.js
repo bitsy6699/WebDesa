@@ -58,7 +58,7 @@ export async function remove(id, userId, ipAddress) {
     throw Object.assign(new Error('Media masih digunakan oleh data potensi.'), { statusCode: 422 });
   }
 
-  await deleteFile(media.filepath).catch(() => {});
+  await deleteFile(media.filepath);
   await prisma.media.delete({ where: { id } });
 
   await logAction(userId, 'delete_media', id, 'Media', ipAddress);

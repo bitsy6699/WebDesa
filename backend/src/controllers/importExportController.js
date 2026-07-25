@@ -27,7 +27,7 @@ export async function template(req, res, next) {
 
 export async function exportPotentials(req, res, next) {
   try {
-    const result = await potentialService.list({ page: 1, perPage: 10000, sort: 'latest' });
+    const result = await potentialService.list({ page: 1, perPage: 100000, sort: 'latest' });
     const buffer = importExportService.exportPotentials(result.data);
     res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
     res.setHeader('Content-Disposition', 'attachment; filename=export-potensi.xlsx');

@@ -26,6 +26,13 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     const controller = new AbortController();
 
+    const onUnauthorized = () => {
+      localStorage.removeItem(AUTH_TOKEN_KEY);
+      setState({ user: null, token: null, isLoading: false, isAuthenticated: false });
+      window.location.replace('/login');
+    };
+    window.addEventListener('auth:unauthorized', onUnauthorized);
+
     (async () => {
       const token = localStorage.getItem(AUTH_TOKEN_KEY);
       if (!token) {
@@ -48,7 +55,10 @@ export function AuthProvider({ children }) {
       }
     })();
 
-    return () => controller.abort();
+    return () => {
+      controller.abort();
+      window.removeEventListener('auth:unauthorized', onUnauthorized);
+    };
   }, []);
 
   const login = useCallback(async (username, password) => {
