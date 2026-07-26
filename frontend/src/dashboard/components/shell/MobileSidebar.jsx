@@ -54,11 +54,11 @@ export const MobileSidebar = memo(function MobileSidebar({ open, onClose }) {
             onClick={onClose}
           />
           <motion.aside
-            initial={{ x: -280 }}
+            initial={{ x: 280 }}
             animate={{ x: 0 }}
-            exit={{ x: -280 }}
+            exit={{ x: 280 }}
             transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-            className="fixed inset-y-0 left-0 z-50 flex w-[280px] flex-col border-r border-black/[.06] bg-white shadow-xl lg:hidden"
+            className="fixed inset-y-0 right-0 z-50 flex w-[280px] flex-col border-l border-black/[.06] bg-white shadow-xl lg:hidden"
             role="dialog"
             aria-label="Navigasi mobile"
             onClick={(e) => e.stopPropagation()}
