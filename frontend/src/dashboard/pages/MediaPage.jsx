@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { Upload, LoaderCircle, MoreVertical } from 'lucide-react';
+import { Upload, LoaderCircle, Trash2 } from 'lucide-react';
 import { PageHeader } from '@/dashboard/components/molecules/PageHeader';
 import { DashboardButton } from '@/dashboard/components/atoms/DashboardButton';
 import { Alert } from '@/dashboard/components/organisms/Alert';
@@ -125,9 +125,9 @@ export default function MediaPage() {
                     handleDelete(media.id);
                   }}
                   className="flex h-7 w-7 items-center justify-center rounded-lg bg-white/90 text-neutral-500 shadow-sm transition-colors hover:bg-red-50 hover:text-red-500"
-                  aria-label="More actions"
+                  aria-label="Hapus gambar"
                 >
-                  <MoreVertical className="h-3.5 w-3.5" />
+                  <Trash2 className="h-3.5 w-3.5" />
                 </button>
               </div>
             </div>

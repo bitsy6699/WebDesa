@@ -12,7 +12,7 @@ import { PublishStatusToggle } from '@/dashboard/components/data/PublishStatusTo
 import { Alert } from '@/dashboard/components/organisms/Alert';
 import { EmptyState } from '@/dashboard/components/organisms/EmptyState';
 import { usePotentials } from '@/hooks/usePotentials';
-import { useDeletePotential, useToggleFeatured } from '@/hooks/usePotentialMutations';
+import { useDeletePotential, useToggleStatus } from '@/hooks/usePotentialMutations';
 
 export default function PotentialsPage() {
   const navigate = useNavigate();
@@ -22,7 +22,7 @@ export default function PotentialsPage() {
 
   const { data, isLoading, error } = usePotentials({ page, search: search.length >= 3 ? search : undefined, per_page: 10 });
   const deleteMutation = useDeletePotential();
-  const toggleFeaturedMutation = useToggleFeatured();
+  const toggleStatusMutation = useToggleStatus();
 
   const rows = useMemo(() => {
     if (!data?.data) return [];
@@ -48,8 +48,8 @@ export default function PotentialsPage() {
     }
   };
 
-  const handleToggleFeatured = (id) => {
-    toggleFeaturedMutation.mutate(id);
+  const handleToggleStatus = (id, currentStatus) => {
+    toggleStatusMutation.mutate({ id, currentStatus });
   };
 
   return (
@@ -99,6 +99,21 @@ export default function PotentialsPage() {
           </div>
         }
         columns={[
+          {
+            key: 'cover_image_url',
+            header: 'Foto',
+            render: (row) => (
+              <div className="h-10 w-10 shrink-0 overflow-hidden rounded-lg border border-[#E8ECEA] bg-neutral-100">
+                {row.cover_image_url ? (
+                  <img src={row.cover_image_url} alt="" className="h-full w-full object-cover" />
+                ) : (
+                  <div className="flex h-full w-full items-center justify-center text-neutral-300">
+                    <span className="text-[9px] font-medium">No Image</span>
+                  </div>
+                )}
+              </div>
+            ),
+          },
           { key: 'title', header: 'Judul' },
           {
             key: 'status',
@@ -106,7 +121,7 @@ export default function PotentialsPage() {
             render: (row) => (
               <PublishStatusToggle
                 published={row.status === 'published'}
-                onToggle={() => handleToggleFeatured(row.id)}
+                onToggle={() => handleToggleStatus(row.id, row.status)}
               />
             ),
           },

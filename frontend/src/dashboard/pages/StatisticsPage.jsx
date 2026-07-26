@@ -57,7 +57,16 @@ export default function StatisticsPage() {
                     <span className="font-medium text-[#184D47]">{stats.total_potentials}</span>
                   </div>
                   <div className="h-2.5 overflow-hidden rounded-full bg-neutral-100">
-                    <div className="h-full rounded-full bg-[#184D47] transition-all duration-300 ease-out" style={{ width: '100%' }} />
+                    <div className="h-full rounded-full bg-[#184D47] transition-all duration-300 ease-out" style={{ width: `${stats.total_all > 0 ? (stats.total_potentials / stats.total_all) * 100 : 0}%` }} />
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between text-[0.75rem]">
+                    <span className="text-neutral-500">Draf</span>
+                    <span className="font-medium text-amber-600">{stats.total_draft}</span>
+                  </div>
+                  <div className="h-2.5 overflow-hidden rounded-full bg-neutral-100">
+                    <div className="h-full rounded-full bg-amber-400 transition-all duration-300 ease-out" style={{ width: `${stats.total_all > 0 ? (stats.total_draft / stats.total_all) * 100 : 0}%` }} />
                   </div>
                 </div>
               </div>

@@ -4,6 +4,7 @@ import {
   updatePotential,
   deletePotential,
   togglePotentialFeatured,
+  togglePotentialStatus,
 } from '@/services/potential.service';
 import { queryKeys } from '@/lib/queryKeys';
 
@@ -46,6 +47,17 @@ export function useToggleFeatured() {
 
   return useMutation({
     mutationFn: togglePotentialFeatured,
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: queryKeys.potentials.all });
+    },
+  });
+}
+
+export function useToggleStatus() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ id, currentStatus }) => togglePotentialStatus(id, currentStatus),
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: queryKeys.potentials.all });
     },

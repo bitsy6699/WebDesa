@@ -24,6 +24,7 @@ export function CategoryForm({
     register,
     handleSubmit,
     watch,
+    setValue,
     reset,
     setError,
     clearErrors,
@@ -33,7 +34,7 @@ export function CategoryForm({
       name: initialValues?.name ?? '',
       slug: initialValues?.slug ?? '',
       description: initialValues?.description ?? '',
-      colorCode: initialValues?.colorCode ?? '',
+      colorCode: initialValues?.colorCode ?? '#184D47',
       iconKey: initialValues?.iconKey ?? '',
     },
   });
@@ -62,6 +63,7 @@ export function CategoryForm({
   const watchedName = watch('name') ?? '';
   const watchedSlug = watch('slug') ?? '';
   const watchedDescription = watch('description') ?? '';
+  const watchedColor = watch('colorCode') ?? '#184D47';
 
   const validationHint = useMemo(() => {
     return validateCategoryDraft({
@@ -110,8 +112,46 @@ export function CategoryForm({
 
       <FormSection title="Presentasi" description="Bidang ini siap untuk integrasi CRUD admin di masa mendatang.">
         <div className="grid gap-4 md:grid-cols-2">
-          <DashboardInput label="Warna" placeholder="#16A34A" {...register('colorCode')} />
-          <DashboardInput label="Ikon" placeholder="sparkles" {...register('iconKey')} />
+          <div>
+            <label htmlFor="colorCode" className="mb-1.5 block text-[0.8125rem] font-medium text-neutral-800">
+              Warna
+            </label>
+            <div className="flex gap-2">
+              <input
+                type="color"
+                value={watchedColor.match(/^#[0-9A-F]{6}$/i) ? watchedColor : '#184D47'}
+                onChange={(e) => setValue('colorCode', e.target.value)}
+                className="h-[42px] w-[42px] shrink-0 cursor-pointer rounded-xl border border-[#E8ECEA] bg-white p-1"
+              />
+              <DashboardInput
+                id="colorCode"
+                placeholder="#16A34A"
+                className="flex-1"
+                {...register('colorCode')}
+              />
+            </div>
+          </div>
+
+          <div>
+            <label htmlFor="iconKey" className="mb-1.5 block text-[0.8125rem] font-medium text-neutral-800">
+              Ikon
+            </label>
+            <select
+              id="iconKey"
+              {...register('iconKey')}
+              className="w-full rounded-xl border border-[#E8ECEA] bg-white px-3.5 py-2.5 text-[0.8125rem] text-neutral-800 outline-none transition-all duration-150 hover:border-neutral-300 focus:border-[#184D47] focus:ring-2 focus:ring-[#184D47]/20"
+            >
+              <option value="">Pilih ikon</option>
+              <option value="sprout">Sprout (Pertanian)</option>
+              <option value="store">Store (UMKM)</option>
+              <option value="compass">Compass (Wisata)</option>
+              <option value="palmtree">Palmtree (Alam)</option>
+              <option value="heart">Heart (Kesehatan)</option>
+              <option value="briefcase">Briefcase (Jasa)</option>
+              <option value="graduation-cap">GraduationCap (Pendidikan)</option>
+              <option value="sparkles">Sparkles (Lainnya)</option>
+            </select>
+          </div>
         </div>
       </FormSection>
 

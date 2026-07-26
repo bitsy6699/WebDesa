@@ -7,6 +7,8 @@ import { DashboardForm } from '@/dashboard/components/forms/DashboardForm';
 import { FormSection } from '@/dashboard/components/forms/FormSection';
 import { FormActions } from '@/dashboard/components/forms/FormActions';
 import { Alert } from '@/dashboard/components/organisms/Alert';
+import { ImagePicker } from '@/dashboard/components/molecules/ImagePicker';
+import { MapPicker } from '@/dashboard/components/molecules/MapPicker';
 import { useCategories } from '@/hooks/useCategories';
 import { useCreatePotential, useUpdatePotential } from '@/hooks/usePotentialMutations';
 
@@ -19,6 +21,8 @@ export function PotentialForm({ mode = 'create', initialData }) {
   const {
     register,
     handleSubmit,
+    setValue,
+    watch,
     formState: { errors },
   } = useForm({
     defaultValues: {
@@ -31,8 +35,18 @@ export function PotentialForm({ mode = 'create', initialData }) {
       address: initialData?.address ?? '',
       dusun: initialData?.dusun ?? '',
       is_featured: initialData?.is_featured ?? false,
+      cover_image_id: initialData?.cover_image_id ?? '',
+      gallery: initialData?.gallery ?? [],
+      contact_whatsapp: initialData?.contact?.whatsapp ?? '',
+      contact_phone: initialData?.contact?.phone ?? '',
+      contact_email: initialData?.contact?.email ?? '',
     },
   });
+
+  const coverImageId = watch('cover_image_id');
+  const gallery = watch('gallery') || [];
+  const latitude = watch('latitude');
+  const longitude = watch('longitude');
 
   useEffect(() => {
     if (createMutation.isSuccess || updateMutation.isSuccess) {
@@ -43,9 +57,25 @@ export function PotentialForm({ mode = 'create', initialData }) {
 
   const onSubmit = (data) => {
     const payload = {
-      ...data,
+      category_id: data.category_id,
+      title: data.title,
+      description: data.description,
+      status: data.status,
       latitude: Number(data.latitude),
       longitude: Number(data.longitude),
+      address: data.address,
+      dusun: data.dusun || null,
+      is_featured: data.is_featured,
+      cover_image_id: data.cover_image_id || null,
+      gallery: data.gallery || [],
+      metadata: {
+        ...(initialData?.metadata || {}),
+        contact: {
+          whatsapp: data.contact_whatsapp || null,
+          phone: data.contact_phone || null,
+          email: data.contact_email || null,
+        },
+      },
     };
 
     if (mode === 'edit' && initialData?.id) {
@@ -129,9 +159,48 @@ export function PotentialForm({ mode = 'create', initialData }) {
           error={errors.description?.message}
           {...register('description', { required: 'Deskripsi wajib diisi.' })}
         />
+
+        <div className="space-y-4 mt-6 border-t border-[#E8ECEA] pt-6">
+          <div>
+            <label className="mb-1.5 block text-[0.8125rem] font-medium text-neutral-800">
+              Foto Sampul
+            </label>
+            <ImagePicker
+              value={coverImageId}
+              onChange={(id) => setValue('cover_image_id', id)}
+              initialPreview={initialData?.cover_image_url}
+            />
+          </div>
+
+          <div>
+            <label className="mb-1.5 block text-[0.8125rem] font-medium text-neutral-800">
+              Galeri Foto (Opsional)
+            </label>
+            <ImagePicker
+              multiple
+              selectedIds={gallery}
+              onMultipleChange={(ids) => setValue('gallery', ids)}
+              initialPreviews={initialData?.gallery_details || []}
+            />
+          </div>
+        </div>
       </FormSection>
 
       <FormSection title="Lokasi" description="Koordinat dan alamat lokasi potensi.">
+        <div className="mb-4">
+          <label className="mb-1.5 block text-[0.8125rem] font-medium text-neutral-800">
+            Pilih Lokasi di Peta
+          </label>
+          <MapPicker
+            latitude={latitude}
+            longitude={longitude}
+            onChange={({ latitude: lat, longitude: lng }) => {
+              setValue('latitude', lat, { shouldValidate: true });
+              setValue('longitude', lng, { shouldValidate: true });
+            }}
+          />
+        </div>
+
         <div className="grid gap-4 md:grid-cols-2">
           <DashboardInput
             label="Latitude"
@@ -176,6 +245,30 @@ export function PotentialForm({ mode = 'create', initialData }) {
           placeholder="Nama dusun (opsional)"
           {...register('dusun')}
         />
+      </FormSection>
+
+      <FormSection title="Informasi Kontak" description="Nomor atau email yang bisa dihubungi untuk potensi ini.">
+        <div className="grid gap-4 md:grid-cols-3">
+          <DashboardInput
+            label="WhatsApp"
+            placeholder="contoh: 08123456789"
+            error={errors.contact_whatsapp?.message}
+            {...register('contact_whatsapp')}
+          />
+          <DashboardInput
+            label="Telepon"
+            placeholder="contoh: 022123456"
+            error={errors.contact_phone?.message}
+            {...register('contact_phone')}
+          />
+          <DashboardInput
+            label="Email"
+            type="email"
+            placeholder="contoh: info@karamatwangi.desa.id"
+            error={errors.contact_email?.message}
+            {...register('contact_email')}
+          />
+        </div>
       </FormSection>
 
       <FormSection title="Pengaturan" description="Fitur unggulan dan status publikasi.">

@@ -3,8 +3,10 @@ import prisma from '../config/database.js';
 export async function getSummary() {
   const where = { status: 'published', deletedAt: null };
 
-  const [totalPotentials, totalCategories] = await Promise.all([
+  const [totalPotentials, totalDraftPotentials, totalAllPotentials, totalCategories] = await Promise.all([
     prisma.potential.count({ where }),
+    prisma.potential.count({ where: { status: 'draft', deletedAt: null } }),
+    prisma.potential.count({ where: { deletedAt: null } }),
     prisma.category.count(),
   ]);
 
@@ -21,6 +23,8 @@ export async function getSummary() {
 
   return {
     total_potentials: totalPotentials,
+    total_draft: totalDraftPotentials,
+    total_all: totalAllPotentials,
     total_umkm: totalUmkm,
     total_categories: totalCategories,
     total_dusun: totalDusun,

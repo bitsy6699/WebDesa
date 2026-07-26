@@ -56,3 +56,13 @@ export async function togglePotentialFeatured(id) {
   );
   return response.data.data;
 }
+
+/** Toggle publish status between draft and published (admin). */
+export async function togglePotentialStatus(id, currentStatus) {
+  const newStatus = currentStatus === 'published' ? 'draft' : 'published';
+  const response = await api.put(
+    API_ROUTES.ADMIN_POTENTIAL(id),
+    { status: newStatus },
+  );
+  return response.data.data;
+}

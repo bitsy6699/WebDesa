@@ -63,7 +63,7 @@ export default function PotentialEditPage() {
         mode="edit"
         initialData={{
           id: potential.id,
-          category_id: '', // Will need to resolve from category slug
+          category_id: potential.category_id ?? '',
           title: potential.title,
           description: potential.description,
           status: potential.status,
@@ -72,6 +72,11 @@ export default function PotentialEditPage() {
           address: potential.location?.address ?? '',
           dusun: potential.location?.dusun ?? '',
           is_featured: potential.is_featured,
+          cover_image_id: potential.cover_image_id ?? '',
+          cover_image_url: potential.cover_image_url,
+          gallery: potential.gallery_details?.map((g) => g.id) ?? [],
+          gallery_details: potential.gallery_details ?? [],
+          contact: potential.contact ?? { whatsapp: '', phone: '', email: '' },
         }}
       />
     </div>

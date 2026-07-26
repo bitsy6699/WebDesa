@@ -76,16 +76,22 @@ export async function findBySlug(categorySlug, slug) {
 }
 
 export async function findById(id) {
-  return prisma.potential.findUnique({
+  const potential = await prisma.potential.findUnique({
     where: { id },
     include: {
-      category: true,
-      coverImage: true,
+      category: { select: { id: true, label: true, slug: true, iconKey: true, colorCode: true } },
+      coverImage: { select: { id: true, filepath: true, filename: true } },
       location: true,
-      gallery: { include: { media: true }, orderBy: { sortOrder: 'asc' } },
+      gallery: {
+        include: { media: { select: { id: true, filepath: true, filename: true } } },
+        orderBy: { sortOrder: 'asc' },
+      },
       creator: { select: { id: true, username: true } },
     },
   });
+
+  if (!potential) return null;
+  return formatPotentialDetail(potential);
 }
 
 export async function create(data, userId, ipAddress) {
@@ -136,32 +142,34 @@ export async function update(id, data, userId, ipAddress) {
   const existing = await prisma.potential.findUnique({ where: { id } });
   if (!existing) throw Object.assign(new Error('Potensi tidak ditemukan.'), { statusCode: 404 });
 
-  const slug = data.title !== existing.title
+  const slug = data.title !== undefined && data.title !== existing.title
     ? await generateSlug(data.title, id)
     : existing.slug;
 
   await prisma.$transaction(async (tx) => {
-    await tx.location.update({
-      where: { id: existing.locationId },
-      data: {
-        latitude: data.latitude,
-        longitude: data.longitude,
-        address: data.address,
-        dusun: data.dusun || null,
-      },
-    });
+    if (data.latitude !== undefined || data.longitude !== undefined || data.address !== undefined || data.dusun !== undefined) {
+      await tx.location.update({
+        where: { id: existing.locationId },
+        data: {
+          ...(data.latitude !== undefined && { latitude: data.latitude }),
+          ...(data.longitude !== undefined && { longitude: data.longitude }),
+          ...(data.address !== undefined && { address: data.address }),
+          ...(data.dusun !== undefined && { dusun: data.dusun || null }),
+        },
+      });
+    }
 
     await tx.potential.update({
       where: { id },
       data: {
-        categoryId: data.category_id,
-        title: data.title,
-        slug,
-        description: data.description,
-        status: data.status,
-        coverImageId: data.cover_image_id || null,
-        metadata: data.metadata || null,
-        isFeatured: data.is_featured ?? existing.isFeatured,
+        ...(data.category_id !== undefined && { categoryId: data.category_id }),
+        ...(data.title !== undefined && { title: data.title }),
+        ...(data.title !== undefined && { slug }),
+        ...(data.description !== undefined && { description: data.description }),
+        ...(data.status !== undefined && { status: data.status }),
+        ...(data.cover_image_id !== undefined && { coverImageId: data.cover_image_id || null }),
+        ...(data.metadata !== undefined && { metadata: data.metadata }),
+        ...(data.is_featured !== undefined && { isFeatured: data.is_featured }),
       },
     });
 
@@ -224,14 +232,22 @@ function formatPotentialSummary(p) {
 }
 
 function formatPotentialDetail(p) {
+  const metaObj = (typeof p.metadata === 'string' ? JSON.parse(p.metadata) : p.metadata) || {};
   return {
     id: p.id,
     title: p.title,
     slug: p.slug,
     description: p.description,
     category: p.category,
+    category_id: p.categoryId,
+    cover_image_id: p.coverImageId,
     cover_image_url: p.coverImage ? resolveMediaUrl(p.coverImage.filepath) : null,
     gallery: p.gallery?.map((g) => resolveMediaUrl(g.media.filepath)) || [],
+    gallery_details: p.gallery?.map((g) => ({
+      id: g.media.id,
+      filepath: resolveMediaUrl(g.media.filepath),
+      filename: g.media.filename,
+    })) || [],
     location: {
       latitude: Number(p.location.latitude),
       longitude: Number(p.location.longitude),
@@ -239,6 +255,7 @@ function formatPotentialDetail(p) {
       dusun: p.location.dusun,
     },
     metadata: p.metadata,
+    contact: metaObj.contact || null,
     is_featured: p.isFeatured,
     status: p.status,
     created_at: p.createdAt,

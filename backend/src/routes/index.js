@@ -40,6 +40,7 @@ router.put('/auth/profile', authenticate, updateProfileValidation, authControlle
 router.put('/auth/password', authenticate, updatePasswordValidation, authController.updatePassword);
 
 router.get('/admin/me', authenticate, authController.me);
+router.get('/admin/potentials/:id', authenticate, potentialController.showAdmin);
 router.post('/admin/categories', authenticate, storeCategoryValidation, categoryController.store);
 router.put('/admin/categories/:id', authenticate, updateCategoryValidation, categoryController.update);
 router.delete('/admin/categories/:id', authenticate, categoryController.destroy);

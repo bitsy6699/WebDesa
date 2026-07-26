@@ -38,6 +38,16 @@ export async function show(req, res, next) {
   }
 }
 
+export async function showAdmin(req, res, next) {
+  try {
+    const potential = await potentialService.findById(req.params.id);
+    if (!potential) return notFound(res);
+    return success(res, potential);
+  } catch (err) {
+    next(err);
+  }
+}
+
 export async function store(req, res, next) {
   try {
     const errors = validationResult(req);
