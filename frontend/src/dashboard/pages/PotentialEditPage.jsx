@@ -77,6 +77,8 @@ export default function PotentialEditPage() {
           gallery: potential.gallery_details?.map((g) => g.id) ?? [],
           gallery_details: potential.gallery_details ?? [],
           contact: potential.contact ?? { whatsapp: '', phone: '', email: '' },
+          social_media: potential.social_media ?? { tiktok: '', instagram: '', facebook: '' },
+          marketplaces: potential.marketplaces ?? { shopee: '', tokopedia: '', lazada: '' },
         }}
       />
     </div>

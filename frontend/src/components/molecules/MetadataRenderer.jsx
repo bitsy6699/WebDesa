@@ -41,7 +41,9 @@ function MetadataValue({ value }) {
 export function MetadataRenderer({ metadata, title = 'Informasi Tambahan', className }) {
   if (!metadata) return null;
 
-  const entries = Object.entries(metadata).filter(([, v]) => v !== null && v !== '' && v !== undefined);
+  const entries = Object.entries(metadata).filter(
+    ([key, v]) => v !== null && v !== '' && v !== undefined && typeof v !== 'object'
+  );
   if (entries.length === 0) return null;
 
   return (

@@ -40,6 +40,12 @@ export function PotentialForm({ mode = 'create', initialData }) {
       contact_whatsapp: initialData?.contact?.whatsapp ?? '',
       contact_phone: initialData?.contact?.phone ?? '',
       contact_email: initialData?.contact?.email ?? '',
+      social_tiktok: initialData?.social_media?.tiktok ?? '',
+      social_instagram: initialData?.social_media?.instagram ?? '',
+      social_facebook: initialData?.social_media?.facebook ?? '',
+      market_shopee: initialData?.marketplaces?.shopee ?? '',
+      market_tokopedia: initialData?.marketplaces?.tokopedia ?? '',
+      market_lazada: initialData?.marketplaces?.lazada ?? '',
     },
   });
 
@@ -74,6 +80,16 @@ export function PotentialForm({ mode = 'create', initialData }) {
           whatsapp: data.contact_whatsapp || null,
           phone: data.contact_phone || null,
           email: data.contact_email || null,
+        },
+        social_media: {
+          tiktok: data.social_tiktok || null,
+          instagram: data.social_instagram || null,
+          facebook: data.social_facebook || null,
+        },
+        marketplaces: {
+          shopee: data.market_shopee || null,
+          tokopedia: data.market_tokopedia || null,
+          lazada: data.market_lazada || null,
         },
       },
     };
@@ -271,7 +287,28 @@ export function PotentialForm({ mode = 'create', initialData }) {
         </div>
       </FormSection>
 
-      <FormSection title="Pengaturan" description="Fitur unggulan dan status publikasi.">
+      <FormSection title="Tautan" description="Link media sosial dan marketplace.">
+        <div className="grid gap-6 md:grid-cols-2">
+          <div className="space-y-4">
+            <h4 className="text-[0.8125rem] font-semibold text-neutral-800">Media Sosial</h4>
+            <div className="grid gap-4">
+              <DashboardInput label="TikTok" placeholder="https://tiktok.com/@username" {...register('social_tiktok')} />
+              <DashboardInput label="Instagram" placeholder="https://instagram.com/username" {...register('social_instagram')} />
+              <DashboardInput label="Facebook" placeholder="https://facebook.com/username" {...register('social_facebook')} />
+            </div>
+          </div>
+          <div className="space-y-4">
+            <h4 className="text-[0.8125rem] font-semibold text-neutral-800">Marketplace</h4>
+            <div className="grid gap-4">
+              <DashboardInput label="Shopee" placeholder="https://shopee.co.id/username" {...register('market_shopee')} />
+              <DashboardInput label="Tokopedia" placeholder="https://tokopedia.com/username" {...register('market_tokopedia')} />
+              <DashboardInput label="Lazada" placeholder="https://lazada.co.id/username" {...register('market_lazada')} />
+            </div>
+          </div>
+        </div>
+      </FormSection>
+
+      <FormSection title="Pengaturan" description="Fiturunggulan dan status publikasi.">
         <label className="flex items-center gap-3">
           <input
             type="checkbox"

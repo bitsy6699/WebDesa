@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, Pencil, Trash2, Star, StarOff } from 'lucide-react';
+import { ArrowLeft, Pencil, Trash2, Star, StarOff, ExternalLink } from 'lucide-react';
 import { PageHeader } from '@/dashboard/components/molecules/PageHeader';
 import { DashboardButton } from '@/dashboard/components/atoms/DashboardButton';
 import { DashboardBadge } from '@/dashboard/components/atoms/DashboardBadge';
@@ -154,15 +154,91 @@ export function PotentialDetailPage({ potential }) {
             </DashboardCard>
           )}
 
+          {potential.social_media && Object.values(potential.social_media).some(Boolean) && (
+            <DashboardCard title="Media Sosial">
+              <dl className="space-y-3 text-[0.8125rem]">
+                {potential.social_media.tiktok && (
+                  <div className="flex justify-between items-center">
+                    <dt className="text-neutral-500">TikTok</dt>
+                    <dd className="font-medium">
+                      <a href={potential.social_media.tiktok} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-[#184D47] hover:underline">
+                        Buka TikTok <ExternalLink className="h-3 w-3" />
+                      </a>
+                    </dd>
+                  </div>
+                )}
+                {potential.social_media.instagram && (
+                  <div className="flex justify-between items-center">
+                    <dt className="text-neutral-500">Instagram</dt>
+                    <dd className="font-medium">
+                      <a href={potential.social_media.instagram} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-[#184D47] hover:underline">
+                        Buka Instagram <ExternalLink className="h-3 w-3" />
+                      </a>
+                    </dd>
+                  </div>
+                )}
+                {potential.social_media.facebook && (
+                  <div className="flex justify-between items-center">
+                    <dt className="text-neutral-500">Facebook</dt>
+                    <dd className="font-medium">
+                      <a href={potential.social_media.facebook} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-[#184D47] hover:underline">
+                        Buka Facebook <ExternalLink className="h-3 w-3" />
+                      </a>
+                    </dd>
+                  </div>
+                )}
+              </dl>
+            </DashboardCard>
+          )}
+
+          {potential.marketplaces && Object.values(potential.marketplaces).some(Boolean) && (
+            <DashboardCard title="Marketplace">
+              <dl className="space-y-3 text-[0.8125rem]">
+                {potential.marketplaces.shopee && (
+                  <div className="flex justify-between items-center">
+                    <dt className="text-neutral-500">Shopee</dt>
+                    <dd className="font-medium">
+                      <a href={potential.marketplaces.shopee} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-[#184D47] hover:underline">
+                        Beli di Shopee <ExternalLink className="h-3 w-3" />
+                      </a>
+                    </dd>
+                  </div>
+                )}
+                {potential.marketplaces.tokopedia && (
+                  <div className="flex justify-between items-center">
+                    <dt className="text-neutral-500">Tokopedia</dt>
+                    <dd className="font-medium">
+                      <a href={potential.marketplaces.tokopedia} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-[#184D47] hover:underline">
+                        Beli di Tokopedia <ExternalLink className="h-3 w-3" />
+                      </a>
+                    </dd>
+                  </div>
+                )}
+                {potential.marketplaces.lazada && (
+                  <div className="flex justify-between items-center">
+                    <dt className="text-neutral-500">Lazada</dt>
+                    <dd className="font-medium">
+                      <a href={potential.marketplaces.lazada} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-[#184D47] hover:underline">
+                        Beli di Lazada <ExternalLink className="h-3 w-3" />
+                      </a>
+                    </dd>
+                  </div>
+                )}
+              </dl>
+            </DashboardCard>
+          )}
+
           {potential.metadata && Object.keys(potential.metadata).length > 0 && (
             <DashboardCard title="Metadata">
               <dl className="space-y-3 text-[0.8125rem]">
-                {Object.entries(potential.metadata).map(([key, value]) => (
-                  <div key={key} className="flex justify-between">
-                    <dt className="text-neutral-500">{key}</dt>
-                    <dd className="font-medium text-neutral-800">{String(value)}</dd>
-                  </div>
-                ))}
+                {Object.entries(potential.metadata)
+                  .filter(([key]) => !['contact', 'social_media', 'marketplaces'].includes(key))
+                  .map(([key, value]) => (
+                    <div key={key} className="flex justify-between">
+                      <dt className="text-neutral-500">{key}</dt>
+                      <dd className="font-medium text-neutral-800">{String(value)}</dd>
+                    </div>
+                  ))}
               </dl>
             </DashboardCard>
           )}

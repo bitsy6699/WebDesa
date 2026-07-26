@@ -256,6 +256,8 @@ function formatPotentialDetail(p) {
     },
     metadata: p.metadata,
     contact: metaObj.contact || null,
+    social_media: metaObj.social_media || null,
+    marketplaces: metaObj.marketplaces || null,
     is_featured: p.isFeatured,
     status: p.status,
     created_at: p.createdAt,

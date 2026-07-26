@@ -365,7 +365,7 @@ export default function PotentialDetail() {
     );
   }
 
-  const { title, description, category: cat, cover_image_url, gallery = [], location, metadata, created_at } = potential;
+  const { title, description, category: cat, cover_image_url, gallery = [], location, metadata, contact, social_media, marketplaces, created_at } = potential;
   const allImages = [cover_image_url, ...gallery].filter(Boolean);
   const relatedItems = (relatedData?.data ?? []).filter((p) => p.id !== potential.id).slice(0, 3);
   const readTime = estimateReadTime(description);
@@ -487,12 +487,148 @@ export default function PotentialDetail() {
           </motion.div>
         )}
 
+        {/* ─── 5.5 CONTACTS ────────────────────────────────────────── */}
+        {contact && (Object.values(contact).some(Boolean)) && (
+          <motion.div
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.15 }}
+            className="mb-14 pt-10 border-t border-primary/8"
+          >
+            <h2 className="font-heading text-xl font-bold text-primary-dark mb-4">Kontak</h2>
+            <dl className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {contact.whatsapp && (
+                <div className="rounded-[24px] border border-neutral-200 bg-white p-5 space-y-1.5 shadow-sm">
+                  <dt className="text-xs font-semibold uppercase tracking-wider text-neutral-400">WhatsApp</dt>
+                  <dd className="font-medium">
+                    <a href={`https://wa.me/${contact.whatsapp}`} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-[#184D47] hover:underline">
+                      {contact.whatsapp} <ExternalLink className="h-3 w-3" />
+                    </a>
+                  </dd>
+                </div>
+              )}
+              {contact.phone && (
+                <div className="rounded-[24px] border border-neutral-200 bg-white p-5 space-y-1.5 shadow-sm">
+                  <dt className="text-xs font-semibold uppercase tracking-wider text-neutral-400">Telepon</dt>
+                  <dd className="font-medium">
+                    <a href={`tel:${contact.phone}`} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-[#184D47] hover:underline">
+                      {contact.phone} <ExternalLink className="h-3 w-3" />
+                    </a>
+                  </dd>
+                </div>
+              )}
+              {contact.email && (
+                <div className="rounded-[24px] border border-neutral-200 bg-white p-5 space-y-1.5 shadow-sm">
+                  <dt className="text-xs font-semibold uppercase tracking-wider text-neutral-400">Email</dt>
+                  <dd className="font-medium">
+                    <a href={`mailto:${contact.email}`} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-[#184D47] hover:underline">
+                      {contact.email} <ExternalLink className="h-3 w-3" />
+                    </a>
+                  </dd>
+                </div>
+              )}
+            </dl>
+          </motion.div>
+        )}
+
+        {/* ─── 5.6 SOCIAL MEDIA ────────────────────────────────────── */}
+        {social_media && (Object.values(social_media).some(Boolean)) && (
+          <motion.div
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.15 }}
+            className="mb-14 pt-10 border-t border-primary/8"
+          >
+            <h2 className="font-heading text-xl font-bold text-primary-dark mb-4">Media Sosial</h2>
+            <dl className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {social_media.tiktok && (
+                <div className="rounded-[24px] border border-neutral-200 bg-white p-5 space-y-1.5 shadow-sm">
+                  <dt className="text-xs font-semibold uppercase tracking-wider text-neutral-400">TikTok</dt>
+                  <dd className="font-medium">
+                    <a href={social_media.tiktok} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-[#184D47] hover:underline">
+                      Buka TikTok <ExternalLink className="h-3 w-3" />
+                    </a>
+                  </dd>
+                </div>
+              )}
+              {social_media.instagram && (
+                <div className="rounded-[24px] border border-neutral-200 bg-white p-5 space-y-1.5 shadow-sm">
+                  <dt className="text-xs font-semibold uppercase tracking-wider text-neutral-400">Instagram</dt>
+                  <dd className="font-medium">
+                    <a href={social_media.instagram} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-[#184D47] hover:underline">
+                      Buka Instagram <ExternalLink className="h-3 w-3" />
+                    </a>
+                  </dd>
+                </div>
+              )}
+              {social_media.facebook && (
+                <div className="rounded-[24px] border border-neutral-200 bg-white p-5 space-y-1.5 shadow-sm">
+                  <dt className="text-xs font-semibold uppercase tracking-wider text-neutral-400">Facebook</dt>
+                  <dd className="font-medium">
+                    <a href={social_media.facebook} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-[#184D47] hover:underline">
+                      Buka Facebook <ExternalLink className="h-3 w-3" />
+                    </a>
+                  </dd>
+                </div>
+              )}
+            </dl>
+          </motion.div>
+        )}
+
+        {/* ─── 5.7 MARKETPLACES ────────────────────────────────────── */}
+        {marketplaces && (Object.values(marketplaces).some(Boolean)) && (
+          <motion.div
+            variants={fadeUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.15 }}
+            className="mb-14 pt-10 border-t border-primary/8"
+          >
+            <h2 className="font-heading text-xl font-bold text-primary-dark mb-4">Marketplace</h2>
+            <dl className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {marketplaces.shopee && (
+                <div className="rounded-[24px] border border-neutral-200 bg-white p-5 space-y-1.5 shadow-sm">
+                  <dt className="text-xs font-semibold uppercase tracking-wider text-neutral-400">Shopee</dt>
+                  <dd className="font-medium">
+                    <a href={marketplaces.shopee} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-[#184D47] hover:underline">
+                      Beli di Shopee <ExternalLink className="h-3 w-3" />
+                    </a>
+                  </dd>
+                </div>
+              )}
+              {marketplaces.tokopedia && (
+                <div className="rounded-[24px] border border-neutral-200 bg-white p-5 space-y-1.5 shadow-sm">
+                  <dt className="text-xs font-semibold uppercase tracking-wider text-neutral-400">Tokopedia</dt>
+                  <dd className="font-medium">
+                    <a href={marketplaces.tokopedia} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-[#184D47] hover:underline">
+                      Beli di Tokopedia <ExternalLink className="h-3 w-3" />
+                    </a>
+                  </dd>
+                </div>
+              )}
+              {marketplaces.lazada && (
+                <div className="rounded-[24px] border border-neutral-200 bg-white p-5 space-y-1.5 shadow-sm">
+                  <dt className="text-xs font-semibold uppercase tracking-wider text-neutral-400">Lazada</dt>
+                  <dd className="font-medium">
+                    <a href={marketplaces.lazada} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-[#184D47] hover:underline">
+                      Beli di Lazada <ExternalLink className="h-3 w-3" />
+                    </a>
+                  </dd>
+                </div>
+              )}
+            </dl>
+          </motion.div>
+        )}
+
         {/* ─── 6. INTERESTING FACTS ────────────────────────────────── */}
         {metadata && (
           <div className="mb-14">
             <InterestingFacts metadata={metadata} />
           </div>
         )}
+
 
         {/* ─── 7. LOCATION ─────────────────────────────────────────── */}
         {hasLocation && (
