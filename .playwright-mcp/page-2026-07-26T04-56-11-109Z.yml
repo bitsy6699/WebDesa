@@ -1,0 +1,99 @@
+- generic [ref=e28]:
+  - link "Loncat ke konten utama" [ref=e29] [cursor=pointer]:
+    - /url: "#main-content"
+  - complementary [ref=e30]:
+    - generic [ref=e31]:
+      - link "Desa Admin Karamatwangi" [ref=e32] [cursor=pointer]:
+        - /url: /dashboard/overview
+        - generic [ref=e38]:
+          - generic [ref=e39]: Desa Admin
+          - generic [ref=e40]: Karamatwangi
+      - button "Ciutkan sidebar" [ref=e41]
+    - navigation "Navigasi dashboard" [ref=e45]:
+      - navigation "Navigasi dashboard" [ref=e46]:
+        - list [ref=e47]:
+          - listitem [ref=e48]:
+            - generic [ref=e49]: Workspace
+            - list [ref=e50]:
+              - listitem [ref=e51] [cursor=pointer]:
+                - generic [ref=e53]: Ringkasan
+              - listitem [ref=e62] [cursor=pointer]:
+                - generic [ref=e64]: Statistik
+              - listitem [ref=e70] [cursor=pointer]:
+                - generic [ref=e72]: Aktivitas
+          - listitem [ref=e79]:
+            - generic [ref=e80]: Konten
+            - list [ref=e81]:
+              - listitem [ref=e82] [cursor=pointer]:
+                - generic [ref=e84]: Potensi
+              - listitem [ref=e91] [cursor=pointer]:
+                - generic [ref=e93]: Kategori
+              - listitem [ref=e102] [cursor=pointer]:
+                - generic [ref=e104]: Media
+          - listitem [ref=e112]:
+            - generic [ref=e113]: Sistem
+            - list [ref=e114]:
+              - listitem [ref=e115] [cursor=pointer]:
+                - generic [ref=e117]: Pengaturan
+    - generic [ref=e125]:
+      - generic [ref=e126]: A
+      - generic [ref=e127]:
+        - paragraph [ref=e128]: admin
+        - generic [ref=e129]: Online
+  - generic [ref=e132]:
+    - banner [ref=e133]:
+      - navigation "Breadcrumb" [ref=e136]:
+        - link "Dashboard" [ref=e137] [cursor=pointer]:
+          - /url: /dashboard
+        - link "Dashboard" [ref=e144] [cursor=pointer]:
+          - /url: /dashboard
+        - generic [ref=e145]: Ringkasan
+      - generic [ref=e149]:
+        - button "Cari... ⌘K" [ref=e150]:
+          - generic [ref=e154]: Cari...
+          - generic [ref=e155]: ⌘K
+        - button "Notifikasi" [ref=e156]
+        - button "A admin" [ref=e162]:
+          - generic [ref=e163]: A
+          - generic [ref=e164]: admin
+    - main [ref=e167]:
+      - generic [ref=e169]:
+        - generic [ref=e170]:
+          - generic [ref=e171]:
+            - heading "Selamat Datang, admin" [level=1] [ref=e172]
+            - paragraph [ref=e173]: Berikut ringkasan data potensi desa Karamatwangi hari ini.
+          - generic [ref=e174]:
+            - generic [ref=e175]: Minggu, 26 Juli 2026
+            - generic [ref=e176]: Sesi aktif
+        - region "Statistik ringkasan" [ref=e178]
+        - generic [ref=e207]:
+          - generic [ref=e208]:
+            - heading "Aksi Cepat" [level=2] [ref=e210]
+            - generic [ref=e211]:
+              - button "Tambah Potensi" [ref=e212]:
+                - generic [ref=e215]:
+                  - heading "Tambah Potensi" [level=3] [ref=e216]
+                  - paragraph [ref=e217]: Buat entri baru.
+              - button "Kelola Kategori" [ref=e218]:
+                - generic [ref=e225]:
+                  - heading "Kelola Kategori" [level=3] [ref=e226]
+                  - paragraph [ref=e227]: Atur taksonomi.
+              - button "Upload Media" [ref=e228]:
+                - generic [ref=e234]:
+                  - heading "Upload Media" [level=3] [ref=e235]
+                  - paragraph [ref=e236]: Tambah gambar.
+              - button "Statistik" [ref=e237]:
+                - generic [ref=e241]:
+                  - heading "Statistik" [level=3] [ref=e242]
+                  - paragraph [ref=e243]: Pantau performa.
+              - button "Data UMKM" [ref=e244]:
+                - generic [ref=e250]:
+                  - heading "Data UMKM" [level=3] [ref=e251]
+                  - paragraph [ref=e252]: Usaha mikro desa.
+              - button "Peta Desa" [ref=e253]:
+                - generic [ref=e258]:
+                  - heading "Peta Desa" [level=3] [ref=e259]
+                  - paragraph [ref=e260]: Distribusi potensi.
+          - generic [ref=e261]:
+            - heading "Progres Publikasi" [level=2] [ref=e263]
+            - paragraph [ref=e264]: Memuat data...

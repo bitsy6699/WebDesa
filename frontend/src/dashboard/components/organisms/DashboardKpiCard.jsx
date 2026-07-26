@@ -22,7 +22,7 @@ export function DashboardKpiCard({ icon, title, value, helperText, trend, classN
       </div>
       <div className="mt-3">
         <p className="text-[0.75rem] text-neutral-500">{title}</p>
-        <p className="mt-0.5 text-[1.5rem] font-bold tracking-tight text-neutral-900 leading-none">{value}</p>
+        <p className="mt-0.5 text-[1.25rem] md:text-[1.5rem] font-bold tracking-tight text-neutral-900 leading-none">{value}</p>
       </div>
       {helperText && (
         <div className="mt-auto pt-3">

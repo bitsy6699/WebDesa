@@ -1,0 +1,123 @@
+- generic [ref=e28]:
+  - link "Loncat ke konten utama" [ref=e29] [cursor=pointer]:
+    - /url: "#main-content"
+  - generic [ref=e132]:
+    - banner [ref=e133]:
+      - button "Buka navigasi" [active] [ref=e340]
+      - generic [ref=e149]:
+        - button "Notifikasi" [ref=e156]
+        - button "A" [ref=e342]
+    - main [ref=e167]:
+      - generic [ref=e169]:
+        - generic [ref=e170]:
+          - generic [ref=e171]:
+            - heading "Selamat Datang, admin" [level=1] [ref=e172]
+            - paragraph [ref=e173]: Berikut ringkasan data potensi desa Karamatwangi hari ini.
+            - generic [ref=e265]:
+              - generic [ref=e266]:
+                - strong [ref=e267]: "0"
+                - text: Potensi
+              - generic [ref=e268]:
+                - strong [ref=e269]: "0"
+                - text: UMKM
+              - generic [ref=e270]:
+                - strong [ref=e271]: "0"
+                - text: Kategori
+          - generic [ref=e174]:
+            - generic [ref=e175]: Minggu, 26 Juli 2026
+            - generic [ref=e176]: Sesi aktif
+        - region "Statistik ringkasan" [ref=e178]:
+          - article [ref=e272]:
+            - generic [ref=e280]:
+              - paragraph [ref=e281]: Total Potensi
+              - paragraph [ref=e282]: "0"
+            - paragraph [ref=e284]: Semua potensi desa
+          - article [ref=e285]:
+            - generic [ref=e292]:
+              - paragraph [ref=e293]: UMKM
+              - paragraph [ref=e294]: "0"
+            - paragraph [ref=e296]: Usaha mikro, kecil, menengah
+          - article [ref=e297]:
+            - generic [ref=e305]:
+              - paragraph [ref=e306]: Kategori
+              - paragraph [ref=e307]: "0"
+            - paragraph [ref=e309]: Kelompok konten
+          - article [ref=e310]:
+            - generic [ref=e316]:
+              - paragraph [ref=e317]: Dusun
+              - paragraph [ref=e318]: "0"
+            - paragraph [ref=e320]: Wilayah administratif
+        - generic [ref=e207]:
+          - generic [ref=e208]:
+            - heading "Aksi Cepat" [level=2] [ref=e210]
+            - generic [ref=e211]:
+              - button "Tambah Potensi" [ref=e212]:
+                - generic [ref=e215]:
+                  - heading "Tambah Potensi" [level=3] [ref=e216]
+                  - paragraph [ref=e217]: Buat entri baru.
+              - button "Kelola Kategori" [ref=e218]:
+                - generic [ref=e225]:
+                  - heading "Kelola Kategori" [level=3] [ref=e226]
+                  - paragraph [ref=e227]: Atur taksonomi.
+              - button "Upload Media" [ref=e228]:
+                - generic [ref=e234]:
+                  - heading "Upload Media" [level=3] [ref=e235]
+                  - paragraph [ref=e236]: Tambah gambar.
+              - button "Statistik" [ref=e237]:
+                - generic [ref=e241]:
+                  - heading "Statistik" [level=3] [ref=e242]
+                  - paragraph [ref=e243]: Pantau performa.
+              - button "Data UMKM" [ref=e244]:
+                - generic [ref=e250]:
+                  - heading "Data UMKM" [level=3] [ref=e251]
+                  - paragraph [ref=e252]: Usaha mikro desa.
+              - button "Peta Desa" [ref=e253]:
+                - generic [ref=e258]:
+                  - heading "Peta Desa" [level=3] [ref=e259]
+                  - paragraph [ref=e260]: Distribusi potensi.
+          - generic [ref=e261]:
+            - heading "Progres Publikasi" [level=2] [ref=e263]
+            - generic [ref=e321]:
+              - generic [ref=e323]:
+                - generic [ref=e324]: Published
+                - generic [ref=e325]: 0/1
+              - generic [ref=e329]:
+                - generic [ref=e330]: Draf
+                - generic [ref=e331]: 0/1
+              - generic [ref=e335]:
+                - generic [ref=e336]: UMKM
+                - generic [ref=e337]: 0/1
+  - dialog "Navigasi mobile" [ref=e344]:
+    - generic [ref=e345]:
+      - link "Desa Admin Karamatwangi" [ref=e346] [cursor=pointer]:
+        - /url: /dashboard/overview
+        - generic [ref=e351]:
+          - generic [ref=e352]: Desa Admin
+          - generic [ref=e353]: Karamatwangi
+      - button "Tutup navigasi" [ref=e354]
+    - navigation "Navigasi mobile" [ref=e358]:
+      - navigation "Navigasi dashboard" [ref=e359]:
+        - list [ref=e360]:
+          - listitem [ref=e361]:
+            - generic [ref=e362]: Workspace
+            - list [ref=e363]:
+              - listitem [ref=e364] [cursor=pointer]:
+                - generic [ref=e366]: Ringkasan
+              - listitem [ref=e375] [cursor=pointer]:
+                - generic [ref=e377]: Statistik
+              - listitem [ref=e383] [cursor=pointer]:
+                - generic [ref=e385]: Aktivitas
+          - listitem [ref=e392]:
+            - generic [ref=e393]: Konten
+            - list [ref=e394]:
+              - listitem [ref=e395] [cursor=pointer]:
+                - generic [ref=e397]: Potensi
+              - listitem [ref=e404] [cursor=pointer]:
+                - generic [ref=e406]: Kategori
+              - listitem [ref=e415] [cursor=pointer]:
+                - generic [ref=e417]: Media
+          - listitem [ref=e425]:
+            - generic [ref=e426]: Sistem
+            - list [ref=e427]:
+              - listitem [ref=e428] [cursor=pointer]:
+                - generic [ref=e430]: Pengaturan

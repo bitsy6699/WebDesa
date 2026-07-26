@@ -27,7 +27,7 @@ export const Topbar = memo(function Topbar({ onOpenMobileMenu }) {
   }, [location.pathname]);
 
   return (
-    <header className="sticky top-0 z-20 flex h-[72px] shrink-0 items-center justify-between border-b border-black/[.06] bg-white px-6 max-md:px-4 max-sm:px-3">
+    <header className="sticky top-0 z-20 flex h-[56px] md:h-[72px] shrink-0 items-center justify-between border-b border-black/[.06] bg-white px-4 sm:px-6 max-md:px-4 max-sm:px-3">
       {/* Left */}
       <div className="flex min-w-0 items-center gap-3">
         <button

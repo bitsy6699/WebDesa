@@ -78,7 +78,7 @@ export default function OverviewPage() {
       {/* Quick Actions + Publishing — 2-col */}
       <section className="grid gap-4 lg:grid-cols-[1.1fr_0.9fr]">
         <DashboardCard title="Aksi Cepat">
-          <div className="grid gap-2.5 sm:grid-cols-2">
+          <div className="grid gap-2.5 grid-cols-1 sm:grid-cols-2">
             {quickActions.map((action) => (
               <QuickActionCard key={action.title} {...action} />
             ))}
