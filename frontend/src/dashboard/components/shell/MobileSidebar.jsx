@@ -64,6 +64,14 @@ export const MobileSidebar = memo(function MobileSidebar({ open, onClose }) {
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex h-[60px] shrink-0 items-center justify-between border-b border-black/[.06] px-4">
+              <button
+                type="button"
+                onClick={onClose}
+                className="flex h-7 w-7 items-center justify-center rounded-md text-neutral-500 transition-colors hover:bg-neutral-100"
+                aria-label="Tutup navigasi"
+              >
+                <X className="h-4 w-4" />
+              </button>
               <Link to="/dashboard/overview" className="flex items-center gap-2.5" onClick={onClose}>
                 <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#184D47] text-white">
                   <Sprout className="h-4 w-4" />
@@ -73,14 +81,6 @@ export const MobileSidebar = memo(function MobileSidebar({ open, onClose }) {
                   <span className="text-[0.625rem] text-neutral-400 leading-tight">Karamatwangi</span>
                 </div>
               </Link>
-              <button
-                type="button"
-                onClick={onClose}
-                className="flex h-7 w-7 items-center justify-center rounded-md text-neutral-500 transition-colors hover:bg-neutral-100"
-                aria-label="Tutup navigasi"
-              >
-                <X className="h-4 w-4" />
-              </button>
             </div>
 
             <nav className="flex-1 overflow-y-auto overflow-x-hidden px-2.5 py-3" aria-label="Navigasi mobile">
