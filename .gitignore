@@ -46,3 +46,4 @@ bahan/
 # Playwright / screenshots
 .playwright-mcp/
 dashboard-*.png
+mobile-*.png
