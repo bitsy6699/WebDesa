@@ -28,6 +28,7 @@ import {
   DashboardSettingsPage,
   FeatureShowcaseDemo,
 } from './routeModules';
+import DashboardMapPage from '@/dashboard/pages/MapPage';
 
 const router = createBrowserRouter([
   {
@@ -61,6 +62,7 @@ const router = createBrowserRouter([
           { path: '/dashboard/statistics', element: <DashboardStatisticsPage /> },
           { path: '/dashboard/activity', element: <DashboardActivityPage /> },
           { path: '/dashboard/settings', element: <DashboardSettingsPage /> },
+          { path: '/dashboard/map', element: <DashboardMapPage /> },
         ],
       },
     ],

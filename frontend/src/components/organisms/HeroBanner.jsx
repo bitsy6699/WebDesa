@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion';
-import { MapPin, Compass, Map } from 'lucide-react';
+import { MapPin, Map } from 'lucide-react';
 import { MagneticButton } from '@/components/atoms/MagneticButton';
 import { HERO_1 } from '@/lib/imageCompositions';
 
@@ -154,14 +154,7 @@ export function HeroBanner({ title, description, image }) {
             initial="hidden"
             animate="visible"
           >
-            <MagneticButton as={Link} to="/potentials" strength={0.2}
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 font-semibold transition-all duration-200 text-white bg-primary hover:bg-primary-dark rounded-full h-12 px-7 text-[15px] shadow-[0_4px_20px_rgba(15,61,52,0.3)] focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
-            >
-              <Compass className="w-4 h-4" aria-hidden="true" />
-              Jelajahi Desa
-            </MagneticButton>
-
-            <MagneticButton as={Link} to="/map" strength={0.2}
+            <MagneticButton as={Link} to="/dashboard/map" strength={0.2}
               className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 font-semibold transition-all duration-200 text-white/90 hover:text-white rounded-full h-12 px-7 text-[15px] border border-white/20 hover:border-white/35 bg-white/8 hover:bg-white/16 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
             >
               <Map className="w-4 h-4" aria-hidden="true" />
