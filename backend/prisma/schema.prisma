@@ -21,13 +21,14 @@ model User {
 }
 
 model Category {
-  id        String   @id @default(uuid())
-  label     String   @unique @db.VarChar(50)
-  slug      String   @unique @db.VarChar(50)
-  iconKey   String?  @map("icon_key") @db.VarChar(50)
-  colorCode String?  @map("color_code") @db.VarChar(7)
-  createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @updatedAt @map("updated_at")
+  id          String   @id @default(uuid())
+  label       String   @unique @db.VarChar(50)
+  slug        String   @unique @db.VarChar(50)
+  description String?  @db.Text
+  iconKey     String?  @map("icon_key") @db.VarChar(50)
+  colorCode   String?  @map("color_code") @db.VarChar(7)
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
 
   schema   CategorySchema?
   potentials Potential[]
