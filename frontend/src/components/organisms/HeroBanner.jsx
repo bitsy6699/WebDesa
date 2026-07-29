@@ -1,8 +1,6 @@
 import { useRef } from 'react';
-import { Link } from 'react-router-dom';
 import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion';
-import { MapPin, Map } from 'lucide-react';
-import { MagneticButton } from '@/components/atoms/MagneticButton';
+import { MapPin } from 'lucide-react';
 import { HERO_1 } from '@/lib/imageCompositions';
 
 const TITLE_LINE_1 = 'Desa';
@@ -148,19 +146,7 @@ export function HeroBanner({ title, description, image }) {
               'Selamat datang di portal digital Desa Karamatwangi. Jelajahi keindahan alam, potensi pertanian, UMKM lokal, dan destinasi wisata yang tersembunyi di dataran tinggi Garut.'}
           </motion.p>
 
-          <motion.div
-            className="mt-10 flex flex-col sm:flex-row gap-3.5 w-full sm:w-auto"
-            variants={stag(4)}
-            initial="hidden"
-            animate="visible"
-          >
-            <MagneticButton as={Link} to="/map" strength={0.2}
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 font-semibold transition-all duration-200 text-white/90 hover:text-white rounded-full h-12 px-7 text-[15px] border border-white/20 hover:border-white/35 bg-white/8 hover:bg-white/16 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
-            >
-              <Map className="w-4 h-4" aria-hidden="true" />
-              Lihat Peta
-            </MagneticButton>
-          </motion.div>
+
         </div>
       </motion.div>
 
