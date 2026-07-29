@@ -1,4 +1,5 @@
-import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
+import { useEffect } from 'react';
+import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import { Link } from 'react-router-dom';
 import { getCategoryColor } from '@/components/map/constants';
@@ -6,9 +7,6 @@ import { getCategoryColor } from '@/components/map/constants';
 import 'leaflet/dist/leaflet.css';
 import '@/components/map/leaflet-fix';
 
-/**
- * Creates a small DivIcon marker.
- */
 function createIcon(categorySlug) {
   const color = getCategoryColor(categorySlug);
   return L.divIcon({
@@ -20,9 +18,16 @@ function createIcon(categorySlug) {
   });
 }
 
-/**
- * MapPreviewMap — Static read-only Leaflet map for the homepage preview.
- */
+function FitBounds({ markers }) {
+  const map = useMap();
+  useEffect(() => {
+    if (markers.length === 0) return;
+    const bounds = L.latLngBounds(markers.map((m) => [m.lat, m.lng]));
+    map.fitBounds(bounds, { padding: [40, 40], maxZoom: 14 });
+  }, [map, markers]);
+  return null;
+}
+
 export default function MapPreviewMap({ markers, center, zoom }) {
   return (
     <MapContainer
@@ -36,6 +41,7 @@ export default function MapPreviewMap({ markers, center, zoom }) {
       style={{ height: 320 }}
     >
       <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
+      <FitBounds markers={markers} />
       {markers.map((m) => (
         <Marker key={m.id} position={[m.lat, m.lng]} icon={createIcon(m.category?.slug)}>
           <Popup maxWidth={200}>

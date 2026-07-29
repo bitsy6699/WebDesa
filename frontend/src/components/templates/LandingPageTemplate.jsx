@@ -34,10 +34,10 @@ export function LandingPageTemplate({
         {categories}
       </section>
 
-      <section id="chapter-4">
+      <div id="chapter-4">
         {mapPreview}
         {statistics}
-      </section>
+      </div>
 
       <section id="chapter-5">
         {news}
