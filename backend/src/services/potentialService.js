@@ -219,12 +219,12 @@ function formatPotentialSummary(p) {
     category: p.category,
     short_description: p.description?.substring(0, 120) + (p.description?.length > 120 ? '...' : ''),
     cover_image_url: p.coverImage ? resolveMediaUrl(p.coverImage.filepath) : null,
-    location: {
+    location: p.location ? {
       latitude: Number(p.location.latitude),
       longitude: Number(p.location.longitude),
       address: p.location.address,
       dusun: p.location.dusun,
-    },
+    } : null,
     is_featured: p.isFeatured,
     status: p.status,
     created_at: p.createdAt,
@@ -248,12 +248,12 @@ function formatPotentialDetail(p) {
       filepath: resolveMediaUrl(g.media.filepath),
       filename: g.media.filename,
     })) || [],
-    location: {
+    location: p.location ? {
       latitude: Number(p.location.latitude),
       longitude: Number(p.location.longitude),
       address: p.location.address,
       dusun: p.location.dusun,
-    },
+    } : null,
     metadata: p.metadata,
     contact: metaObj.contact || null,
     social_media: metaObj.social_media || null,
