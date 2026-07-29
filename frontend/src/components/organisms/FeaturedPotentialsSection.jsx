@@ -33,21 +33,25 @@ export function FeaturedPotentialsSection({ id, potentials, isLoading = false })
       id={id}
       className="relative overflow-hidden"
       style={{
-        background: 'var(--bg-surface-alt)',
         paddingTop: 'clamp(80px, 10vw, 120px)',
         paddingBottom: 'clamp(72px, 8vw, 104px)',
       }}
       aria-label="Potensi unggulan desa"
     >
       <div
-        className="absolute top-0 right-0 w-1/3 h-full pointer-events-none opacity-[0.03]"
+        className="absolute inset-0 pointer-events-none"
         aria-hidden="true"
         style={{
           backgroundImage: `url(${HERO_1})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
+          backgroundAttachment: prefersReducedMotion ? 'scroll' : 'fixed',
+          filter: 'blur(32px) saturate(0.5)',
+          transform: 'scale(1.1)',
+          opacity: 0.12,
         }}
       />
+      <div className="absolute inset-0 bg-[#F3F8F5]/80 pointer-events-none" aria-hidden="true" />
       <div className="relative mx-auto max-w-[1320px] px-4 sm:px-6 lg:px-8">
         <motion.div
           className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4 mb-10"
