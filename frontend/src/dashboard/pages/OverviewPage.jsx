@@ -89,7 +89,7 @@ export default function OverviewPage() {
           {stats ? (
             <PublishingProgress
               items={[
-                { label: 'Published', value: stats.total_potentials, max: Math.max(stats.total_all, 1) },
+                { label: 'Diterbitkan', value: stats.total_potentials, max: Math.max(stats.total_all, 1) },
                 { label: 'Draf', value: stats.total_draft, max: Math.max(stats.total_all, 1) },
                 { label: 'UMKM', value: stats.total_umkm, max: Math.max(stats.total_potentials, 1) },
               ]}

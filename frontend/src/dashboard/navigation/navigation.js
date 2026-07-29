@@ -12,7 +12,7 @@ export const dashboardNavigation = [
 ];
 
 export const dashboardNavigationGroups = [
-  { key: 'workspace', label: 'Workspace' },
+  { key: 'workspace', label: 'Ruang Kerja' },
   { key: 'content', label: 'Konten' },
   { key: 'system', label: 'Sistem' },
 ];

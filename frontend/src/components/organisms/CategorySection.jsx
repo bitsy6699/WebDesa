@@ -5,12 +5,12 @@ import { Skeleton } from '@/components/atoms/Skeleton';
 import { HERO_2 } from '@/lib/imageCompositions';
 
 const FALLBACK_CATEGORIES = [
-  { id: 'f1', label: 'UMKM', slug: 'umkm', icon_key: 'store', color_code: '#2F855A' },
-  { id: 'f2', label: 'Pertanian', slug: 'pertanian', icon_key: 'tractor', color_code: '#D97706' },
-  { id: 'f3', label: 'Peternakan', slug: 'peternakan', icon_key: 'fish', color_code: '#D97706' },
-  { id: 'f4', label: 'Wisata', slug: 'wisata', icon_key: 'map', color_code: '#3B82F6' },
-  { id: 'f5', label: 'Sarana', slug: 'sarana', icon_key: 'building', color_code: '#8B5CF6' },
-  { id: 'f6', label: 'Kegiatan', slug: 'kegiatan', icon_key: 'activity', color_code: '#F59E0B' },
+  { id: 'f1', label: 'UMKM', slug: 'umkm', iconKey: 'store', colorCode: '#2F855A' },
+  { id: 'f2', label: 'Pertanian', slug: 'pertanian', iconKey: 'tractor', colorCode: '#D97706' },
+  { id: 'f3', label: 'Peternakan', slug: 'peternakan', iconKey: 'fish', colorCode: '#D97706' },
+  { id: 'f4', label: 'Wisata', slug: 'wisata', iconKey: 'map', colorCode: '#3B82F6' },
+  { id: 'f5', label: 'Sarana', slug: 'sarana', iconKey: 'building', colorCode: '#8B5CF6' },
+  { id: 'f6', label: 'Kegiatan', slug: 'kegiatan', iconKey: 'activity', colorCode: '#F59E0B' },
 ];
 
 function CategoryIcon({ iconKey, color, size = 24 }) {
@@ -86,12 +86,12 @@ export function CategorySection({ id, categories, isLoading = false }) {
         ) : (
           <motion.div
             className="grid grid-cols-3 md:grid-cols-6 gap-4 md:gap-5 max-w-[900px] mx-auto"
-            initial="hidden"
+            initial={prefersReducedMotion ? 'visible' : 'hidden'}
             whileInView={prefersReducedMotion ? undefined : 'visible'}
             viewport={{ once: true, amount: 0.2 }}
           >
             {items.map((category, i) => {
-              const color = category.color_code ?? '#184D47';
+              const color = category.colorCode ?? category.color_code ?? '#184D47';
               return (
                 <motion.button
                   key={category.id}
@@ -113,7 +113,7 @@ export function CategorySection({ id, categories, isLoading = false }) {
                       }}
                     />
                     <div className="relative z-10 transition-transform duration-300 group-hover:scale-110">
-                      <CategoryIcon iconKey={category.icon_key} color={color} size={24} />
+                      <CategoryIcon iconKey={category.iconKey ?? category.icon_key} color={color} size={24} />
                     </div>
                   </div>
 

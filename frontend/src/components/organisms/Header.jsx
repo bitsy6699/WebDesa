@@ -10,7 +10,7 @@ import { clsx } from 'clsx';
 const NAV_LINKS = [
   { label: 'Beranda', href: '/' },
   { label: 'Potensi', href: '/potentials' },
-  { label: 'Peta', href: '/map' },
+  { label: 'Statistik', href: '/statistics' },
 ];
 
 function VillageLogo({ transparent }) {

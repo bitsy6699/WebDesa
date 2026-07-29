@@ -6,7 +6,7 @@ export function TableFilters({ filters, onReset }) {
       {filters}
       {onReset ? (
         <DashboardButton variant="ghost" size="sm" onClick={onReset}>
-          Reset filters
+          Atur Ulang Filter
         </DashboardButton>
       ) : null}
     </div>

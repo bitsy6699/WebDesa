@@ -30,7 +30,7 @@ export default function StatisticsPage() {
       <PageHeader
         title="Statistik"
         description="Ringkasan data potensi desa Karamatwangi."
-        badge={isLoading ? 'Memuat...' : 'Live'}
+        badge={isLoading ? 'Memuat...' : 'Aktif'}
       />
 
       {isLoading ? (
@@ -47,13 +47,13 @@ export default function StatisticsPage() {
             ))}
           </section>
 
-          <DashboardCard title="Ringkasan" description="Overview data potensi desa.">
+          <DashboardCard title="Ringkasan" description="Ringkasan data potensi desa.">
             <div className="grid gap-6 md:grid-cols-2">
               <div className="space-y-3">
                 <h3 className="text-[0.75rem] font-semibold text-neutral-700">Potensi per Status</h3>
                 <div className="space-y-2">
                   <div className="flex items-center justify-between text-[0.75rem]">
-                    <span className="text-neutral-500">Published</span>
+                    <span className="text-neutral-500">Diterbitkan</span>
                     <span className="font-medium text-[#184D47]">{stats.total_potentials}</span>
                   </div>
                   <div className="h-2.5 overflow-hidden rounded-full bg-neutral-100">

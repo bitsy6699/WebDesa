@@ -80,12 +80,12 @@ export function PotentialDetailPage({ potential }) {
             </div>
           </DashboardCard>
 
-          {potential.gallery?.length > 0 && (
+          {potential.gallery_details?.length > 0 && (
             <DashboardCard title="Galeri">
               <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3">
-                {potential.gallery.map((url, i) => (
-                  <div key={i} className="aspect-square overflow-hidden rounded-xl border border-[#E8ECEA]">
-                    <img src={url} alt={`Gallery ${i + 1}`} className="h-full w-full object-cover" />
+                {potential.gallery_details.map((item, i) => (
+                  <div key={item.id ?? i} className="aspect-square overflow-hidden rounded-xl border border-[#E8ECEA]">
+                    <img src={item.filepath} alt={`Galeri ${i + 1}`} className="h-full w-full object-cover" />
                   </div>
                 ))}
               </div>

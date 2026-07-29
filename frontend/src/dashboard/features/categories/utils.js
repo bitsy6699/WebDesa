@@ -8,16 +8,16 @@ export function validateCategoryDraft(draft) {
   const errors = {};
 
   if (!draft.name?.trim()) {
-    errors.name = 'Name is required.';
+    errors.name = 'Nama wajib diisi.';
   }
 
   if (!draft.slug?.trim()) {
-    errors.slug = 'Slug is required.';
+    errors.slug = 'Tautan wajib diisi.';
   }
 
   const normalizedSlug = normalizeSlug(draft.slug ?? '');
   if (draft.slug?.trim() && !normalizedSlug) {
-    errors.slug = 'Slug must contain letters or numbers.';
+    errors.slug = 'Tautan harus mengandung huruf atau angka.';
   }
 
   return {
@@ -32,9 +32,9 @@ function buildCategoryRecord(category) {
     id: category.id,
     name: category.label,
     slug: category.slug,
-    status: 'Published',
-    type: 'Taxonomy',
-    updatedAt: 'Just now',
+    status: 'Diterbitkan',
+    type: 'Taksonomi',
+    updatedAt: 'Baru saja',
     description: category.description ?? null,
     colorCode: category.color_code ?? null,
     iconKey: category.icon_key ?? null,
@@ -53,7 +53,7 @@ export function mapServerErrorsToFormState(error) {
   );
 
   return {
-    message: responseData?.error?.message ?? 'Unable to process your request.',
+    message: responseData?.error?.message ?? 'Gagal memproses permintaan Anda.',
     fieldErrors,
   };
 }
@@ -64,32 +64,32 @@ export function getCategoryErrorMessage(error) {
     const message = error.response?.data?.error?.message;
 
     if (status === 404) {
-      return 'The requested category could not be found.';
+      return 'Kategori yang diminta tidak ditemukan.';
     }
 
     if (status === 409) {
-      return 'This category conflicts with an existing record.';
+      return 'Kategori ini bertentangan dengan data yang sudah ada.';
     }
 
     if (status === 422) {
-      return message ?? 'The provided category details are invalid.';
+      return message ?? 'Data kategori yang diberikan tidak valid.';
     }
 
     if (status === 500) {
-      return 'The server is currently unavailable. Please try again shortly.';
+      return 'Server sedang tidak tersedia. Silakan coba lagi.';
     }
   }
 
   if (error && typeof error === 'object' && 'code' in error) {
     const code = error.code;
     if (code === 'ERR_NETWORK') {
-      return 'The network is unavailable. Please check your connection and try again.';
+      return 'Jaringan tidak tersedia. Periksa koneksi Anda dan coba lagi.';
     }
 
     if (code === 'ECONNABORTED' || error.message?.includes('timeout')) {
-      return 'The request timed out. Please try again.';
+      return 'Permintaan waktu habis. Silakan coba lagi.';
     }
   }
 
-  return 'We could not complete the request. Please try again.';
+  return 'Gagal menyelesaikan permintaan. Silakan coba lagi.';
 }

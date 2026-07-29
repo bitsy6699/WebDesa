@@ -154,7 +154,7 @@ export function HeroBanner({ title, description, image }) {
             initial="hidden"
             animate="visible"
           >
-            <MagneticButton as={Link} to="/dashboard/map" strength={0.2}
+            <MagneticButton as={Link} to="/map" strength={0.2}
               className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 font-semibold transition-all duration-200 text-white/90 hover:text-white rounded-full h-12 px-7 text-[15px] border border-white/20 hover:border-white/35 bg-white/8 hover:bg-white/16 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
             >
               <Map className="w-4 h-4" aria-hidden="true" />

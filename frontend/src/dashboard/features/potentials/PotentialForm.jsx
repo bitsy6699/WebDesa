@@ -219,28 +219,28 @@ export function PotentialForm({ mode = 'create', initialData }) {
 
         <div className="grid gap-4 md:grid-cols-2">
           <DashboardInput
-            label="Latitude"
+            label="Lintang"
             required
             type="number"
             step="any"
             placeholder="-6.9"
             error={errors.latitude?.message}
             {...register('latitude', {
-              required: 'Latitude wajib diisi.',
+              required: 'Lintang wajib diisi.',
               valueAsNumber: true,
               min: { value: -90, message: 'Minimal -90' },
               max: { value: 90, message: 'Maksimal 90' },
             })}
           />
           <DashboardInput
-            label="Longitude"
+            label="Bujur"
             required
             type="number"
             step="any"
             placeholder="107.6"
             error={errors.longitude?.message}
             {...register('longitude', {
-              required: 'Longitude wajib diisi.',
+              required: 'Bujur wajib diisi.',
               valueAsNumber: true,
               min: { value: -180, message: 'Minimal -180' },
               max: { value: 180, message: 'Maksimal 180' },
@@ -308,7 +308,7 @@ export function PotentialForm({ mode = 'create', initialData }) {
         </div>
       </FormSection>
 
-      <FormSection title="Pengaturan" description="Fiturunggulan dan status publikasi.">
+      <FormSection title="Pengaturan" description="Fitur unggulan dan status publikasi.">
         <label className="flex items-center gap-3">
           <input
             type="checkbox"

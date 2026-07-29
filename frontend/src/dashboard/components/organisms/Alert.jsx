@@ -15,11 +15,11 @@ const icons = {
   danger: AlertCircle,
 };
 
-export function Alert({ title, description, variant = 'info', onDismiss }) {
+export function Alert({ title, description, variant = 'info', onDismiss, className }) {
   const Icon = icons[variant];
 
   return (
-    <div className={clsx('flex gap-3 rounded-xl border px-4 py-3', variants[variant])} role="alert">
+    <div className={clsx('flex gap-3 rounded-xl border px-4 py-3', variants[variant], className)} role="alert">
       <div className="mt-0.5 shrink-0">
         <Icon className="h-4 w-4" />
       </div>

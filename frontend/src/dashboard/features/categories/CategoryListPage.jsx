@@ -33,7 +33,7 @@ export function CategoryListPage({ onCreate, onView, onEdit, onDelete, onRefresh
     return mappedRows
       .filter((item) => {
         const matchesQuery = !normalizedQuery || item.name.toLowerCase().includes(normalizedQuery) || item.slug.toLowerCase().includes(normalizedQuery);
-        const matchesStatus = statusFilter === 'all' || (statusFilter === 'published' && item.status === 'Published');
+        const matchesStatus = statusFilter === 'all' || (statusFilter === 'published' && item.status === 'Diterbitkan');
         return matchesQuery && matchesStatus;
       })
       .sort((left, right) => {
@@ -129,8 +129,8 @@ export function CategoryListPage({ onCreate, onView, onEdit, onDelete, onRefresh
         }
         columns={[
           { key: 'name', header: 'Nama' },
-          { key: 'slug', header: 'Slug' },
-          { key: 'status', header: 'Status', render: (row) => <PublishStatusToggle published={row.status === 'Published'} /> },
+          { key: 'slug', header: 'Tautan' },
+          { key: 'status', header: 'Status', render: (row) => <PublishStatusToggle published={row.status === 'Diterbitkan'} /> },
           { key: 'updatedAt', header: 'Terakhir diperbarui' },
         ]}
         rowActions={(row) => (

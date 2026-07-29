@@ -29,7 +29,7 @@ export default function PotentialsPage() {
     return data.data.map((item) => ({
       ...item,
       _categoryLabel: item.category.label,
-      _updatedAt: item.created_at ? new Date(item.created_at).toLocaleDateString('id-ID') : '-',
+      _updatedAt: item.updated_at ? new Date(item.updated_at).toLocaleDateString('id-ID') : '-',
     }));
   }, [data]);
 
@@ -108,7 +108,7 @@ export default function PotentialsPage() {
                   <img src={row.cover_image_url} alt="" className="h-full w-full object-cover" />
                 ) : (
                   <div className="flex h-full w-full items-center justify-center text-neutral-300">
-                    <span className="text-[9px] font-medium">No Image</span>
+                    <span className="text-[9px] font-medium">Tidak Ada Gambar</span>
                   </div>
                 )}
               </div>

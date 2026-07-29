@@ -37,7 +37,7 @@ export default function ActivityPage() {
   if (error) {
     return (
       <div className="space-y-5">
-        <PageHeader title="Activity Log" description="Jejak aktivitas admin." />
+        <PageHeader title="Log Aktivitas" description="Jejak aktivitas admin." />
         <Alert title="Gagal memuat log aktivitas." variant="danger" />
       </div>
     );

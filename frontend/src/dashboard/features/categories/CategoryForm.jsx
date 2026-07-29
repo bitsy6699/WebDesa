@@ -44,7 +44,7 @@ export function CategoryForm({
       name: initialValues?.name ?? '',
       slug: initialValues?.slug ?? '',
       description: initialValues?.description ?? '',
-      colorCode: initialValues?.colorCode ?? '',
+      colorCode: initialValues?.colorCode ?? '#184D47',
       iconKey: initialValues?.iconKey ?? '',
     });
   }, [initialValues?.name, initialValues?.slug, initialValues?.description, initialValues?.colorCode, initialValues?.iconKey, reset]);
@@ -95,12 +95,12 @@ export function CategoryForm({
           {...register('name', { required: 'Nama wajib diisi.' })}
         />
         <DashboardInput
-          label="Slug"
+          label="Tautan"
           required
           placeholder="contoh: umkm"
-          helperText={validationHint.normalizedSlug ? `Pratinjau slug: /${validationHint.normalizedSlug}` : 'Gunakan huruf kecil dipisahkan dengan tanda hubung.'}
+          helperText={validationHint.normalizedSlug ? `Pratinjau tautan: /${validationHint.normalizedSlug}` : 'Gunakan huruf kecil dipisahkan dengan tanda hubung.'}
           error={errors.slug?.message}
-          {...register('slug', { required: 'Slug wajib diisi.' })}
+          {...register('slug', { required: 'Tautan wajib diisi.' })}
         />
         <DashboardTextarea
           label="Deskripsi"
@@ -110,7 +110,7 @@ export function CategoryForm({
         />
       </FormSection>
 
-      <FormSection title="Presentasi" description="Bidang ini siap untuk integrasi CRUD admin di masa mendatang.">
+      <FormSection title="Presentasi" description="Bidang ini siap untuk integrasi manajemen data di masa mendatang.">
         <div className="grid gap-4 md:grid-cols-2">
           <div>
             <label htmlFor="colorCode" className="mb-1.5 block text-[0.8125rem] font-medium text-neutral-800">

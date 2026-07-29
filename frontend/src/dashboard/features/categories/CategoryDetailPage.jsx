@@ -4,13 +4,13 @@ import { DashboardBadge } from '@/dashboard/components/atoms/DashboardBadge';
 import { DashboardCard } from '@/dashboard/components/organisms/DashboardCard';
 
 const statusVariant = {
-  Published: 'success',
-  Draft: 'warning',
+  Diterbitkan: 'success',
+  Draf: 'warning',
 };
 
 const statusLabels = {
-  Published: 'Diterbitkan',
-  Draft: 'Draf',
+  Diterbitkan: 'Diterbitkan',
+  Draf: 'Draf',
 };
 
 export function CategoryDetailPage({ category, onBack, onEdit }) {
@@ -35,7 +35,7 @@ export function CategoryDetailPage({ category, onBack, onEdit }) {
         <div className="grid gap-5 md:grid-cols-2">
           <div className="space-y-3">
             <div>
-              <p className="text-[0.75rem] text-neutral-500">Slug</p>
+              <p className="text-[0.75rem] text-neutral-500">Tautan</p>
               <p className="mt-0.5 text-[0.8125rem] font-medium text-neutral-800">/{category.slug}</p>
             </div>
             <div>

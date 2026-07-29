@@ -43,7 +43,7 @@ export function DashboardLayout() {
 
         <Sidebar collapsed={collapsed} onToggleCollapse={() => setCollapsed((c) => !c)} />
 
-        <div className="flex min-w-0 flex-col">
+        <div className="flex min-w-0 min-h-0 flex-col">
           <Topbar onOpenMobileMenu={() => setMobileOpen(true)} />
           <main
             id="main-content"

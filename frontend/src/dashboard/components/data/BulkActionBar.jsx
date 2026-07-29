@@ -11,7 +11,7 @@ export function BulkActionBar({ selectedCount, onDelete, onPublish }) {
       <div className="flex flex-wrap items-center gap-2">
         {onPublish ? (
           <DashboardButton variant="secondary" size="sm" onClick={onPublish}>
-            Publish
+            Terbitkan
           </DashboardButton>
         ) : null}
         <DashboardButton variant="danger" size="sm" onClick={onDelete}>

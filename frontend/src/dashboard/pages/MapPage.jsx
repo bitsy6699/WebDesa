@@ -59,7 +59,7 @@ export default function DashboardMapPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedPotential, setSelectedPotential] = useState(null);
 
-  const { data: potentialsData, isLoading: potentialsLoading } = usePotentials({ perPage: 200, status: 'published' });
+  const { data: potentialsData, isLoading: potentialsLoading } = usePotentials({ per_page: 200, status: 'published' });
   const { data: categories } = useCategories();
 
   const potentials = useMemo(() => {
@@ -104,7 +104,7 @@ export default function DashboardMapPage() {
         title="Peta Interaktif"
         description="Jelajahi dan kelola lokasi potensi desa pada peta."
         actions={
-          <DashboardButton onClick={() => console.log('Open new potential form on map coordinate click?')}>
+          <DashboardButton onClick={() => navigate('/dashboard/potentials/new')}>
             + Buat Potensi
           </DashboardButton>
         }
@@ -141,7 +141,7 @@ export default function DashboardMapPage() {
               <div className="p-4">
                 <h3 className="text-sm font-semibold text-neutral-800">{selectedPotential.title}</h3>
                 <p className="text-xs text-neutral-500 mt-1">{selectedPotential.location?.address}</p>
-                <DashboardButton size="sm" className="mt-3 w-full" onClick={() => console.log('View detail')}>
+                <DashboardButton size="sm" className="mt-3 w-full" onClick={() => navigate(`/dashboard/potentials/${selectedPotential.id}`)}>
                   Lihat Detail
                 </DashboardButton>
               </div>

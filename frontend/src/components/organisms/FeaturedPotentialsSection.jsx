@@ -52,7 +52,7 @@ export function FeaturedPotentialsSection({ id, potentials, isLoading = false })
         <motion.div
           className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4 mb-10"
           variants={stag}
-          initial="hidden"
+          initial={prefersReducedMotion ? 'visible' : 'hidden'}
           whileInView={prefersReducedMotion ? undefined : 'visible'}
           viewport={{ once: true, amount: 0.3 }}
         >
@@ -94,7 +94,7 @@ export function FeaturedPotentialsSection({ id, potentials, isLoading = false })
             <motion.div
               className="hidden lg:flex gap-7"
               variants={stag}
-              initial="hidden"
+              initial={prefersReducedMotion ? 'visible' : 'hidden'}
               whileInView={prefersReducedMotion ? undefined : 'visible'}
               viewport={{ once: true, amount: 0.15 }}
             >
