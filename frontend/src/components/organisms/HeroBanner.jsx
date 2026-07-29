@@ -111,7 +111,7 @@ export function HeroBanner({ title, description, image }) {
           <h1 id="hero-title" className="sr-only">
             {title || 'Desa Karamatwangi'}
           </h1>
-          <div aria-hidden="true" className="overflow-hidden">
+          <div aria-hidden="true" className="overflow-hidden pb-[0.12em]">
             <motion.span
               className="block font-heading font-extrabold text-white leading-[1.02] tracking-[-0.035em]"
               style={{ fontSize: 'clamp(2.75rem, 7vw, 5rem)' }}
@@ -124,7 +124,7 @@ export function HeroBanner({ title, description, image }) {
               ))}
             </motion.span>
           </div>
-          <div className="overflow-hidden">
+          <div className="overflow-hidden pb-[0.12em]">
             <motion.span
               className="block font-heading font-extrabold text-white leading-[1.02] tracking-[-0.035em]"
               style={{ fontSize: 'clamp(2.75rem, 7vw, 5rem)' }}
