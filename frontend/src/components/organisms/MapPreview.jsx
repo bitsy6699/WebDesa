@@ -83,7 +83,7 @@ export function MapPreview({ potentials = [] }) {
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-6">
           <motion.div
             className="relative overflow-hidden rounded-[20px] bg-[#F4F7F5] border border-[#E0E8E4] shadow-[0_1px_3px_rgba(15,61,52,0.03),0_4px_12px_rgba(15,61,52,0.06)]"
-            style={{ minHeight: 320, y: useTransform(scrollYProgress, [0, 1], [20, -20]) }}
+            style={{ minHeight: 320, maxHeight: 480, y: useTransform(scrollYProgress, [0, 1], [20, -20]) }}
           >
             {inView && (
               <Suspense

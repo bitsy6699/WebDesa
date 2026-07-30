@@ -38,7 +38,7 @@ export default function MapPreviewMap({ markers, center, zoom }) {
       attributionControl={false}
       scrollWheelZoom={false}
       dragging={true}
-      style={{ height: 320 }}
+      
     >
       <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
       <FitBounds markers={markers} />
