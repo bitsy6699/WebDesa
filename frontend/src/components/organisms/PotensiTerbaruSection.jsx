@@ -60,7 +60,7 @@ export function PotensiTerbaruSection({ id, potentials, isLoading = false }) {
           </div>
         ) : isEmpty ? null : (
           <>
-            <div className="hidden lg:block overflow-x-clip py-4">
+            <div className="hidden lg:block relative py-4">
               <motion.div
                 className="flex gap-7"
                 style={prefersReducedMotion ? {} : { x: scrollX }}
@@ -71,6 +71,14 @@ export function PotensiTerbaruSection({ id, potentials, isLoading = false }) {
                   </div>
                 ))}
               </motion.div>
+              <div
+                className="pointer-events-none absolute inset-y-0 left-0 w-32 z-10"
+                style={{ background: 'linear-gradient(to right, var(--bg-page), transparent)' }}
+              />
+              <div
+                className="pointer-events-none absolute inset-y-0 right-0 w-32 z-10"
+                style={{ background: 'linear-gradient(to left, var(--bg-page), transparent)' }}
+              />
             </div>
 
             <div className="lg:hidden">
