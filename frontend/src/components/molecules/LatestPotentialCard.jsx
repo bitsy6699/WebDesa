@@ -114,7 +114,7 @@ export const LatestPotentialCard = memo(
             />
           </SpotlightSurface>
 
-          <div className="flex flex-1 flex-col gap-3 p-5">
+          <div className="flex flex-1 flex-col gap-3 p-5 pb-6">
             <CategoryBadge label={item.category.label} slug={item.category.slug} />
 
             {item.location?.address && (
