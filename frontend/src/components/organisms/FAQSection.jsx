@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { ChevronDown, ArrowRight } from 'lucide-react';
-import { HERO_1 } from '@/lib/imageCompositions';
 
 const DEFAULT_FAQS = [
   {
@@ -86,15 +85,6 @@ export function FAQSection({ faqs = DEFAULT_FAQS }) {
         paddingBottom: 'clamp(72px, 8vw, 104px)',
       }}
     >
-      <div
-        className="absolute right-0 top-0 w-1/3 h-full pointer-events-none opacity-[0.025]"
-        aria-hidden="true"
-        style={{
-          backgroundImage: `url(${HERO_1})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-        }}
-      />
 
       <div className="relative mx-auto max-w-[720px] px-5 sm:px-6 lg:px-8">
         <div className="text-center mb-10">
