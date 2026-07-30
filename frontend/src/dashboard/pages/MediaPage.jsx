@@ -62,15 +62,15 @@ export default function MediaPage() {
       )}
 
       <PageHeader
-        title="Media Library"
+        title="Media"
         description="Kelola gambar dan aset media untuk potensi desa."
-        badge={`${data?.meta?.total ?? 0} file`}
+        badge={`${data?.meta?.total ?? 0} berkas`}
         actions={
           <DashboardButton
             onClick={() => fileInputRef.current?.click()}
             loading={uploadMutation.isPending}
           >
-            + Upload
+            + Unggah
           </DashboardButton>
         }
       />
@@ -94,7 +94,7 @@ export default function MediaPage() {
           description="Upload gambar pertama untuk media library Anda."
           action={
             <DashboardButton onClick={() => fileInputRef.current?.click()}>
-              + Upload
+              + Unggah
             </DashboardButton>
           }
         />

@@ -139,7 +139,7 @@ export function ImagePicker({
           ) : (
             <Upload className="h-4 w-4" />
           )}
-          {uploadMutation.isPending ? 'Mengunggah...' : multiple ? 'Upload Foto Galeri' : 'Pilih atau upload gambar'}
+          {uploadMutation.isPending ? 'Mengunggah...' : multiple ? 'Unggah Foto Galeri' : 'Pilih atau unggah gambar'}
         </button>
       </div>
     </div>

@@ -3,10 +3,10 @@ import { StatusChip } from '@/dashboard/components/molecules/StatusChip';
 import { DashboardCard } from '@/dashboard/components/organisms/DashboardCard';
 
 const services = [
-  { name: 'API', status: 'Healthy', variant: 'success', icon: Network },
-  { name: 'Penyimpanan', status: 'Warning', variant: 'warning', icon: HardDrive },
-  { name: 'Pemrosesan Media', status: 'Healthy', variant: 'success', icon: Activity },
-  { name: 'Basis Data', status: 'Offline', variant: 'danger', icon: Database },
+  { name: 'API', status: 'Sehat', variant: 'success', icon: Network },
+  { name: 'Penyimpanan', status: 'Peringatan', variant: 'warning', icon: HardDrive },
+  { name: 'Pemrosesan Media', status: 'Sehat', variant: 'success', icon: Activity },
+  { name: 'Basis Data', status: 'Luring', variant: 'danger', icon: Database },
 ];
 
 export function SystemHealthPanel() {
@@ -24,7 +24,7 @@ export function SystemHealthPanel() {
                 </div>
                 <div>
                   <p className="text-[0.8125rem] font-medium text-neutral-800">{service.name}</p>
-                  <p className="text-[0.75rem] text-neutral-500">Sinyal kesehatan (mocked)</p>
+                  <p className="text-[0.75rem] text-neutral-500">Sinyal kesehatan (simulasi)</p>
                 </div>
               </div>
               <StatusChip label={service.status} variant={service.variant} />

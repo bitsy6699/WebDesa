@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 
 export function Breadcrumb({ items }) {
   return (
-    <nav aria-label="Breadcrumb" className="flex items-center gap-1 text-[0.8125rem] text-neutral-400">
-      <Link to="/dashboard" className="flex items-center rounded-md p-0.5 text-neutral-400 transition-colors duration-150 hover:text-neutral-700" aria-label="Dashboard">
+    <nav aria-label="Navigasi" className="flex items-center gap-1 text-[0.8125rem] text-neutral-400">
+      <Link to="/dashboard" className="flex items-center rounded-md p-0.5 text-neutral-400 transition-colors duration-150 hover:text-neutral-700" aria-label="Dasbor">
         <Home className="h-3.5 w-3.5" />
       </Link>
       {items.map((item, index) => (

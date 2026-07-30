@@ -19,6 +19,18 @@ const actionIcons = {
   'settings.updated': { icon: Settings, color: 'text-neutral-400' },
 };
 
+const actionLabels = {
+  'auth.login': 'login',
+  'auth.logout': 'logout',
+  'potential.created': 'potensi dibuat',
+  'potential.updated': 'potensi diperbarui',
+  'potential.deleted': 'potensi dihapus',
+  'potential.featured_toggled': 'unggulan diubah',
+  'media.uploaded': 'media diunggah',
+  'media.deleted': 'media dihapus',
+  'settings.updated': 'pengaturan diubah',
+};
+
 function timeAgo(dateString) {
   const now = new Date();
   const date = new Date(dateString);
@@ -73,6 +85,7 @@ export default function ActivityPage() {
             {data?.data.map((log) => {
               const actionConfig = actionIcons[log.action] ?? { icon: LogIn, color: 'text-neutral-400' };
               const Icon = actionConfig.icon;
+              const label = actionLabels[log.action] ?? log.action.replace('.', ' ');
 
               return (
                 <div key={log.id} className="flex items-start gap-3 py-3.5 first:pt-0 last:pb-0">
@@ -83,7 +96,7 @@ export default function ActivityPage() {
                     <p className="text-[0.8125rem] text-neutral-700">
                       <span className="font-medium text-neutral-800">{log.user?.username ?? 'System'}</span>
                       {' '}
-                      <span className="text-neutral-500">{log.action.replace('.', ' ')}</span>
+                      <span className="text-neutral-500">{label}</span>
                     </p>
                     <p className="mt-0.5 text-[0.75rem] text-neutral-400">
                       {timeAgo(log.created_at)}

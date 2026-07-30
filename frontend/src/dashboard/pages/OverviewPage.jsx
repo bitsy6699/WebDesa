@@ -25,7 +25,7 @@ export default function OverviewPage() {
   const quickActions = [
     { icon: Plus, title: 'Tambah Potensi', description: 'Buat entri baru.', onClick: () => navigate('/dashboard/potentials/new') },
     { icon: FolderTree, title: 'Kelola Kategori', description: 'Atur taksonomi.', onClick: () => navigate('/dashboard/categories') },
-    { icon: ImageIcon, title: 'Upload Media', description: 'Tambah gambar.', onClick: () => navigate('/dashboard/media') },
+    { icon: ImageIcon, title: 'Unggah Media', description: 'Tambah gambar.', onClick: () => navigate('/dashboard/media') },
     { icon: ChartColumn, title: 'Statistik', description: 'Pantau performa.', onClick: () => navigate('/dashboard/statistics') },
     { icon: Store, title: 'Data UMKM', description: 'Usaha mikro desa.', onClick: () => navigate('/dashboard/potentials') },
     { icon: MapPin, title: 'Peta Desa', description: 'Distribusi potensi.', onClick: () => navigate('/dashboard/potentials') },

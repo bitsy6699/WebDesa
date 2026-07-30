@@ -7,13 +7,13 @@ import { SearchCommandPalette } from '@/dashboard/components/shell/SearchCommand
 
 function getBreadcrumbs(pathname) {
   const segments = pathname.split('/').filter(Boolean);
-  const items = [{ label: 'Dashboard', to: '/dashboard' }];
+  const items = [{ label: 'Dasbor', to: '/dashboard' }];
   if (segments.length <= 1) return items;
   const [, current] = segments;
   const routeLabels = {
     overview: 'Ringkasan', potentials: 'Potensi', categories: 'Kategori',
     media: 'Media', statistics: 'Statistik', settings: 'Pengaturan',
-    activity: 'Aktivitas', new: 'Baru', edit: 'Edit',
+    activity: 'Aktivitas', new: 'Baru', edit: 'Ubah',
   };
   const label = routeLabels[current] ?? current.charAt(0).toUpperCase() + current.slice(1);
   return [...items, { label }];

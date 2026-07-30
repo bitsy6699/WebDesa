@@ -28,7 +28,7 @@ export function Alert({ title, description, variant = 'info', onDismiss, classNa
         {description ? <p className="mt-1 text-[0.75rem] leading-relaxed opacity-80">{description}</p> : null}
       </div>
       {onDismiss ? (
-        <button type="button" onClick={onDismiss} className="shrink-0 text-current opacity-60 hover:opacity-100 transition-opacity" aria-label="Dismiss">
+        <button type="button" onClick={onDismiss} className="shrink-0 text-current opacity-60 hover:opacity-100 transition-opacity" aria-label="Tutup">
           <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
         </button>
       ) : null}
