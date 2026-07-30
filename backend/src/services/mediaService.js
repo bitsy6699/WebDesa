@@ -2,7 +2,7 @@ import sharp from 'sharp';
 import { v4 as uuidv4 } from 'uuid';
 import prisma from '../config/database.js';
 import { logAction } from './activityLogService.js';
-import { uploadFile, deleteFile } from './storageService.js';
+import { uploadFile, deleteFile, getMediaUrl } from './storageService.js';
 import { MEDIA_MAX_IMAGE_WIDTH, MEDIA_WEBP_QUALITY } from '../config/constants.js';
 
 export async function list(page = 1, perPage = 12) {
@@ -65,14 +65,5 @@ export async function remove(id, userId, ipAddress) {
 }
 
 export function resolveMediaUrl(filepath) {
-  if (!filepath) return null;
-  if (filepath.startsWith('http')) return filepath;
-
-  const supabaseUrl = process.env.SUPABASE_URL;
-  const bucket = process.env.SUPABASE_STORAGE_BUCKET || 'webdesa-media';
-  if (supabaseUrl) {
-    return `${supabaseUrl}/storage/v1/object/public/${bucket}/${filepath}`;
-  }
-
-  return `/uploads/${filepath}`;
+  return getMediaUrl(filepath);
 }

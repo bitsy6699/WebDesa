@@ -228,6 +228,7 @@ function formatPotentialSummary(p) {
     is_featured: p.isFeatured,
     status: p.status,
     created_at: p.createdAt,
+    updated_at: p.updatedAt,
   };
 }
 

@@ -7,6 +7,7 @@ import { DashboardForm } from '@/dashboard/components/forms/DashboardForm';
 import { FormSection } from '@/dashboard/components/forms/FormSection';
 import { FormActions } from '@/dashboard/components/forms/FormActions';
 import { Alert } from '@/dashboard/components/organisms/Alert';
+import FadeContent from '@/components/FadeContent';
 import { useAuth } from '@/hooks/useAuth';
 import api from '@/services/api';
 import { API_ROUTES } from '@/constants/routes';
@@ -73,6 +74,7 @@ export default function SettingsPage() {
     <div className="space-y-5">
       <PageHeader title="Pengaturan" description="Kelola profil dan keamanan akun Anda." />
 
+      <FadeContent duration={600} delay={0} threshold={0.1}>
       <DashboardForm onSubmit={profileForm.handleSubmit(handleProfileSubmit)}>
         {profileSuccess && <Alert title={profileSuccess} variant="success" />}
         {profileError && <Alert title={profileError} variant="danger" />}
@@ -93,7 +95,9 @@ export default function SettingsPage() {
           </DashboardButton>
         </FormActions>
       </DashboardForm>
+      </FadeContent>
 
+      <FadeContent duration={600} delay={150} threshold={0.1}>
       <DashboardForm onSubmit={passwordForm.handleSubmit(handlePasswordSubmit)}>
         {passwordSuccess && <Alert title={passwordSuccess} variant="success" />}
         {passwordError && <Alert title={passwordError} variant="danger" />}
@@ -137,6 +141,7 @@ export default function SettingsPage() {
           </DashboardButton>
         </FormActions>
       </DashboardForm>
+      </FadeContent>
     </div>
   );
 }

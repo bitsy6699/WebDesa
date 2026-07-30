@@ -4,6 +4,7 @@ import { DashboardCard } from '@/dashboard/components/organisms/DashboardCard';
 import { Alert } from '@/dashboard/components/organisms/Alert';
 import { EmptyState } from '@/dashboard/components/organisms/EmptyState';
 import { TablePagination } from '@/dashboard/components/data/TablePagination';
+import FadeContent from '@/components/FadeContent';
 import { useActivityLogs } from '@/hooks/useActivityLogs';
 import { useState } from 'react';
 
@@ -80,9 +81,10 @@ export default function ActivityPage() {
       ) : data?.data.length === 0 ? (
         <EmptyState title="Belum ada aktivitas" description="Aktivitas admin akan muncul di sini." />
       ) : (
-        <DashboardCard title="Aktivitas Terbaru">
-          <div className="divide-y divide-[#E8ECEA]">
-            {data?.data.map((log) => {
+          <DashboardCard title="Aktivitas Terbaru">
+            <FadeContent duration={600} delay={0} threshold={0.1}>
+            <div className="divide-y divide-[#E8ECEA]">
+              {data?.data.map((log) => {
               const actionConfig = actionIcons[log.action] ?? { icon: LogIn, color: 'text-neutral-400' };
               const Icon = actionConfig.icon;
               const label = actionLabels[log.action] ?? log.action.replace('.', ' ');
@@ -107,6 +109,7 @@ export default function ActivityPage() {
               );
             })}
           </div>
+            </FadeContent>
         </DashboardCard>
       )}
 

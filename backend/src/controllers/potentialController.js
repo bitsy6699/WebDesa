@@ -12,7 +12,31 @@ export async function index(req, res, next) {
       search: req.query.search,
       category: req.query.category,
       featured: req.query.featured === 'true' ? true : undefined,
-      status: req.query.status,
+      status: req.query.status || 'published',
+      sort: req.query.sort || 'latest',
+      page: parseInt(req.query.page) || 1,
+      perPage: parseInt(req.query.per_page) || PAGINATION_DEFAULT_PER_PAGE,
+    });
+    return paginated(res, result.data, {
+      currentPage: result.currentPage,
+      lastPage: result.lastPage,
+      perPage: result.perPage,
+      total: result.total,
+    });
+  } catch (err) {
+    next(err);
+  }
+}
+
+export async function adminIndex(req, res, next) {
+  try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) return validationError(res, errors.array());
+
+    const result = await potentialService.list({
+      search: req.query.search,
+      category: req.query.category,
+      featured: req.query.featured === 'true' ? true : undefined,
       sort: req.query.sort || 'latest',
       page: parseInt(req.query.page) || 1,
       perPage: parseInt(req.query.per_page) || PAGINATION_DEFAULT_PER_PAGE,
@@ -32,6 +56,7 @@ export async function show(req, res, next) {
   try {
     const potential = await potentialService.findBySlug(req.params.category, req.params.slug);
     if (!potential) return notFound(res);
+    if (potential.status !== 'published') return notFound(res);
     return success(res, potential);
   } catch (err) {
     next(err);

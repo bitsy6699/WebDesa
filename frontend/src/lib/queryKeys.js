@@ -13,6 +13,10 @@ export const queryKeys = {
     list: (params) => ['potentials', params],
     detail: (categorySlug, slug) => ['potentials', categorySlug, slug],
   },
+  adminPotentials: {
+    all: ['admin-potentials'],
+    list: (params) => ['admin-potentials', params],
+  },
   categories: {
     all: ['categories'],
     count: (slug) => ['categories', slug, 'potentials-count'],

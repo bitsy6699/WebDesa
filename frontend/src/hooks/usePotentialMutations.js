@@ -15,6 +15,7 @@ export function useCreatePotential() {
     mutationFn: createPotential,
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: queryKeys.potentials.all });
+      await queryClient.invalidateQueries({ queryKey: queryKeys.adminPotentials.all });
     },
   });
 }
@@ -27,6 +28,7 @@ export function useUpdatePotential() {
       updatePotential(id, data),
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: queryKeys.potentials.all });
+      await queryClient.invalidateQueries({ queryKey: queryKeys.adminPotentials.all });
     },
   });
 }
@@ -38,6 +40,7 @@ export function useDeletePotential() {
     mutationFn: deletePotential,
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: queryKeys.potentials.all });
+      await queryClient.invalidateQueries({ queryKey: queryKeys.adminPotentials.all });
     },
   });
 }
@@ -49,6 +52,7 @@ export function useToggleFeatured() {
     mutationFn: togglePotentialFeatured,
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: queryKeys.potentials.all });
+      await queryClient.invalidateQueries({ queryKey: queryKeys.adminPotentials.all });
     },
   });
 }
@@ -60,6 +64,7 @@ export function useToggleStatus() {
     mutationFn: ({ id, currentStatus }) => togglePotentialStatus(id, currentStatus),
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: queryKeys.potentials.all });
+      await queryClient.invalidateQueries({ queryKey: queryKeys.adminPotentials.all });
     },
   });
 }

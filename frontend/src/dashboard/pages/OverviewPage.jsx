@@ -1,10 +1,11 @@
-import { ChartColumn, FolderTree, ImageIcon, LayoutGrid, MapPin, Plus, Store } from 'lucide-react';
+import { useMemo } from 'react';
+import { ChartColumn, FolderTree, ImageIcon, MapPin, Plus, Store } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { DashboardCard } from '@/dashboard/components/organisms/DashboardCard';
-import { DashboardKpiCard } from '@/dashboard/components/organisms/DashboardKpiCard';
 import { QuickActionCard } from '@/dashboard/components/organisms/QuickActionCard';
 import { PublishingProgress } from '@/dashboard/components/organisms/PublishingProgress';
-import { SkeletonKpiCard } from '@/components/atoms/Skeleton';
+import FadeContent from '@/components/FadeContent';
+import MagicBento from '@/components/MagicBento';
 import { useStatistics } from '@/hooks/useStatistics';
 import { useAuth } from '@/hooks/useAuth';
 
@@ -31,18 +32,58 @@ export default function OverviewPage() {
     { icon: MapPin, title: 'Peta Desa', description: 'Distribusi potensi.', onClick: () => navigate('/dashboard/potentials') },
   ];
 
-  const kpiCards = stats
-    ? [
-        { icon: LayoutGrid, title: 'Total Potensi', value: String(stats.total_potentials), helperText: 'Semua potensi desa' },
-        { icon: Store, title: 'UMKM', value: String(stats.total_umkm), helperText: 'Usaha mikro, kecil, menengah' },
-        { icon: FolderTree, title: 'Kategori', value: String(stats.total_categories), helperText: 'Kelompok konten' },
-        { icon: MapPin, title: 'Dusun', value: String(stats.total_dusun), helperText: 'Wilayah administratif' },
-      ]
-    : [];
+  const bentoCardData = useMemo(() => {
+    if (!stats) return [];
+    return [
+      {
+        color: '#0F3D34',
+        title: 'Total Potensi',
+        description: 'Potensi desa yang telah diterbitkan',
+        label: 'Ringkasan',
+        value: String(stats.total_potentials),
+      },
+      {
+        color: '#0F3D34',
+        title: 'Kategori',
+        description: 'Kelompok konten desa',
+        label: 'Taksonomi',
+        value: String(stats.total_categories),
+      },
+      {
+        color: '#0F3D34',
+        title: 'Keseluruhan',
+        description: 'Total seluruh potensi termasuk draf',
+        label: 'Semua Data',
+        value: String(stats.total_all),
+      },
+      {
+        color: '#0F3D34',
+        title: 'UMKM',
+        description: 'Usaha mikro kecil menengah',
+        label: 'Bisnis',
+        value: String(stats.total_umkm),
+      },
+      {
+        color: '#0F3D34',
+        title: 'Dusun',
+        description: 'Wilayah administratif desa',
+        label: 'Lokasi',
+        value: String(stats.total_dusun),
+      },
+      {
+        color: '#0F3D34',
+        title: 'Draf',
+        description: 'Potensi yang masih dalam penyusunan',
+        label: 'Tertunda',
+        value: String(stats.total_draft),
+      },
+    ];
+  }, [stats]);
 
   return (
     <div className="space-y-5">
       {/* Hero Welcome */}
+      <FadeContent duration={600} delay={0} threshold={0.1}>
       <section className="flex flex-col gap-4 rounded-2xl border border-[#E7E7E7] bg-white p-5 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="text-[1.125rem] font-semibold text-neutral-900">
@@ -67,15 +108,34 @@ export default function OverviewPage() {
           </span>
         </div>
       </section>
+      </FadeContent>
 
-      {/* KPI Cards — 2-col on sm, 4-col on xl */}
-      <section className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4" aria-label="Statistik ringkasan">
-        {statsLoading
-          ? Array.from({ length: 4 }).map((_, i) => <SkeletonKpiCard key={i} />)
-          : kpiCards.map((card) => <DashboardKpiCard key={card.title} {...card} />)}
+      {/* Stats Bento Grid */}
+      <section aria-label="Statistik ringkasan">
+        {statsLoading ? (
+          <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+            {Array.from({ length: 4 }).map((_, i) => (
+              <div key={i} className="h-[180px] animate-pulse rounded-2xl border border-[#E7E7E7] bg-neutral-100" />
+            ))}
+          </div>
+        ) : (
+          <MagicBento
+            cardData={bentoCardData}
+            glowColor="24, 77, 71"
+            spotlightRadius={280}
+            particleCount={10}
+            enableTilt={false}
+            enableMagnetism
+            clickEffect
+            enableStars
+            enableSpotlight
+            enableBorderGlow
+          />
+        )}
       </section>
 
       {/* Quick Actions + Publishing — 2-col */}
+      <FadeContent duration={600} delay={150} threshold={0.1}>
       <section className="grid gap-4 lg:grid-cols-[1.1fr_0.9fr]">
         <DashboardCard title="Aksi Cepat">
           <div className="grid gap-2.5 grid-cols-1 sm:grid-cols-2">
@@ -99,6 +159,7 @@ export default function OverviewPage() {
           )}
         </DashboardCard>
       </section>
+      </FadeContent>
     </div>
   );
 }

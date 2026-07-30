@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { PageHeader } from '@/dashboard/components/molecules/PageHeader';
 import { PotentialForm } from '@/dashboard/features/potentials/PotentialForm';
 import { Alert } from '@/dashboard/components/organisms/Alert';
+import FadeContent from '@/components/FadeContent';
 import api from '@/services/api';
 import { API_ROUTES } from '@/constants/routes';
 
@@ -59,6 +60,7 @@ export default function PotentialEditPage() {
   return (
     <div className="space-y-5">
       <PageHeader title={`Edit: ${potential.title}`} description="Perbarui data potensi desa." />
+      <FadeContent duration={600} delay={0} threshold={0.1}>
       <PotentialForm
         mode="edit"
         initialData={{
@@ -81,6 +83,7 @@ export default function PotentialEditPage() {
           marketplaces: potential.marketplaces ?? { shopee: '', tokopedia: '', lazada: '' },
         }}
       />
+      </FadeContent>
     </div>
   );
 }

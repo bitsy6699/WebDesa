@@ -12,6 +12,17 @@ export async function fetchPotentials(
   return response.data;
 }
 
+/** Fetch paginated potential listings (admin — includes all statuses). */
+export async function fetchAdminPotentials(
+  params = {},
+) {
+  const response = await api.get(
+    API_ROUTES.ADMIN_POTENTIALS,
+    { params },
+  );
+  return response.data;
+}
+
 /** Fetch single potential detail (public). */
 export async function fetchPotentialDetail(
   categorySlug,

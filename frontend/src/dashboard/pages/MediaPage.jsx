@@ -6,6 +6,7 @@ import { Alert } from '@/dashboard/components/organisms/Alert';
 import { EmptyState } from '@/dashboard/components/organisms/EmptyState';
 import { TablePagination } from '@/dashboard/components/data/TablePagination';
 import { PreviewModal } from '@/dashboard/components/molecules/PreviewModal';
+import FadeContent from '@/components/FadeContent';
 import { useMediaList, useUploadMedia, useDeleteMedia } from '@/hooks/useMedia';
 
 export default function MediaPage() {
@@ -82,6 +83,7 @@ export default function MediaPage() {
         </div>
       )}
 
+      <FadeContent duration={600} delay={0} threshold={0.1}>
       {isLoading ? (
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
           {Array.from({ length: 8 }).map((_, i) => (
@@ -143,6 +145,7 @@ export default function MediaPage() {
           onPageChange={setPage}
         />
       )}
+      </FadeContent>
 
       <PreviewModal
         media={previewMedia}

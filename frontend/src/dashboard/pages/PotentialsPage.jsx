@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { PageHeader } from '@/dashboard/components/molecules/PageHeader';
 import { DashboardButton } from '@/dashboard/components/atoms/DashboardButton';
 import { DashboardDataTable } from '@/dashboard/components/data/DashboardDataTable';
+import FadeContent from '@/components/FadeContent';
 import { TableToolbar } from '@/dashboard/components/data/TableToolbar';
 import { TableSearch } from '@/dashboard/components/data/TableSearch';
 import { TablePagination } from '@/dashboard/components/data/TablePagination';
@@ -11,7 +12,7 @@ import { RowActionMenu } from '@/dashboard/components/data/RowActionMenu';
 import { PublishStatusToggle } from '@/dashboard/components/data/PublishStatusToggle';
 import { Alert } from '@/dashboard/components/organisms/Alert';
 import { EmptyState } from '@/dashboard/components/organisms/EmptyState';
-import { usePotentials } from '@/hooks/usePotentials';
+import { useAdminPotentials } from '@/hooks/useAdminPotentials';
 import { useDeletePotential, useToggleStatus } from '@/hooks/usePotentialMutations';
 
 export default function PotentialsPage() {
@@ -20,7 +21,7 @@ export default function PotentialsPage() {
   const [page, setPage] = useState(1);
   const [selectedIds, setSelectedIds] = useState([]);
 
-  const { data, isLoading, error } = usePotentials({ page, search: search.length >= 3 ? search : undefined, per_page: 10 });
+  const { data, isLoading, error } = useAdminPotentials({ page, search: search.length >= 3 ? search : undefined, per_page: 10 });
   const deleteMutation = useDeletePotential();
   const toggleStatusMutation = useToggleStatus();
 
@@ -70,6 +71,7 @@ export default function PotentialsPage() {
         }
       />
 
+      <FadeContent duration={600} delay={0} threshold={0.1}>
       <DashboardDataTable
         title="Daftar potensi"
         description="Semua data potensi desa yang tersedia."
@@ -156,6 +158,7 @@ export default function PotentialsPage() {
           onPageChange={setPage}
         />
       )}
+      </FadeContent>
     </div>
   );
 }

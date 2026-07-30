@@ -1,4 +1,5 @@
 import { useState, useCallback, useMemo, useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { MapContainer, TileLayer, useMap, Marker, Popup } from 'react-leaflet';
 import L from 'leaflet';
 import { Map, Layers } from 'lucide-react';
@@ -55,6 +56,7 @@ function FitBounds({ potentials }) {
 }
 
 export default function DashboardMapPage() {
+  const navigate = useNavigate();
   const [activeCategory, setActiveCategory] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedPotential, setSelectedPotential] = useState(null);
