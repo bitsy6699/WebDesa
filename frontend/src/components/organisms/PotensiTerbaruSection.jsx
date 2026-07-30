@@ -52,47 +52,49 @@ export function PotensiTerbaruSection({ id, potentials, isLoading = false }) {
           )}
         </div>
 
-        {isLoading ? (
+        {isLoading && (
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 lg:gap-7">
             {Array.from({ length: 6 }).map((_, i) => (
               <LatestPotentialCardSkeleton key={i} />
             ))}
           </div>
-        ) : isEmpty ? null : (
-          <>
-            <div className="hidden lg:block relative py-4">
-              <motion.div
-                className="flex gap-7"
-                style={prefersReducedMotion ? {} : { x: scrollX }}
-              >
-                {items.map((item) => (
-                  <div key={item.id} className="min-w-[320px] w-[320px] shrink-0">
-                    <LatestPotentialCard item={item} />
-                  </div>
-                ))}
-              </motion.div>
-              <div
-                className="pointer-events-none absolute inset-y-0 left-0 w-32 z-10"
-                style={{ background: 'linear-gradient(to right, var(--bg-page), transparent)' }}
-              />
-              <div
-                className="pointer-events-none absolute inset-y-0 right-0 w-32 z-10"
-                style={{ background: 'linear-gradient(to left, var(--bg-page), transparent)' }}
-              />
-            </div>
-
-            <div className="lg:hidden">
-              <div className="flex gap-4 overflow-x-auto scroll-smooth snap-x snap-mandatory scrollbar-none pb-4 py-4">
-                {items.map((item) => (
-                  <div key={item.id} className="min-w-[280px] w-[280px] shrink-0 snap-start">
-                    <LatestPotentialCard item={item} />
-                  </div>
-                ))}
-              </div>
-            </div>
-          </>
         )}
       </div>
+
+      {!isLoading && !isEmpty && (
+        <>
+          <div className="hidden lg:block relative py-4">
+            <motion.div
+              className="flex gap-7"
+              style={prefersReducedMotion ? {} : { x: scrollX }}
+            >
+              {items.map((item) => (
+                <div key={item.id} className="min-w-[320px] w-[320px] shrink-0">
+                  <LatestPotentialCard item={item} />
+                </div>
+              ))}
+            </motion.div>
+            <div
+              className="pointer-events-none absolute inset-y-0 left-0 w-40 z-10"
+              style={{ background: 'linear-gradient(to right, var(--bg-page), transparent)' }}
+            />
+            <div
+              className="pointer-events-none absolute inset-y-0 right-0 w-40 z-10"
+              style={{ background: 'linear-gradient(to left, var(--bg-page), transparent)' }}
+            />
+          </div>
+
+          <div className="lg:hidden">
+            <div className="flex gap-4 overflow-x-auto scroll-smooth snap-x snap-mandatory scrollbar-none pb-4 py-4 px-4 sm:px-6">
+              {items.map((item) => (
+                <div key={item.id} className="min-w-[280px] w-[280px] shrink-0 snap-start">
+                  <LatestPotentialCard item={item} />
+                </div>
+              ))}
+            </div>
+          </div>
+        </>
+      )}
     </section>
   );
 }
