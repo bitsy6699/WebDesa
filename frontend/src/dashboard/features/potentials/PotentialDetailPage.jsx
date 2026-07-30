@@ -84,7 +84,7 @@ export function PotentialDetailPage({ potential }) {
             <DashboardCard title="Galeri">
               <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-3">
                 {potential.gallery_details.map((item, i) => (
-                  <div key={item.id ?? i} className="aspect-square overflow-hidden rounded-xl border border-[#E8ECEA]">
+                  <div key={item.id ?? i} className="aspect-square overflow-hidden rounded-xl border border-[#E7E7E7]">
                     <img src={item.filepath} alt={`Galeri ${i + 1}`} className="h-full w-full object-cover" />
                   </div>
                 ))}

@@ -11,9 +11,9 @@ const baseStyles = [
 
 const variants = {
   primary: 'border-[#184D47] bg-[#184D47] text-white hover:bg-[#2F6B60] active:bg-[#0F3D34] shadow-[0_1px_2px_rgba(24,77,71,0.2)]',
-  secondary: 'border-[#E8ECEA] bg-white text-neutral-700 hover:bg-neutral-50 hover:border-neutral-300 active:bg-neutral-100',
+  secondary: 'border-[#E7E7E7] bg-white text-neutral-700 hover:bg-neutral-50 hover:border-neutral-300 active:bg-neutral-100',
   ghost: 'border-transparent bg-transparent text-neutral-600 hover:bg-neutral-100 hover:text-neutral-800 active:bg-neutral-200',
-  outline: 'border-[#E8ECEA] bg-transparent text-[#184D47] hover:bg-[#184D47]/5 active:bg-[#184D47]/10',
+  outline: 'border-[#E7E7E7] bg-transparent text-[#184D47] hover:bg-[#184D47]/5 active:bg-[#184D47]/10',
   danger: 'border-transparent bg-red-50 text-red-700 hover:bg-red-100 active:bg-red-200',
 };
 

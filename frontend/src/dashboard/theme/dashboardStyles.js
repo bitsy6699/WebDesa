@@ -11,7 +11,7 @@ export const dashboardInputClassName = clsx(
 );
 
 export const dashboardCardClassName = clsx(
-  'rounded-2xl border border-[#E7E7E7] bg-white',
+  'rounded-2xl border border-[#E7E7E7] bg-white shadow-[0_1px_3px_rgba(0,0,0,0.04)]',
 );
 
 export const dashboardPageClassName = 'space-y-5';

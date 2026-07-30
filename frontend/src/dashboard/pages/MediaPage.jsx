@@ -103,7 +103,7 @@ export default function MediaPage() {
           {data?.data.map((media) => (
             <div
               key={media.id}
-              className="group relative cursor-pointer overflow-hidden rounded-xl border border-[#E8ECEA] bg-white transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_8px_25px_rgba(0,0,0,0.08)]"
+              className="group relative cursor-pointer overflow-hidden rounded-xl border border-[#E7E7E7] bg-white transition-all duration-200 hover:-translate-y-1 hover:shadow-[0_8px_25px_rgba(0,0,0,0.08)]"
               onClick={() => setPreviewMedia(media)}
             >
               <div className="aspect-square overflow-hidden">

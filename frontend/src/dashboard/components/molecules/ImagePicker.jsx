@@ -98,7 +98,7 @@ export function ImagePicker({
       {/* Render Single Preview */}
       {!multiple && preview && (
         <div className="relative inline-block">
-          <img src={preview} alt="Pratinjau" className="h-32 w-32 rounded-xl border border-[#E8ECEA] object-cover" />
+          <img src={preview} alt="Pratinjau" className="h-32 w-32 rounded-xl border border-[#E7E7E7] object-cover" />
           <button
             type="button"
             onClick={handleRemoveSingle}
@@ -113,7 +113,7 @@ export function ImagePicker({
       {multiple && galleryItems.length > 0 && (
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-6">
           {galleryItems.map((item) => (
-            <div key={item.id} className="relative aspect-square w-full group rounded-xl overflow-hidden border border-[#E8ECEA]">
+            <div key={item.id} className="relative aspect-square w-full group rounded-xl overflow-hidden border border-[#E7E7E7]">
               <img src={item.filepath} alt={item.filename || 'Item galeri'} className="h-full w-full object-cover" />
               <button
                 type="button"
@@ -132,7 +132,7 @@ export function ImagePicker({
           type="button"
           onClick={() => fileInputRef.current?.click()}
           disabled={uploadMutation.isPending}
-          className="inline-flex items-center gap-2 rounded-xl border-2 border-dashed border-[#E8ECEA] bg-[#F8FAF8] px-4 py-3 text-[0.8125rem] text-neutral-500 transition-all duration-150 hover:border-[#184D47] hover:text-[#184D47]"
+          className="inline-flex items-center gap-2 rounded-xl border-2 border-dashed border-[#E7E7E7] bg-[#F8FAF8] px-4 py-3 text-[0.8125rem] text-neutral-500 transition-all duration-150 hover:border-[#184D47] hover:text-[#184D47]"
         >
           {uploadMutation.isPending ? (
             <LoaderCircle className="h-4 w-4 animate-spin" />

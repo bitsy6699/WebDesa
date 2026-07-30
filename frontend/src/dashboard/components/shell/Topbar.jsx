@@ -62,6 +62,13 @@ export const Topbar = memo(function Topbar({ onOpenMobileMenu }) {
         >
           <Menu className="h-5 w-5" />
         </button>
+        <div className="md:hidden">
+          {breadcrumbs.length > 1 && (
+            <span className="text-[0.8125rem] font-medium text-neutral-600">
+              {breadcrumbs[breadcrumbs.length - 1].label}
+            </span>
+          )}
+        </div>
         <div className="hidden md:block">
           <Breadcrumb items={breadcrumbs} />
         </div>
@@ -69,7 +76,15 @@ export const Topbar = memo(function Topbar({ onOpenMobileMenu }) {
 
       {/* Right */}
       <div className="flex items-center gap-2">
-        {/* Search */}
+        {/* Search - icon on mobile, full on desktop */}
+        <button
+          type="button"
+          onClick={() => setSearchOpen(true)}
+          className="flex items-center justify-center rounded-lg p-2 text-neutral-500 transition-colors hover:bg-neutral-100 md:hidden"
+          aria-label="Cari"
+        >
+          <Search className="h-4 w-4" />
+        </button>
         <button
           type="button"
           onClick={() => setSearchOpen(true)}

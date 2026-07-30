@@ -5,7 +5,7 @@ const variants = {
   warning: 'border-amber-200 bg-amber-50 text-amber-700',
   info: 'border-sky-200 bg-sky-50 text-sky-700',
   danger: 'border-red-200 bg-red-50 text-red-700',
-  neutral: 'border-[#E8ECEA] bg-neutral-50 text-neutral-600',
+  neutral: 'border-[#E7E7E7] bg-neutral-50 text-neutral-600',
 };
 
 export function StatusChip({ label, variant = 'neutral' }) {

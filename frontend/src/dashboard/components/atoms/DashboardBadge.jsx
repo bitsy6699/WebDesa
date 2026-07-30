@@ -1,7 +1,7 @@
 import { clsx } from 'clsx';
 
 const variants = {
-  neutral: 'border-[#E8ECEA] bg-neutral-50 text-neutral-600',
+  neutral: 'border-[#E7E7E7] bg-neutral-50 text-neutral-600',
   primary: 'border-[#184D47]/20 bg-[#184D47]/5 text-[#184D47]',
   success: 'border-green-200 bg-green-50 text-green-700',
   warning: 'border-amber-200 bg-amber-50 text-amber-700',

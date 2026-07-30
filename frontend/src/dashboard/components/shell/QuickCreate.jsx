@@ -18,7 +18,7 @@ export function QuickCreate() {
       {open ? (
         <>
           <div className="fixed inset-0 z-40" onClick={() => setOpen(false)} />
-          <div className="absolute right-0 z-50 mt-2 w-52 rounded-xl border border-[#E8ECEA] bg-white p-1.5 shadow-[0_8px_25px_rgba(0,0,0,0.08)]">
+          <div className="absolute right-0 z-50 mt-2 w-52 rounded-xl border border-[#E7E7E7] bg-white p-1.5 shadow-[0_8px_25px_rgba(0,0,0,0.08)]">
             <button
               type="button"
               className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-left text-[0.8125rem] text-neutral-700 transition-colors duration-150 hover:bg-[#F8FAF8]"

@@ -130,7 +130,7 @@ export function PotentialForm({ mode = 'create', initialData }) {
             <select
               id="category_id"
               {...register('category_id', { required: 'Kategori wajib dipilih.' })}
-              className="w-full rounded-xl border border-[#E8ECEA] bg-white px-3.5 py-2.5 text-[0.8125rem] text-neutral-800 outline-none transition-all duration-150 hover:border-neutral-300 focus:border-[#184D47] focus:ring-2 focus:ring-[#184D47]/20"
+              className="w-full rounded-xl border border-[#E7E7E7] bg-white px-3.5 py-2.5 text-[0.8125rem] text-neutral-800 outline-none transition-all duration-150 hover:border-neutral-300 focus:border-[#184D47] focus:ring-2 focus:ring-[#184D47]/20"
             >
               <option value="">Pilih kategori</option>
               {categories.map((cat) => (
@@ -151,7 +151,7 @@ export function PotentialForm({ mode = 'create', initialData }) {
             <select
               id="status"
               {...register('status', { required: 'Status wajib dipilih.' })}
-              className="w-full rounded-xl border border-[#E8ECEA] bg-white px-3.5 py-2.5 text-[0.8125rem] text-neutral-800 outline-none transition-all duration-150 hover:border-neutral-300 focus:border-[#184D47] focus:ring-2 focus:ring-[#184D47]/20"
+              className="w-full rounded-xl border border-[#E7E7E7] bg-white px-3.5 py-2.5 text-[0.8125rem] text-neutral-800 outline-none transition-all duration-150 hover:border-neutral-300 focus:border-[#184D47] focus:ring-2 focus:ring-[#184D47]/20"
             >
               <option value="draft">Draf</option>
               <option value="published">Diterbitkan</option>
@@ -176,7 +176,7 @@ export function PotentialForm({ mode = 'create', initialData }) {
           {...register('description', { required: 'Deskripsi wajib diisi.' })}
         />
 
-        <div className="space-y-4 mt-6 border-t border-[#E8ECEA] pt-6">
+        <div className="space-y-4 mt-6 border-t border-[#E7E7E7] pt-6">
           <div>
             <label className="mb-1.5 block text-[0.8125rem] font-medium text-neutral-800">
               Foto Sampul
@@ -313,7 +313,7 @@ export function PotentialForm({ mode = 'create', initialData }) {
           <input
             type="checkbox"
             {...register('is_featured')}
-            className="h-4 w-4 rounded border-[#E8ECEA] text-[#184D47] focus:ring-[#184D47]/20"
+            className="h-4 w-4 rounded border-[#E7E7E7] text-[#184D47] focus:ring-[#184D47]/20"
           />
           <span className="text-[0.8125rem] text-neutral-800">Jadikan potensi unggulan</span>
         </label>

@@ -4,10 +4,10 @@ export function ActivityItem({ icon, title, description, timestamp, variant = 'n
   const Icon = icon;
   const iconClasses = variant === 'teal'
     ? 'border-[#184D47]/10 bg-[#184D47]/5 text-[#184D47]'
-    : 'border-[#E8ECEA] bg-neutral-50 text-neutral-500';
+    : 'border-[#E7E7E7] bg-neutral-50 text-neutral-500';
 
   return (
-    <li className="flex gap-3 rounded-xl border border-[#E8ECEA] bg-white p-4">
+    <li className="flex gap-3 rounded-xl border border-[#E7E7E7] bg-white p-4">
       <div className={clsx('mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border', iconClasses)}>
         <Icon className="h-4 w-4" />
       </div>

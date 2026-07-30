@@ -45,7 +45,7 @@ export function MapPicker({ latitude, longitude, onChange, height = '240px' }) {
   };
 
   return (
-    <div className="overflow-hidden rounded-xl border border-[#E8ECEA]" style={{ height }}>
+    <div className="overflow-hidden rounded-xl border border-[#E7E7E7]" style={{ height }}>
       <MapContainer
         center={center}
         zoom={zoom}

@@ -21,25 +21,46 @@ export function DashboardDataTable({
   const hasSelection = typeof onSelectRow === 'function' && typeof onSelectAll === 'function';
 
   if (loading) {
+    const skeletonColumns = [
+      ...(hasSelection ? [{ key: '_select', width: 'w-12' }] : []),
+      ...columns.map((col) => ({
+        key: col.key,
+        header: col.header,
+      })),
+      ...(rowActions ? [{ key: '_actions', width: 'w-16' }] : []),
+    ];
+
     return (
       <div className={clsx(dashboardCardClassName, 'p-0 overflow-hidden', className)}>
         {(title || description) && (
-          <div className="border-b border-[#E8ECEA] px-6 py-4">
+          <div className="border-b border-[#E7E7E7] px-6 py-4">
             {title ? <h2 className="text-[0.875rem] font-semibold text-neutral-800">{title}</h2> : null}
             {description ? <p className="mt-0.5 text-[0.8125rem] text-neutral-500">{description}</p> : null}
           </div>
         )}
-        <div className="p-6">
-          <div className="space-y-3">
-            {Array.from({ length: 5 }).map((_, i) => (
-              <div key={i} className="flex items-center gap-4">
-                <div className="h-4 w-4 animate-pulse rounded-lg bg-neutral-200" />
-                <div className="h-4 flex-1 animate-pulse rounded-lg bg-neutral-100" />
-                <div className="h-4 w-20 animate-pulse rounded-lg bg-neutral-100" />
-                <div className="h-4 w-16 animate-pulse rounded-lg bg-neutral-100" />
-              </div>
-            ))}
-          </div>
+        <div className="overflow-x-auto">
+          <table className="min-w-full text-left text-[0.8125rem]">
+            <thead>
+              <tr className="border-b border-[#E7E7E7] bg-neutral-50/60">
+                {skeletonColumns.map((col) => (
+                  <th key={String(col.key)} className="px-6 py-3">
+                    <div className="h-3.5 w-16 animate-pulse rounded bg-neutral-200" />
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-[#E7E7E7]">
+              {Array.from({ length: 5 }).map((_, i) => (
+                <tr key={i}>
+                  {skeletonColumns.map((col) => (
+                    <td key={String(col.key)} className="px-6 py-3.5">
+                      <div className={clsx('h-4 animate-pulse rounded bg-neutral-100', col.key === '_select' ? 'w-4' : 'h-4 w-3/4')} />
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
     );
@@ -56,12 +77,12 @@ export function DashboardDataTable({
   return (
     <div className={clsx(dashboardCardClassName, 'p-0 overflow-hidden', className)}>
       {(title || description) && (
-        <div className="border-b border-[#E8ECEA] px-6 py-4">
+        <div className="border-b border-[#E7E7E7] px-6 py-4">
           {title ? <h2 className="text-[0.875rem] font-semibold text-neutral-800">{title}</h2> : null}
           {description ? <p className="mt-0.5 text-[0.8125rem] text-neutral-500">{description}</p> : null}
         </div>
       )}
-      {toolbar ? <div className="border-b border-[#E8ECEA] px-6 py-3">{toolbar}</div> : null}
+      {toolbar ? <div className="border-b border-[#E7E7E7] px-6 py-3">{toolbar}</div> : null}
       {rows.length === 0 ? (
         emptyState ?? (
           <div className="p-6">
@@ -72,7 +93,7 @@ export function DashboardDataTable({
         <div className="overflow-x-auto">
           <table className="min-w-full text-left text-[0.8125rem]">
             <thead>
-              <tr className="border-b border-[#E8ECEA] bg-neutral-50/60">
+              <tr className="border-b border-[#E7E7E7] bg-neutral-50/60">
                 {hasSelection ? (
                   <th className="w-12 px-6 py-3">
                     <input

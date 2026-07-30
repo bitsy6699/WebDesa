@@ -103,7 +103,7 @@ export default function PotentialsPage() {
             key: 'cover_image_url',
             header: 'Foto',
             render: (row) => (
-              <div className="h-10 w-10 shrink-0 overflow-hidden rounded-lg border border-[#E8ECEA] bg-neutral-100">
+              <div className="h-10 w-10 shrink-0 overflow-hidden rounded-lg border border-[#E7E7E7] bg-neutral-100">
                 {row.cover_image_url ? (
                   <img src={row.cover_image_url} alt="" className="h-full w-full object-cover" />
                 ) : (

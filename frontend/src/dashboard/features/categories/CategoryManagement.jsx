@@ -152,7 +152,7 @@ export function CategoryManagement() {
   return (
     <>
       {pendingDeleteRow ? (
-        <div className="mb-6 rounded-xl border border-[#E8ECEA] bg-white p-6">
+        <div className="mb-6 rounded-xl border border-[#E7E7E7] bg-white p-6">
           <h3 className="text-[0.875rem] font-semibold text-neutral-800">Hapus kategori</h3>
           <p className="mt-1.5 text-[0.8125rem] leading-relaxed text-neutral-500">Tindakan ini akan menghapus {pendingDeleteRow.name} dari daftar kategori.</p>
           <div className="mt-4 flex flex-wrap items-center justify-end gap-2">

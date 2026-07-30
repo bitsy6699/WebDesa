@@ -112,7 +112,7 @@ export function CategoryListPage({ onCreate, onView, onEdit, onDelete, onRefresh
                   filters={
                     <>
                       <TableSearch value={query} onChange={setQuery} placeholder="Cari kategori" />
-                      <select className="rounded-xl border border-[#E8ECEA] bg-white px-3 py-2 text-[0.8125rem] text-neutral-800 outline-none transition-all duration-150 hover:border-neutral-300 focus:border-[#184D47] focus:ring-2 focus:ring-[#184D47]/20" value={statusFilter} onChange={(event) => setStatusFilter(event.target.value)}>
+                      <select className="rounded-xl border border-[#E7E7E7] bg-white px-3 py-2 text-[0.8125rem] text-neutral-800 outline-none transition-all duration-150 hover:border-neutral-300 focus:border-[#184D47] focus:ring-2 focus:ring-[#184D47]/20" value={statusFilter} onChange={(event) => setStatusFilter(event.target.value)}>
                         <option value="all">Semua status</option>
                         <option value="published">Diterbitkan</option>
                       </select>

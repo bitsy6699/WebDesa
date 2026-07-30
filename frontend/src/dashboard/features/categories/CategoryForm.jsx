@@ -121,7 +121,7 @@ export function CategoryForm({
                 type="color"
                 value={watchedColor.match(/^#[0-9A-F]{6}$/i) ? watchedColor : '#184D47'}
                 onChange={(e) => setValue('colorCode', e.target.value)}
-                className="h-[42px] w-[42px] shrink-0 cursor-pointer rounded-xl border border-[#E8ECEA] bg-white p-1"
+                className="h-[42px] w-[42px] shrink-0 cursor-pointer rounded-xl border border-[#E7E7E7] bg-white p-1"
               />
               <DashboardInput
                 id="colorCode"
@@ -139,7 +139,7 @@ export function CategoryForm({
             <select
               id="iconKey"
               {...register('iconKey')}
-              className="w-full rounded-xl border border-[#E8ECEA] bg-white px-3.5 py-2.5 text-[0.8125rem] text-neutral-800 outline-none transition-all duration-150 hover:border-neutral-300 focus:border-[#184D47] focus:ring-2 focus:ring-[#184D47]/20"
+              className="w-full rounded-xl border border-[#E7E7E7] bg-white px-3.5 py-2.5 text-[0.8125rem] text-neutral-800 outline-none transition-all duration-150 hover:border-neutral-300 focus:border-[#184D47] focus:ring-2 focus:ring-[#184D47]/20"
             >
               <option value="">Pilih ikon</option>
               <option value="sprout">Sprout (Pertanian)</option>
