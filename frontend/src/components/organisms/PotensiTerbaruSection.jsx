@@ -60,7 +60,7 @@ export function PotensiTerbaruSection({ id, potentials, isLoading = false }) {
           </div>
         ) : isEmpty ? null : (
           <>
-            <div className="hidden lg:block overflow-hidden">
+            <div className="hidden lg:block overflow-x-clip py-4">
               <motion.div
                 className="flex gap-7"
                 style={prefersReducedMotion ? {} : { x: scrollX }}
@@ -74,7 +74,7 @@ export function PotensiTerbaruSection({ id, potentials, isLoading = false }) {
             </div>
 
             <div className="lg:hidden">
-              <div className="flex gap-4 overflow-x-auto scroll-smooth snap-x snap-mandatory scrollbar-none pb-4">
+              <div className="flex gap-4 overflow-x-auto scroll-smooth snap-x snap-mandatory scrollbar-none pb-4 py-4">
                 {items.map((item) => (
                   <div key={item.id} className="min-w-[280px] w-[280px] shrink-0 snap-start">
                     <LatestPotentialCard item={item} />
