@@ -20,7 +20,7 @@ export function PotensiTerbaruSection({ id, potentials, isLoading = false }) {
     <section
       ref={sectionRef}
       id={id}
-      className="relative overflow-hidden"
+      className="relative"
       style={{
         background: 'var(--bg-page)',
         paddingTop: 'clamp(80px, 10vw, 120px)',
