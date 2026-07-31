@@ -92,7 +92,13 @@ export const Sidebar = memo(function Sidebar({ collapsed = false, onToggleCollap
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 overflow-y-auto overflow-x-hidden px-5 py-4" aria-label="Navigasi dashboard">
+      <motion.nav
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.4, delay: 0.1 }}
+        className="flex-1 overflow-y-auto overflow-x-hidden px-5 py-4"
+        aria-label="Navigasi dashboard"
+      >
         <LineSidebar
           groups={groupedNavigation}
           activeIndex={activeIndex}
@@ -106,19 +112,22 @@ export const Sidebar = memo(function Sidebar({ collapsed = false, onToggleCollap
           fontSize={0.8125}
           smoothing={100}
         />
-      </nav>
+      </motion.nav>
 
       {/* Footer */}
       <div className="shrink-0 border-t border-black/[.06] px-4 py-3">
         <div className="flex items-center gap-2.5">
-          <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#184D47] text-[0.6rem] font-bold text-white">
+          <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#184D47] text-[0.6rem] font-bold text-white shadow-[0_0_0_2px_rgba(24,77,71,0.12)]">
             {initial}
           </div>
           {!collapsed && (
             <div className="min-w-0 flex-1">
               <p className="truncate text-[0.75rem] font-medium text-neutral-700">{username}</p>
               <div className="flex items-center gap-1">
-                <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+                <span className="relative flex h-1.5 w-1.5">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+                  <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-500" />
+                </span>
                 <span className="text-[0.625rem] text-neutral-400">Online</span>
               </div>
             </div>

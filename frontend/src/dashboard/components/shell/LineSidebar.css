@@ -16,6 +16,22 @@
   min-height: 0;
 }
 
+@keyframes sidebar-item-enter {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.line-sidebar__item {
+  animation: sidebar-item-enter 0.4s ease-out both;
+  animation-delay: calc(var(--item-index, 0) * 30ms);
+}
+
 .line-sidebar--markers {
   /* Marker visual only — no content padding.
        Icons stay at consistent left position in both modes. */
@@ -65,15 +81,16 @@
   position: relative;
   cursor: pointer;
   border-radius: 8px;
-  transition: background-color 150ms ease;
+  transition: background-color 150ms ease, box-shadow 200ms ease;
 }
 
 .line-sidebar__item:hover {
-  background-color: #F6F7F8;
+  background-color: #F0F4F2;
 }
 
 .line-sidebar__item--active {
-  background-color: #F2F7F5 !important;
+  background-color: #EDF4F0 !important;
+  box-shadow: inset 0 1px 0 rgba(24, 77, 71, 0.06);
 }
 
 .line-sidebar__item::before {
@@ -83,7 +100,7 @@
   pointer-events: all;
 }
 
-/* Active accent bar — 3px left */
+/* Active accent bar — 3px left with soft glow */
 .line-sidebar__accent {
   position: absolute;
   left: 0;
@@ -94,6 +111,7 @@
   border-radius: 0 2px 2px 0;
   pointer-events: none;
   z-index: 1;
+  box-shadow: 0 0 8px rgba(24, 77, 71, 0.35), 0 0 3px rgba(24, 77, 71, 0.2);
 }
 
 .line-sidebar__item-content {
@@ -116,11 +134,16 @@
   flex-shrink: 0;
   z-index: 1;
   color: var(--text-color);
-  transition: color 200ms ease;
+  transition: color 200ms ease, transform 200ms ease;
+}
+
+.line-sidebar__item:hover .line-sidebar__icon {
+  transform: scale(1.08);
 }
 
 .line-sidebar__item--active .line-sidebar__icon {
   color: var(--accent-color);
+  transform: scale(1.05);
 }
 
 /* Label — direction-dependent sequenced animation */

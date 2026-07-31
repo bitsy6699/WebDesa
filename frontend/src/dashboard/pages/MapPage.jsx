@@ -6,6 +6,7 @@ import { Map, Layers } from 'lucide-react';
 import { PageHeader } from '@/dashboard/components/molecules/PageHeader';
 import { DashboardButton } from '@/dashboard/components/atoms/DashboardButton';
 import { DashboardCard } from '@/dashboard/components/organisms/DashboardCard';
+import FadeContent from '@/components/FadeContent';
 import { usePotentials } from '@/hooks/usePotentials';
 import { useCategories } from '@/hooks/useCategories';
 import { MarkerClusterGroup } from '@/components/map/MapMarkers';
@@ -102,6 +103,7 @@ export default function DashboardMapPage() {
 
   return (
     <div className="space-y-5">
+      <FadeContent duration={600} delay={0} threshold={0.1}>
       <PageHeader
         title="Peta Interaktif"
         description="Jelajahi dan kelola lokasi potensi desa pada peta."
@@ -111,7 +113,9 @@ export default function DashboardMapPage() {
           </DashboardButton>
         }
       />
+      </FadeContent>
 
+      <FadeContent duration={600} delay={150} threshold={0.1}>
       <DashboardCard className="relative h-[calc(100vh-220px)] p-0 overflow-hidden">
         <MapContainer
           center={MAP_CENTER}
@@ -184,6 +188,7 @@ export default function DashboardMapPage() {
           </div>
         )}
       </DashboardCard>
+      </FadeContent>
     </div>
   );
 }

@@ -153,14 +153,15 @@ export const LineSidebar = memo(function LineSidebar({
                 const isActive = flatIdx === activeIndex;
 
                 return (
-                  <li
-                    key={item.route}
-                    ref={(el) => {
-                      itemRefs.current[flatIdx] = el;
-                    }}
-                    className={clsx('line-sidebar__item', isActive && 'line-sidebar__item--active')}
-                    onClick={() => onItemClick?.(flatIdx, item)}
-                  >
+                    <li
+                      key={item.route}
+                      ref={(el) => {
+                        itemRefs.current[flatIdx] = el;
+                      }}
+                      className={clsx('line-sidebar__item', isActive && 'line-sidebar__item--active')}
+                      style={{ '--item-index': flatIdx }}
+                      onClick={() => onItemClick?.(flatIdx, item)}
+                    >
                     {isActive && <span className="line-sidebar__accent" aria-hidden="true" />}
                     {showMarker && !collapsed && (
                       <span className="line-sidebar__marker" aria-hidden="true" />
