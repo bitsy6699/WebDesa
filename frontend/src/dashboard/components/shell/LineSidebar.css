@@ -1,10 +1,6 @@
 .line-sidebar {
   --accent-color: #184D47;
   --text-color: #78716C;
-  --marker-color: #E7E7E7;
-  --marker-length: 40px;
-  --marker-gap: 0px;
-  --tick-scale: 0.5;
   --max-shift: 20px;
   --item-gap: 2px;
   --font-size: 0.8125rem;
@@ -30,11 +26,6 @@
 .line-sidebar__item {
   animation: sidebar-item-enter 0.4s ease-out both;
   animation-delay: calc(var(--item-index, 0) * 30ms);
-}
-
-.line-sidebar--markers {
-  /* Marker visual only — no content padding.
-       Icons stay at consistent left position in both modes. */
 }
 
 .line-sidebar__list {
@@ -208,41 +199,7 @@
   padding: 0;
 }
 
-/* Marker — positioned within the nav padding area so icons never shift */
-.line-sidebar__marker {
-  position: absolute;
-  top: 50%;
-  left: 0;
-  height: 1px;
-  width: 16px;
-  background-color: color-mix(in srgb, var(--accent-color) calc(var(--effect, 0) * 100%), var(--marker-color));
-  transform-origin: left center;
-  transform: translateY(-50%) scaleX(calc(0.7 + var(--effect, 0) * 0.5));
-}
-
-.line-sidebar--markers .line-sidebar__item:not(:last-child)::after {
-  content: '';
-  position: absolute;
-  top: calc(100% + var(--item-gap) / 2);
-  left: 0;
-  height: 1px;
-  width: 8px;
-  background-color: var(--marker-color);
-  opacity: 0.4;
-  transform: translateY(-50%);
-}
-
-.line-sidebar--scale-tick .line-sidebar__item:not(:last-child)::after {
-  transform-origin: left center;
-  transform: translateY(-50%) scaleX(calc(0.7 + var(--effect, 0) * 0.6));
-}
-
 /* Collapsed */
-.line-sidebar--collapsed .line-sidebar__marker,
-.line-sidebar--collapsed .line-sidebar__item::after {
-  display: none;
-}
-
 .line-sidebar--collapsed .line-sidebar__accent {
   display: none;
 }

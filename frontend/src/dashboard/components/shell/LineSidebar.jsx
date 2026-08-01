@@ -15,14 +15,9 @@ export const LineSidebar = memo(function LineSidebar({
   collapsed = false,
   accentColor = '#184D47',
   textColor = '#78716C',
-  markerColor = '#E8ECEA',
-  showMarker = true,
   proximityRadius = 80,
   maxShift = 24,
   falloff = 'smooth',
-  markerLength = 40,
-  tickScale = 0.5,
-  scaleTick = true,
   itemGap = 4,
   fontSize = 0.8125,
   smoothing = 100,
@@ -118,18 +113,12 @@ export const LineSidebar = memo(function LineSidebar({
     <nav
       className={clsx(
         'line-sidebar',
-        showMarker && 'line-sidebar--markers',
-        scaleTick && 'line-sidebar--scale-tick',
         collapsed && 'line-sidebar--collapsed',
         className,
       )}
       style={{
         '--accent-color': accentColor,
         '--text-color': textColor,
-        '--marker-color': markerColor,
-        '--marker-length': `${markerLength}px`,
-        '--marker-gap': '0px',
-        '--tick-scale': tickScale,
         '--max-shift': `${maxShift}px`,
         '--item-gap': `${itemGap}px`,
         '--font-size': `${fontSize}rem`,
@@ -163,9 +152,6 @@ export const LineSidebar = memo(function LineSidebar({
                       onClick={() => onItemClick?.(flatIdx, item)}
                     >
                     {isActive && <span className="line-sidebar__accent" aria-hidden="true" />}
-                    {showMarker && !collapsed && (
-                      <span className="line-sidebar__marker" aria-hidden="true" />
-                    )}
                     <div className="line-sidebar__item-content">
                       {Icon && (
                         <span className="line-sidebar__icon">

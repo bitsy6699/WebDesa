@@ -104,10 +104,8 @@ export const Sidebar = memo(function Sidebar({ collapsed = false, onToggleCollap
           activeIndex={activeIndex}
           onItemClick={handleItemClick}
           collapsed={collapsed}
-          showMarker={true}
           proximityRadius={80}
           maxShift={20}
-          markerLength={40}
           itemGap={2}
           fontSize={0.8125}
           smoothing={100}
