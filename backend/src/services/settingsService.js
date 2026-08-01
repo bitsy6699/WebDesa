@@ -11,7 +11,7 @@ export async function get(key) {
   return setting?.value || null;
 }
 
-export async function update(settings, ipAddress) {
+export async function update(settings, userId, ipAddress) {
   for (const s of settings) {
     await prisma.setting.upsert({
       where: { key: s.key },
@@ -20,7 +20,11 @@ export async function update(settings, ipAddress) {
     });
   }
 
-  await logAction(null, 'update_settings', null, 'Setting', ipAddress);
+  try {
+    await logAction(userId, 'update_settings', null, 'Setting', ipAddress);
+  } catch (err) {
+    console.error('Gagal mencatat aktivitas update_settings:', err);
+  }
 }
 
 export async function getGroup(group) {

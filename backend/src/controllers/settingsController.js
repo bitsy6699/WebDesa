@@ -25,7 +25,7 @@ export async function update(req, res, next) {
       }
     }
 
-    await settingsService.update(settings, req.ip);
+    await settingsService.update(settings, req.user.id, req.ip);
     return success(res, null, 'Pengaturan berhasil diperbarui.');
   } catch (err) {
     next(err);

@@ -26,6 +26,22 @@ const upload = multer({
     }
   },
 });
+const uploadImport = multer({
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 5 * 1024 * 1024 },
+  fileFilter: (req, file, cb) => {
+    const allowed = [
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      'application/vnd.ms-excel',
+      'application/octet-stream',
+    ];
+    if (allowed.includes(file.mimetype) || file.originalname.toLowerCase().endsWith('.xlsx') || file.originalname.toLowerCase().endsWith('.xls')) {
+      cb(null, true);
+    } else {
+      cb(new Error('Format file tidak didukung. Gunakan file Excel (.xlsx).'));
+    }
+  },
+});
 
 router.get('/potentials', potentialListValidation, potentialController.index);
 router.get('/potentials/:category/:slug', potentialController.show);
@@ -57,7 +73,7 @@ router.delete('/admin/media/:id', authenticate, mediaController.destroy);
 
 router.put('/admin/settings', authenticate, settingsController.update);
 
-router.post('/admin/potentials/import', authenticate, upload.single('file'), importExportController.importPotentials);
+router.post('/admin/potentials/import', authenticate, uploadImport.single('file'), importExportController.importPotentials);
 router.get('/admin/potentials/import/template', authenticate, importExportController.template);
 router.get('/admin/potentials/export', authenticate, importExportController.exportPotentials);
 

@@ -44,14 +44,22 @@ export async function importPotentials(file, userId, ipAddress) {
     throw Object.assign(new Error('Validasi import gagal'), { statusCode: 422, details: allErrors });
   }
 
-  if (errors.length > 0) {
-    throw Object.assign(new Error('Validasi import gagal'), { statusCode: 422, details: errors });
-  }
-
   let importedCount = 0;
+
+  const transactionErrors = [];
 
   await prisma.$transaction(async (tx) => {
     for (const row of validRows) {
+      let metadata = null;
+      if (row.metadata_json) {
+        try {
+          metadata = JSON.parse(row.metadata_json);
+        } catch {
+          transactionErrors.push(`Baris ${rows.indexOf(row) + 2}: metadata_json bukan JSON yang valid.`);
+          continue;
+        }
+      }
+
       const slug = await generateSlug(row.title);
 
       const location = await tx.location.create({
@@ -72,14 +80,22 @@ export async function importPotentials(file, userId, ipAddress) {
           status: row.status || 'draft',
           locationId: location.id,
           isFeatured: row.is_featured === true || row.is_featured === 'true',
-          metadata: row.metadata_json ? JSON.parse(row.metadata_json) : null,
+          metadata,
           createdById: userId,
         },
       });
 
       importedCount++;
     }
-  });
+  }, { timeout: 120000 });
+
+  if (transactionErrors.length > 0) {
+    throw Object.assign(new Error('Sebagian data gagal diimport'), {
+      statusCode: 422,
+      details: transactionErrors,
+      importedCount,
+    });
+  }
 
   await logAction(userId, 'import_potentials', null, 'Potential', ipAddress);
   return { imported_count: importedCount };

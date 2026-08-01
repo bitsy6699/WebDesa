@@ -15,6 +15,8 @@ const __dirname = dirname(__filename);
 
 const app = express();
 
+app.set('trust proxy', true);
+
 app.use(helmet());
 app.use(cors({
   origin: process.env.FRONTEND_URL || 'http://localhost:5173',

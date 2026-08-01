@@ -1,3 +1,5 @@
+import { Prisma } from '@prisma/client';
+
 export function notFoundHandler(req, res) {
   res.status(404).json({
     success: false,
@@ -6,7 +8,31 @@ export function notFoundHandler(req, res) {
 }
 
 export function errorHandler(err, req, res, _next) {
-  console.error('Error:', err);
+  if (err.name === 'MulterError') {
+    const message = err.code === 'LIMIT_FILE_SIZE'
+      ? 'Ukuran file melebihi batas maksimal 5 MB.'
+      : 'Gagal mengunggah file.';
+    return res.status(400).json({
+      success: false,
+      error: { code: 'UPLOAD_FAILED', message },
+    });
+  }
+
+  if (err instanceof Prisma.PrismaClientKnownRequestError) {
+    const mapping = {
+      P2002: { status: 409, code: 'DUPLICATE_ENTRY', message: 'Data dengan nilai unik sudah ada.' },
+      P2003: { status: 409, code: 'RELATION_CONSTRAINT', message: 'Data masih digunakan oleh data lain.' },
+      P2014: { status: 409, code: 'RELATION_CONSTRAINT', message: 'Perubahan akan memutus relasi data yang ada.' },
+      P2025: { status: 404, code: 'NOT_FOUND', message: 'Data tidak ditemukan.' },
+    };
+    const mapped = mapping[err.code];
+    if (mapped) {
+      return res.status(mapped.status).json({
+        success: false,
+        error: { code: mapped.code, message: mapped.message },
+      });
+    }
+  }
 
   if (err.name === 'ValidationError') {
     return res.status(422).json({
@@ -30,10 +56,14 @@ export function errorHandler(err, req, res, _next) {
   }
 
   const statusCode = err.statusCode || 500;
-  const message = err.message || 'Terjadi kesalahan pada server.';
+  const message = statusCode >= 500 ? 'Terjadi kesalahan pada server.' : (err.message || 'Terjadi kesalahan pada server.');
+
+  if (statusCode >= 500) {
+    console.error('Error:', err);
+  }
 
   res.status(statusCode).json({
     success: false,
-    error: { code: err.errorCode || 'SERVER_ERROR', message },
+    error: { code: err.errorCode || (statusCode >= 500 ? 'SERVER_ERROR' : 'REQUEST_FAILED'), message },
   });
 }

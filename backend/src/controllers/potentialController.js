@@ -12,7 +12,7 @@ export async function index(req, res, next) {
       search: req.query.search,
       category: req.query.category,
       featured: req.query.featured === 'true' ? true : undefined,
-      status: req.query.status || 'published',
+      status: 'published',
       sort: req.query.sort || 'latest',
       page: parseInt(req.query.page) || 1,
       perPage: parseInt(req.query.per_page) || PAGINATION_DEFAULT_PER_PAGE,

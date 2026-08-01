@@ -26,6 +26,8 @@ export async function list({ search, category, featured, status, sort, page, per
   switch (sort) {
     case 'oldest': orderBy.createdAt = 'asc'; break;
     case 'name': orderBy.title = 'asc'; break;
+    case 'name_asc': orderBy.title = 'asc'; break;
+    case 'name_desc': orderBy.title = 'desc'; break;
     case 'featured': orderBy.isFeatured = 'desc'; break;
     default: orderBy.createdAt = 'desc';
   }
@@ -54,6 +56,14 @@ export async function list({ search, category, featured, status, sort, page, per
     perPage,
     lastPage: Math.ceil(total / perPage),
   };
+}
+
+export async function listForExport() {
+  return prisma.potential.findMany({
+    where: { deletedAt: null },
+    include: { location: true },
+    orderBy: { createdAt: 'desc' },
+  });
 }
 
 export async function findBySlug(categorySlug, slug) {
@@ -96,6 +106,7 @@ export async function findById(id) {
 
 export async function create(data, userId, ipAddress) {
   const slug = await generateSlug(data.title);
+  const isFeatured = data.is_featured === true || data.is_featured === 'true';
 
   const potential = await prisma.$transaction(async (tx) => {
     const location = await tx.location.create({
@@ -118,7 +129,7 @@ export async function create(data, userId, ipAddress) {
         coverImageId: data.cover_image_id || null,
         locationId: location.id,
         metadata: data.metadata || null,
-        isFeatured: data.is_featured || false,
+        isFeatured,
         createdById: userId,
       },
     });
@@ -175,7 +186,7 @@ export async function update(id, data, userId, ipAddress) {
         ...(data.status !== undefined && { status: data.status }),
         ...(data.cover_image_id !== undefined && { coverImageId: data.cover_image_id || null }),
         ...(data.metadata !== undefined && { metadata: data.metadata }),
-        ...(data.is_featured !== undefined && { isFeatured: data.is_featured }),
+        ...(data.is_featured !== undefined && { isFeatured: data.is_featured === true || data.is_featured === 'true' }),
       },
     });
 
