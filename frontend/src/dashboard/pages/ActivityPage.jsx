@@ -18,6 +18,7 @@ const actionIcons = {
   'media.uploaded': { icon: Upload, color: 'text-[#184D47]' },
   'media.deleted': { icon: Trash2, color: 'text-red-500' },
   'settings.updated': { icon: Settings, color: 'text-neutral-400' },
+  'update_settings': { icon: Settings, color: 'text-neutral-400' },
 };
 
 const actionLabels = {
@@ -30,6 +31,7 @@ const actionLabels = {
   'media.uploaded': 'media diunggah',
   'media.deleted': 'media dihapus',
   'settings.updated': 'pengaturan diubah',
+  'update_settings': 'pengaturan diubah',
 };
 
 function timeAgo(dateString) {

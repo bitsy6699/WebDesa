@@ -32,4 +32,7 @@ export const queryKeys = {
     all: ['activity-logs'],
     list: (params) => ['activity-logs', params],
   },
+  settings: {
+    all: ['settings'],
+  },
 };
