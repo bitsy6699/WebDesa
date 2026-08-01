@@ -10,12 +10,15 @@ import { TableFilters } from '@/dashboard/components/data/TableFilters';
 import { TablePagination } from '@/dashboard/components/data/TablePagination';
 import { BulkActionBar } from '@/dashboard/components/data/BulkActionBar';
 import { RowActionMenu } from '@/dashboard/components/data/RowActionMenu';
+import { PotentialImportExport } from '@/dashboard/components/data/PotentialImportExport';
+import { ColumnVisibilityMenu } from '@/dashboard/components/data/ColumnVisibilityMenu';
 import { PublishStatusToggle } from '@/dashboard/components/data/PublishStatusToggle';
 import { Alert } from '@/dashboard/components/organisms/Alert';
 import { EmptyState } from '@/dashboard/components/organisms/EmptyState';
 import { useAdminPotentials } from '@/hooks/useAdminPotentials';
 import { useDeletePotential, useToggleStatus } from '@/hooks/usePotentialMutations';
 import { useCategories } from '@/hooks/useCategories';
+import { fetchAdminPotentials } from '@/services/potential.service';
 
 const selectClass = 'rounded-xl border border-[#E7E7E7] bg-white px-3 py-2 text-[0.8125rem] text-neutral-800 outline-none transition-all duration-150 hover:border-neutral-300 focus:border-[#184D47] focus:ring-2 focus:ring-[#184D47]/20';
 
@@ -23,6 +26,7 @@ export default function PotentialsPage() {
   const navigate = useNavigate();
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(1);
+  const [perPage, setPerPage] = useState(10);
   const [selectedIds, setSelectedIds] = useState([]);
   const [statusFilter, setStatusFilter] = useState('all');
   const [categoryFilter, setCategoryFilter] = useState('');
@@ -34,7 +38,7 @@ export default function PotentialsPage() {
   const { data, isLoading, error } = useAdminPotentials({
     page,
     search: search.length >= 3 ? search : undefined,
-    per_page: 10,
+    per_page: perPage,
     status: statusFilter === 'all' ? undefined : statusFilter,
     category: categoryFilter || undefined,
     featured: featuredFilter === 'all' ? undefined : featuredFilter === 'featured',
@@ -42,6 +46,47 @@ export default function PotentialsPage() {
   });
   const deleteMutation = useDeletePotential();
   const toggleStatusMutation = useToggleStatus();
+
+  const allColumns = [
+    {
+      key: 'cover_image_url',
+      header: 'Foto',
+      render: (row) => (
+        <div className="h-10 w-10 shrink-0 overflow-hidden rounded-lg border border-[#E7E7E7] bg-neutral-100">
+          {row.cover_image_url ? (
+            <img src={row.cover_image_url} alt="" className="h-full w-full object-cover" />
+          ) : (
+            <div className="flex h-full w-full items-center justify-center text-neutral-300">
+              <span className="text-[9px] font-medium">Tidak Ada Gambar</span>
+            </div>
+          )}
+        </div>
+      ),
+    },
+    { key: 'title', header: 'Judul' },
+    {
+      key: 'status',
+      header: 'Status',
+      render: (row) => (
+        <PublishStatusToggle
+          published={row.status === 'published'}
+          onToggle={() => handleToggleStatus(row.id, row.status)}
+        />
+      ),
+    },
+    { key: '_categoryLabel', header: 'Kategori' },
+    { key: '_updatedAt', header: 'Tanggal' },
+  ];
+  const [visibleColumnKeys, setVisibleColumnKeys] = useState(() => allColumns.map((c) => String(c.key)));
+  const columns = allColumns.filter((c) => visibleColumnKeys.includes(String(c.key)));
+  const toggleColumn = (key) => {
+    setVisibleColumnKeys((current) => {
+      if (current.includes(key) && current.length > 1) {
+        return current.filter((k) => k !== key);
+      }
+      return current.includes(key) ? current : [...current, key];
+    });
+  };
 
   const rows = useMemo(() => {
     if (!data?.data) return [];
@@ -57,8 +102,26 @@ export default function PotentialsPage() {
   };
 
   const toggleAll = () => {
-    const ids = rows.map((row) => row.id);
-    setSelectedIds((current) => (current.length === ids.length ? [] : ids));
+    const ids = rows.map((row) => String(row.id));
+    const allSelected = ids.every((id) => selectedIds.includes(id));
+    if (allSelected) {
+      setSelectedIds((current) => current.filter((id) => !ids.includes(id)));
+    } else {
+      setSelectedIds((current) => Array.from(new Set([...current, ...ids])));
+    }
+  };
+
+  const selectAllAcrossPages = async () => {
+    const params = {
+      per_page: 500,
+      search: search.length >= 3 ? search : undefined,
+      status: statusFilter === 'all' ? undefined : statusFilter,
+      category: categoryFilter || undefined,
+      featured: featuredFilter === 'all' ? undefined : featuredFilter === 'featured',
+      sort: sort === 'latest' ? undefined : sort,
+    };
+    const { data: allData } = await fetchAdminPotentials(params);
+    setSelectedIds(allData.map((item) => String(item.id)));
   };
 
   const handleDelete = (id) => {
@@ -91,9 +154,12 @@ export default function PotentialsPage() {
         description="Kelola data potensi desa Karamatwangi."
         badge={`${data?.meta?.total ?? 0} total`}
         actions={
-          <DashboardButton onClick={() => navigate('/dashboard/potentials/new')}>
-            + Buat Potensi
-          </DashboardButton>
+          <div className="flex items-center gap-2">
+            <PotentialImportExport />
+            <DashboardButton onClick={() => navigate('/dashboard/potentials/new')}>
+              + Buat Potensi
+            </DashboardButton>
+          </div>
         }
       />
 
@@ -111,14 +177,22 @@ export default function PotentialsPage() {
           <div className="space-y-3">
             <BulkActionBar
               selectedCount={selectedIds.length}
+              totalCount={data?.meta?.total ?? 0}
               onDelete={handleBulkDelete}
+              onSelectAllPages={selectAllAcrossPages}
             />
             <TableToolbar
               title="Explorer"
               actions={
-                <TableFilters
-                  filters={
-                    <>
+                <div className="flex flex-wrap items-center gap-2">
+                  <ColumnVisibilityMenu
+                    columns={allColumns}
+                    visibleKeys={visibleColumnKeys}
+                    onToggle={toggleColumn}
+                  />
+                  <TableFilters
+                    filters={
+                      <>
                       <TableSearch value={search} onChange={(v) => { setSearch(v); setPage(1); }} placeholder="Cari potensi..." />
                       <select className={selectClass} value={statusFilter} onChange={(e) => { setStatusFilter(e.target.value); setPage(1); }}>
                         <option value="all">Semua status</option>
@@ -154,40 +228,12 @@ export default function PotentialsPage() {
                     setPage(1);
                   }}
                 />
+                </div>
               }
             />
           </div>
         }
-        columns={[
-          {
-            key: 'cover_image_url',
-            header: 'Foto',
-            render: (row) => (
-              <div className="h-10 w-10 shrink-0 overflow-hidden rounded-lg border border-[#E7E7E7] bg-neutral-100">
-                {row.cover_image_url ? (
-                  <img src={row.cover_image_url} alt="" className="h-full w-full object-cover" />
-                ) : (
-                  <div className="flex h-full w-full items-center justify-center text-neutral-300">
-                    <span className="text-[9px] font-medium">Tidak Ada Gambar</span>
-                  </div>
-                )}
-              </div>
-            ),
-          },
-          { key: 'title', header: 'Judul' },
-          {
-            key: 'status',
-            header: 'Status',
-            render: (row) => (
-              <PublishStatusToggle
-                published={row.status === 'published'}
-                onToggle={() => handleToggleStatus(row.id, row.status)}
-              />
-            ),
-          },
-          { key: '_categoryLabel', header: 'Kategori' },
-          { key: '_updatedAt', header: 'Tanggal' },
-        ]}
+        columns={columns}
         emptyState={
           <EmptyState
             title="Belum ada potensi"
@@ -214,6 +260,7 @@ export default function PotentialsPage() {
           pageSize={data.meta.per_page}
           totalItems={data.meta.total}
           onPageChange={setPage}
+          onPageSizeChange={(size) => { setPerPage(size); setPage(1); }}
         />
       )}
       </FadeContent>

@@ -92,3 +92,33 @@ export async function togglePotentialStatus(id, currentStatus) {
   );
   return response.data.data;
 }
+
+/** Download the XLSX import template (admin). */
+export async function downloadImportTemplate() {
+  const response = await api.get(
+    API_ROUTES.ADMIN_IMPORT_TEMPLATE,
+    { responseType: 'blob' },
+  );
+  return response.data;
+}
+
+/** Import potentials from an XLSX file (admin). */
+export async function importPotentials(file) {
+  const formData = new FormData();
+  formData.append('file', file);
+  const response = await api.post(
+    API_ROUTES.ADMIN_IMPORT,
+    formData,
+    { headers: { 'Content-Type': 'multipart/form-data' } },
+  );
+  return response.data.data;
+}
+
+/** Export all potentials as an XLSX file (admin). */
+export async function exportPotentials() {
+  const response = await api.get(
+    API_ROUTES.ADMIN_EXPORT,
+    { responseType: 'blob' },
+  );
+  return response.data;
+}

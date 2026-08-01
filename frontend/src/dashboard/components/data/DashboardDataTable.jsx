@@ -1,3 +1,4 @@
+import { useEffect, useRef } from 'react';
 import { clsx } from 'clsx';
 import { dashboardCardClassName } from '@/dashboard/theme/dashboardStyles';
 import { EmptyTableState } from '@/dashboard/components/data/EmptyTableState';
@@ -17,8 +18,19 @@ export function DashboardDataTable({
   emptyState,
   rowActions,
   className,
+  selectAllLabel,
 }) {
   const hasSelection = typeof onSelectRow === 'function' && typeof onSelectAll === 'function';
+  const selectAllRef = useRef(null);
+
+  const someSelected = selectedIds.length > 0;
+  const allOnPageSelected = rows.length > 0 && rows.every((row) => selectedIds.includes(String(row.id)));
+
+  useEffect(() => {
+    if (selectAllRef.current) {
+      selectAllRef.current.indeterminate = someSelected && !allOnPageSelected;
+    }
+  }, [someSelected, allOnPageSelected]);
 
   if (loading) {
     const skeletonColumns = [
@@ -97,9 +109,11 @@ export function DashboardDataTable({
                 {hasSelection ? (
                   <th className="w-12 px-6 py-3">
                     <input
+                      ref={selectAllRef}
                       type="checkbox"
-                      checked={selectedIds.length > 0 && selectedIds.length === rows.length}
+                      checked={someSelected}
                       onChange={() => onSelectAll?.()}
+                      aria-label={selectAllLabel ?? 'Pilih semua baris di halaman ini'}
                       className="h-4 w-4 rounded border-neutral-300 text-[#184D47] focus:ring-[#184D47]"
                     />
                   </th>

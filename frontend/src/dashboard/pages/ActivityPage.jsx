@@ -115,7 +115,13 @@ export default function ActivityPage() {
                       <span className="font-medium text-neutral-800">{log.user?.username ?? 'System'}</span>
                       {' '}
                       <span className="text-neutral-500">{label}</span>
-                      {log.subject_type && <span className="text-neutral-500"> · {subjectLabel}</span>}
+                      {log.subjectTitle && (
+                        <>
+                          {' '}
+                          <span className="font-medium text-neutral-800">“{log.subjectTitle}”</span>
+                        </>
+                      )}
+                      {log.subject_type && !log.subjectTitle && <span className="text-neutral-500"> · {subjectLabel}</span>}
                     </p>
                     <p className="mt-0.5 text-[0.75rem] text-neutral-400">
                       {timeAgo(log.created_at)}

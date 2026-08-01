@@ -1,9 +1,25 @@
 import { memo, useEffect, useRef, useState } from 'react';
-import { Menu, Search, Bell } from 'lucide-react';
-import { useLocation } from 'react-router-dom';
+import { Menu, Search, Bell, LogIn, LogOut, Plus, Pencil, Trash2, Upload, Star, Settings } from 'lucide-react';
+import { useLocation, Link } from 'react-router-dom';
 import { Breadcrumb } from '@/dashboard/components/molecules/Breadcrumb';
 import { UserMenu } from '@/dashboard/components/shell/UserMenu';
 import { SearchCommandPalette } from '@/dashboard/components/shell/SearchCommandPalette';
+import { useActivityLogs } from '@/hooks/useActivityLogs';
+
+const notifIcons = {
+  login: LogIn, logout: LogOut, create_potential: Plus, update_potential: Pencil,
+  delete_potential: Trash2, toggle_featured: Star, import_potentials: Upload,
+  upload_media: Upload, delete_media: Trash2, create_category: Plus,
+  update_category: Pencil, delete_category: Trash2, update_settings: Settings,
+};
+
+function timeAgo(dateString) {
+  const seconds = Math.floor((Date.now() - new Date(dateString).getTime()) / 1000);
+  if (seconds < 60) return 'baru saja';
+  if (seconds < 3600) return `${Math.floor(seconds / 60)} menit lalu`;
+  if (seconds < 86400) return `${Math.floor(seconds / 3600)} jam lalu`;
+  return `${Math.floor(seconds / 86400)} hari lalu`;
+}
 
 function getBreadcrumbs(pathname) {
   const segments = pathname.split('/').filter(Boolean);
@@ -25,6 +41,7 @@ export const Topbar = memo(function Topbar({ onOpenMobileMenu }) {
   const [searchOpen, setSearchOpen] = useState(false);
   const [notifOpen, setNotifOpen] = useState(false);
   const notifRef = useRef(null);
+  const { data: activityData, isLoading: activityLoading } = useActivityLogs({ per_page: 5 });
 
   useEffect(() => {
     setBreadcrumbs(getBreadcrumbs(location.pathname));
@@ -109,14 +126,52 @@ export const Topbar = memo(function Topbar({ onOpenMobileMenu }) {
           {notifOpen && (
             <>
               <div className="fixed inset-0 z-40" onClick={() => setNotifOpen(false)} />
-              <div className="absolute right-0 top-full z-50 mt-2 w-72 overflow-hidden rounded-lg border border-[#E7E7E7] bg-white shadow-lg">
-                <div className="border-b border-[#E7E7E7] px-4 py-3">
-                  <p className="text-[0.8125rem] font-semibold text-neutral-800">Notifikasi</p>
+              <div className="absolute right-0 top-full z-50 mt-2 w-80 overflow-hidden rounded-lg border border-[#E7E7E7] bg-white shadow-lg">
+                <div className="flex items-center justify-between border-b border-[#E7E7E7] px-4 py-3">
+                  <p className="text-[0.8125rem] font-semibold text-neutral-800">Aktivitas Terbaru</p>
+                  <Link
+                    to="/dashboard/activity"
+                    className="text-[0.6875rem] font-medium text-[#184D47] hover:underline"
+                    onClick={() => setNotifOpen(false)}
+                  >
+                    Lihat semua
+                  </Link>
                 </div>
-                <div className="px-4 py-8 text-center">
-                  <Bell className="mx-auto h-6 w-6 text-neutral-300" />
-                  <p className="mt-2 text-[0.8125rem] text-neutral-400">Belum ada notifikasi</p>
-                </div>
+                {activityLoading ? (
+                  <div className="space-y-3 px-4 py-4">
+                    {Array.from({ length: 3 }).map((_, i) => (
+                      <div key={i} className="h-4 animate-pulse rounded bg-neutral-100" />
+                    ))}
+                  </div>
+                ) : activityData?.data?.length ? (
+                  <div className="max-h-72 overflow-y-auto">
+                    {activityData.data.map((log) => {
+                      const Icon = notifIcons[log.action] ?? Settings;
+                      return (
+                        <div key={log.id} className="flex items-start gap-3 px-4 py-3 hover:bg-neutral-50">
+                          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-neutral-100 text-neutral-500">
+                            <Icon className="h-3.5 w-3.5" strokeWidth={1.75} />
+                          </div>
+                          <div className="min-w-0 flex-1">
+                            <p className="truncate text-[0.75rem] text-neutral-700">
+                              <span className="font-medium text-neutral-800">{log.user?.username ?? 'System'}</span>
+                              <span className="text-neutral-400"> · {log.action?.replace(/_/g, ' ')}</span>
+                            </p>
+                            {log.subjectTitle && (
+                              <p className="truncate text-[0.6875rem] text-neutral-400">“{log.subjectTitle}”</p>
+                            )}
+                            <p className="mt-0.5 text-[0.6875rem] text-neutral-400">{timeAgo(log.created_at)}</p>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                ) : (
+                  <div className="px-4 py-8 text-center">
+                    <Bell className="mx-auto h-6 w-6 text-neutral-300" />
+                    <p className="mt-2 text-[0.8125rem] text-neutral-400">Belum ada aktivitas</p>
+                  </div>
+                )}
               </div>
             </>
           )}
