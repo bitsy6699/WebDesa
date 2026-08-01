@@ -205,6 +205,61 @@
   pointer-events: none;
 }
 
+.magic-bento-card--chart {
+  grid-column: 1 / -1;
+  aspect-ratio: auto;
+  min-height: 200px;
+}
+
+.magic-bento-card--chart .magic-bento-card__content {
+  flex: 1;
+  width: 100%;
+}
+
+.magic-bento-chart-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+  height: 100%;
+}
+
+.magic-bento-chart-copy {
+  max-width: 300px;
+}
+
+.magic-bento-chart-donut {
+  flex: 1;
+  width: 100%;
+  height: 180px;
+  max-width: 300px;
+  margin-left: auto;
+}
+
+.magic-bento-chart-skeleton {
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.08);
+  animation: magic-bento-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes magic-bento-pulse {
+  0%, 100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@media (min-width: 768px) {
+  .magic-bento-chart-content {
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
 .bento-section {
   position: relative;
   user-select: none;

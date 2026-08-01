@@ -465,7 +465,7 @@ const MagicBento = ({
 
       <BentoCardGrid gridRef={gridRef}>
         {cards.map((card, index) => {
-          const baseClassName = `magic-bento-card ${textAutoHide ? 'magic-bento-card--text-autohide' : ''} ${enableBorderGlow ? 'magic-bento-card--border-glow' : ''}`;
+          const baseClassName = `magic-bento-card ${textAutoHide ? 'magic-bento-card--text-autohide' : ''} ${enableBorderGlow ? 'magic-bento-card--border-glow' : ''} ${card.chart ? 'magic-bento-card--chart' : ''}`;
           const cardProps = {
             className: baseClassName,
             style: {
@@ -473,6 +473,27 @@ const MagicBento = ({
               '--glow-color': glowColor
             }
           };
+
+          const cardContent = (
+            <>
+              {!card.chart && (
+                <div className="magic-bento-card__header">
+                  <div className="magic-bento-card__label">{card.label}</div>
+                  <div className="magic-bento-card__value">{card.value}</div>
+                </div>
+              )}
+              <div className="magic-bento-card__content">
+                {card.chart ? (
+                  card.chart
+                ) : (
+                  <>
+                    <h2 className="magic-bento-card__title">{card.title}</h2>
+                    <p className="magic-bento-card__description">{card.description}</p>
+                  </>
+                )}
+              </div>
+            </>
+          );
 
           if (enableStars) {
             return (
@@ -486,14 +507,7 @@ const MagicBento = ({
                 clickEffect={clickEffect}
                 enableMagnetism={enableMagnetism}
               >
-                <div className="magic-bento-card__header">
-                  <div className="magic-bento-card__label">{card.label}</div>
-                  <div className="magic-bento-card__value">{card.value}</div>
-                </div>
-                <div className="magic-bento-card__content">
-                  <h2 className="magic-bento-card__title">{card.title}</h2>
-                  <p className="magic-bento-card__description">{card.description}</p>
-                </div>
+                {cardContent}
               </ParticleCard>
             );
           }
@@ -610,14 +624,7 @@ const MagicBento = ({
                 el.addEventListener('click', handleClick);
               }}
             >
-              <div className="magic-bento-card__header">
-                <div className="magic-bento-card__label">{card.label}</div>
-                <div className="magic-bento-card__value">{card.value}</div>
-              </div>
-              <div className="magic-bento-card__content">
-                <h2 className="magic-bento-card__title">{card.title}</h2>
-                <p className="magic-bento-card__description">{card.description}</p>
-              </div>
+              {cardContent}
             </div>
           );
         })}

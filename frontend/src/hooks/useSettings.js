@@ -17,8 +17,8 @@ export function useUpdateSettings() {
 
   return useMutation({
     mutationFn: updateSettings,
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: queryKeys.settings.all });
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: queryKeys.settings.all });
     },
   });
 }

@@ -29,8 +29,8 @@ export function useCreateCategory() {
         color_code: draft.colorCode ?? null,
         icon_key: draft.iconKey ?? null,
       }),
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: queryKeys.categories.all });
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: queryKeys.categories.all });
     },
   });
 }
@@ -47,8 +47,8 @@ export function useUpdateCategory() {
         color_code: draft.colorCode ?? null,
         icon_key: draft.iconKey ?? null,
       }),
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: queryKeys.categories.all });
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: queryKeys.categories.all });
     },
   });
 }
@@ -69,8 +69,8 @@ export function useDeleteCategory() {
         queryClient.setQueryData(queryKeys.categories.all, context.previous);
       }
     },
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: queryKeys.categories.all });
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: queryKeys.categories.all });
     },
   });
 }

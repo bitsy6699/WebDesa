@@ -1,6 +1,7 @@
-import { useMemo } from 'react';
+import { lazy, Suspense, useMemo } from 'react';
 import { ChartColumn, FolderTree, ImageIcon, MapPin, Plus, Store } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { ArcElement, Chart as ChartJS, Legend, Tooltip } from 'chart.js';
 import { DashboardCard } from '@/dashboard/components/organisms/DashboardCard';
 import { QuickActionCard } from '@/dashboard/components/organisms/QuickActionCard';
 import { PublishingProgress } from '@/dashboard/components/organisms/PublishingProgress';
@@ -8,6 +9,15 @@ import FadeContent from '@/components/FadeContent';
 import MagicBento from '@/components/MagicBento';
 import { useStatistics } from '@/hooks/useStatistics';
 import { useAuth } from '@/hooks/useAuth';
+
+ChartJS.register(ArcElement, Tooltip, Legend);
+
+const DoughnutChart = lazy(async () => {
+  const { Doughnut } = await import('react-chartjs-2');
+  return { default: Doughnut };
+});
+
+const CHART_COLORS = ['#6FAE8F', '#A7C957', '#D97706', '#B8C4C0'];
 
 export default function OverviewPage() {
   const navigate = useNavigate();
@@ -31,6 +41,51 @@ export default function OverviewPage() {
     { icon: Store, title: 'Data UMKM', description: 'Usaha mikro desa.', onClick: () => navigate('/dashboard/potentials') },
     { icon: MapPin, title: 'Peta Desa', description: 'Distribusi potensi.', onClick: () => navigate('/dashboard/potentials') },
   ];
+
+  const donutData = useMemo(() => {
+    const values = [
+      stats?.total_potentials ?? 0,
+      stats?.total_categories ?? 0,
+      stats?.total_umkm ?? 0,
+      stats?.total_dusun ?? 0,
+    ];
+
+    return {
+      labels: ['Potensi', 'Kategori', 'UMKM', 'Dusun'],
+      datasets: [
+        {
+          data: values,
+          backgroundColor: CHART_COLORS,
+          borderColor: 'rgba(15, 61, 52, 1)',
+          borderWidth: 3,
+        },
+      ],
+    };
+  }, [stats]);
+
+  const donutOptions = useMemo(() => ({
+    responsive: true,
+    maintainAspectRatio: false,
+    cutout: '62%',
+    plugins: {
+      legend: {
+        position: 'bottom',
+        labels: {
+          color: '#ffffff',
+          boxWidth: 10,
+          boxHeight: 10,
+          useBorderRadius: true,
+          borderRadius: 3,
+          font: { size: 11, weight: 500 },
+        },
+      },
+      tooltip: {
+        backgroundColor: '#1C1917',
+        padding: 10,
+        cornerRadius: 8,
+      },
+    },
+  }), []);
 
   const bentoCardData = useMemo(() => {
     if (!stats) return [];
@@ -77,8 +132,25 @@ export default function OverviewPage() {
         label: 'Tertunda',
         value: String(stats.total_draft),
       },
+      {
+        color: '#0F3D34',
+        label: 'Grafik',
+        chart: (
+          <div className="magic-bento-chart-content">
+            <div className="magic-bento-chart-copy">
+              <h2 className="magic-bento-card__title">Komposisi Data</h2>
+              <p className="magic-bento-card__description">Distribusi potensi, kategori, UMKM, dan dusun desa.</p>
+            </div>
+            <div className="magic-bento-chart-donut">
+              <Suspense fallback={<div className="magic-bento-chart-skeleton" />}>
+                <DoughnutChart data={donutData} options={donutOptions} />
+              </Suspense>
+            </div>
+          </div>
+        ),
+      },
     ];
-  }, [stats]);
+  }, [stats, donutData, donutOptions]);
 
   return (
     <div className="space-y-5">

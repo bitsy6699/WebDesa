@@ -18,8 +18,8 @@ export function useUploadMedia() {
   return useMutation({
     mutationFn: ({ file, onProgress }) =>
       uploadMedia(file, onProgress),
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: queryKeys.media.all });
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: queryKeys.media.all });
     },
   });
 }
@@ -29,8 +29,8 @@ export function useDeleteMedia() {
 
   return useMutation({
     mutationFn: deleteMedia,
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: queryKeys.media.all });
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: queryKeys.media.all });
     },
   });
 }

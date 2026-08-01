@@ -56,8 +56,7 @@ export function PotentialForm({ mode = 'create', initialData }) {
 
   useEffect(() => {
     if (createMutation.isSuccess || updateMutation.isSuccess) {
-      const timer = setTimeout(() => navigate('/dashboard/potentials'), 1200);
-      return () => clearTimeout(timer);
+      navigate('/dashboard/potentials');
     }
   }, [createMutation.isSuccess, updateMutation.isSuccess, navigate]);
 

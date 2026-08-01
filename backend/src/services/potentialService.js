@@ -134,7 +134,11 @@ export async function create(data, userId, ipAddress) {
     return potential;
   });
 
-  await logAction(userId, 'create_potential', potential.id, 'Potential', ipAddress);
+  try {
+    await logAction(userId, 'create_potential', potential.id, 'Potential', ipAddress);
+  } catch (err) {
+    console.error('Gagal mencatat aktivitas create_potential:', err);
+  }
   return potential;
 }
 
@@ -186,7 +190,11 @@ export async function update(id, data, userId, ipAddress) {
     }
   });
 
-  await logAction(userId, 'update_potential', id, 'Potential', ipAddress);
+  try {
+    await logAction(userId, 'update_potential', id, 'Potential', ipAddress);
+  } catch (err) {
+    console.error('Gagal mencatat aktivitas update_potential:', err);
+  }
   return prisma.potential.findUnique({ where: { id } });
 }
 
@@ -195,7 +203,11 @@ export async function remove(id, userId, ipAddress) {
   if (!existing) throw Object.assign(new Error('Potensi tidak ditemukan.'), { statusCode: 404 });
 
   await prisma.potential.update({ where: { id }, data: { deletedAt: new Date() } });
-  await logAction(userId, 'delete_potential', id, 'Potential', ipAddress);
+  try {
+    await logAction(userId, 'delete_potential', id, 'Potential', ipAddress);
+  } catch (err) {
+    console.error('Gagal mencatat aktivitas delete_potential:', err);
+  }
 }
 
 export async function toggleFeatured(id, userId, ipAddress) {
@@ -207,7 +219,11 @@ export async function toggleFeatured(id, userId, ipAddress) {
     data: { isFeatured: !existing.isFeatured },
   });
 
-  await logAction(userId, 'toggle_featured', id, 'Potential', ipAddress);
+  try {
+    await logAction(userId, 'toggle_featured', id, 'Potential', ipAddress);
+  } catch (err) {
+    console.error('Gagal mencatat aktivitas toggle_featured:', err);
+  }
   return updated;
 }
 

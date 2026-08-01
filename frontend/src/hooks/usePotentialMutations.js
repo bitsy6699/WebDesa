@@ -13,9 +13,9 @@ export function useCreatePotential() {
 
   return useMutation({
     mutationFn: createPotential,
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: queryKeys.potentials.all });
-      await queryClient.invalidateQueries({ queryKey: queryKeys.adminPotentials.all });
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: queryKeys.potentials.all });
+      queryClient.invalidateQueries({ queryKey: queryKeys.adminPotentials.all });
     },
   });
 }
@@ -26,9 +26,9 @@ export function useUpdatePotential() {
   return useMutation({
     mutationFn: ({ id, data }) =>
       updatePotential(id, data),
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: queryKeys.potentials.all });
-      await queryClient.invalidateQueries({ queryKey: queryKeys.adminPotentials.all });
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: queryKeys.potentials.all });
+      queryClient.invalidateQueries({ queryKey: queryKeys.adminPotentials.all });
     },
   });
 }
@@ -38,9 +38,9 @@ export function useDeletePotential() {
 
   return useMutation({
     mutationFn: deletePotential,
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: queryKeys.potentials.all });
-      await queryClient.invalidateQueries({ queryKey: queryKeys.adminPotentials.all });
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: queryKeys.potentials.all });
+      queryClient.invalidateQueries({ queryKey: queryKeys.adminPotentials.all });
     },
   });
 }
@@ -50,9 +50,9 @@ export function useToggleFeatured() {
 
   return useMutation({
     mutationFn: togglePotentialFeatured,
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: queryKeys.potentials.all });
-      await queryClient.invalidateQueries({ queryKey: queryKeys.adminPotentials.all });
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: queryKeys.potentials.all });
+      queryClient.invalidateQueries({ queryKey: queryKeys.adminPotentials.all });
     },
   });
 }
@@ -62,9 +62,9 @@ export function useToggleStatus() {
 
   return useMutation({
     mutationFn: ({ id, currentStatus }) => togglePotentialStatus(id, currentStatus),
-    onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: queryKeys.potentials.all });
-      await queryClient.invalidateQueries({ queryKey: queryKeys.adminPotentials.all });
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: queryKeys.potentials.all });
+      queryClient.invalidateQueries({ queryKey: queryKeys.adminPotentials.all });
     },
   });
 }
