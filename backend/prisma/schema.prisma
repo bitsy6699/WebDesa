@@ -55,6 +55,7 @@ model Location {
   longitude Decimal  @db.Decimal(11, 8)
   address   String   @db.VarChar(255)
   dusun     String?  @db.VarChar(100)
+  googleMapsUrl String? @map("google_maps_url") @db.VarChar(500)
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
 

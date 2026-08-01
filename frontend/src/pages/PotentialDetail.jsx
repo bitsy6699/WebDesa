@@ -212,9 +212,10 @@ function InterestingFacts({ metadata }) {
 function LocationSection({ location }) {
   if (!location?.address) return null;
 
-  const mapsUrl = location.latitude && location.longitude
-    ? `https://www.google.com/maps/search/?api=1&query=${location.latitude},${location.longitude}`
-    : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(location.address)}`;
+  const mapsUrl = location.google_maps_url
+    || (location.latitude && location.longitude
+      ? `https://www.google.com/maps/search/?api=1&query=${location.latitude},${location.longitude}`
+      : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(location.address)}`);
 
   return (
     <motion.section

@@ -124,6 +124,16 @@ export function PotentialDetailPage({ potential }) {
                       <dd className="font-medium text-neutral-800">{potential.location.dusun}</dd>
                     </div>
                   )}
+                  {potential.location.google_maps_url && (
+                    <div className="flex justify-between items-center">
+                      <dt className="text-neutral-500">Google Maps</dt>
+                      <dd className="font-medium">
+                        <a href={potential.location.google_maps_url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-[#184D47] hover:underline">
+                          Buka di Maps <ExternalLink className="h-3 w-3" />
+                        </a>
+                      </dd>
+                    </div>
+                  )}
                 </>
               )}
             </dl>

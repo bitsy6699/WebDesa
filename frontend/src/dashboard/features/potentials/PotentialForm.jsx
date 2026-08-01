@@ -1,6 +1,7 @@
-import { useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+import { LoaderCircle, MapPin } from 'lucide-react';
 import { DashboardButton } from '@/dashboard/components/atoms/DashboardButton';
 import { DashboardInput, DashboardTextarea } from '@/dashboard/components/atoms/DashboardInput';
 import { DashboardForm } from '@/dashboard/components/forms/DashboardForm';
@@ -11,6 +12,7 @@ import { ImagePicker } from '@/dashboard/components/molecules/ImagePicker';
 import { MapPicker } from '@/dashboard/components/molecules/MapPicker';
 import { useCategories } from '@/hooks/useCategories';
 import { useCreatePotential, useUpdatePotential } from '@/hooks/usePotentialMutations';
+import { buildGoogleMapsUrl, reverseGeocode } from '@/services/geocode.service';
 
 export function PotentialForm({ mode = 'create', initialData }) {
   const navigate = useNavigate();
@@ -22,6 +24,7 @@ export function PotentialForm({ mode = 'create', initialData }) {
     register,
     handleSubmit,
     setValue,
+    getValues,
     watch,
     formState: { errors },
   } = useForm({
@@ -34,6 +37,7 @@ export function PotentialForm({ mode = 'create', initialData }) {
       longitude: initialData?.longitude ?? 107.6,
       address: initialData?.address ?? '',
       dusun: initialData?.dusun ?? '',
+      google_maps_url: initialData?.google_maps_url ?? '',
       is_featured: initialData?.is_featured ?? false,
       cover_image_id: initialData?.cover_image_id ?? '',
       gallery: initialData?.gallery ?? [],
@@ -53,6 +57,62 @@ export function PotentialForm({ mode = 'create', initialData }) {
   const gallery = watch('gallery') || [];
   const latitude = watch('latitude');
   const longitude = watch('longitude');
+  const address = watch('address');
+
+  const [placeInfo, setPlaceInfo] = useState(null);
+  const [geoLoading, setGeoLoading] = useState(false);
+  const geoTimeoutRef = useRef(null);
+  const geoSeqRef = useRef(0);
+
+  useEffect(() => {
+    return () => {
+      if (geoTimeoutRef.current) {
+        clearTimeout(geoTimeoutRef.current);
+      }
+    };
+  }, []);
+
+  const handleMapPoint = ({ latitude: lat, longitude: lng }) => {
+    setValue('latitude', lat, { shouldValidate: true });
+    setValue('longitude', lng, { shouldValidate: true });
+
+    if (geoTimeoutRef.current) {
+      clearTimeout(geoTimeoutRef.current);
+    }
+
+    const seq = ++geoSeqRef.current;
+    setGeoLoading(true);
+
+    geoTimeoutRef.current = setTimeout(async () => {
+      try {
+        const result = await reverseGeocode(lat, lng);
+        if (geoSeqRef.current !== seq) return;
+
+        setPlaceInfo(result);
+
+        if (result.displayName) {
+          setValue('address', result.displayName, { shouldValidate: true });
+        }
+
+        if (!getValues('dusun')) {
+          const dusun = result.components.neighbourhood || result.components.hamlet || result.components.village || '';
+          if (dusun) setValue('dusun', dusun);
+        }
+
+        if (!getValues('google_maps_url')) {
+          const url = buildGoogleMapsUrl(lat, lng);
+          if (url) setValue('google_maps_url', url);
+        }
+      } catch {
+        if (geoSeqRef.current !== seq) return;
+        setPlaceInfo(null);
+      } finally {
+        if (geoSeqRef.current === seq) {
+          setGeoLoading(false);
+        }
+      }
+    }, 400);
+  };
 
   useEffect(() => {
     if (createMutation.isSuccess || updateMutation.isSuccess) {
@@ -70,6 +130,7 @@ export function PotentialForm({ mode = 'create', initialData }) {
       longitude: Number(data.longitude),
       address: data.address,
       dusun: data.dusun || null,
+      google_maps_url: data.google_maps_url || null,
       is_featured: data.is_featured,
       cover_image_id: data.cover_image_id || null,
       gallery: data.gallery || [],
@@ -201,65 +262,77 @@ export function PotentialForm({ mode = 'create', initialData }) {
         </div>
       </FormSection>
 
-      <FormSection title="Lokasi" description="Koordinat dan alamat lokasi potensi.">
+      <FormSection title="Lokasi" description="Titik lokasi potensi desa. Klik di peta untuk mengisi lokasi.">
         <div className="mb-4">
           <label className="mb-1.5 block text-[0.8125rem] font-medium text-neutral-800">
-            Pilih Lokasi di Peta
+            Pilih Titik di Peta
           </label>
           <MapPicker
             latitude={latitude}
             longitude={longitude}
-            onChange={({ latitude: lat, longitude: lng }) => {
-              setValue('latitude', lat, { shouldValidate: true });
-              setValue('longitude', lng, { shouldValidate: true });
-            }}
+            onChange={handleMapPoint}
+            popupLabel={placeInfo?.displayName || (address && 'Titik lokasi dipilih')}
           />
         </div>
 
-        <div className="grid gap-4 md:grid-cols-2">
-          <DashboardInput
-            label="Lintang"
-            required
-            type="number"
-            step="any"
-            placeholder="-6.9"
-            error={errors.latitude?.message}
-            {...register('latitude', {
-              required: 'Lintang wajib diisi.',
-              valueAsNumber: true,
-              min: { value: -90, message: 'Minimal -90' },
-              max: { value: 90, message: 'Maksimal 90' },
-            })}
-          />
-          <DashboardInput
-            label="Bujur"
-            required
-            type="number"
-            step="any"
-            placeholder="107.6"
-            error={errors.longitude?.message}
-            {...register('longitude', {
-              required: 'Bujur wajib diisi.',
-              valueAsNumber: true,
-              min: { value: -180, message: 'Minimal -180' },
-              max: { value: 180, message: 'Maksimal 180' },
-            })}
-          />
-        </div>
+        <input type="hidden" {...register('latitude', {
+          required: 'Lintang wajib diisi.',
+          valueAsNumber: true,
+          min: { value: -90, message: 'Minimal -90' },
+          max: { value: 90, message: 'Maksimal 90' },
+        })} />
+        <input type="hidden" {...register('longitude', {
+          required: 'Bujur wajib diisi.',
+          valueAsNumber: true,
+          min: { value: -180, message: 'Minimal -180' },
+          max: { value: 180, message: 'Maksimal 180' },
+        })} />
+
+        {geoLoading && (
+          <p className="mt-1.5 flex items-center gap-1.5 text-[0.75rem] text-neutral-400">
+            <LoaderCircle className="h-3.5 w-3.5 animate-spin" /> Memuat informasi titik...
+          </p>
+        )}
+
+        {placeInfo && !geoLoading && Object.keys(placeInfo.components).length > 0 && (
+          <div className="mb-4 mt-1.5 rounded-xl border border-[#E7E7E7] bg-neutral-50 p-4">
+            <div className="flex items-center gap-1.5 text-[0.75rem] font-semibold text-neutral-700">
+              <MapPin className="h-3.5 w-3.5 text-[#184D47]" /> Informasi Titik
+            </div>
+            <dl className="mt-2 grid grid-cols-1 gap-x-4 gap-y-1.5 sm:grid-cols-2">
+              {Object.entries(placeInfo.components).map(([key, value]) => (
+                <div key={key} className="flex justify-between gap-3 text-[0.75rem]">
+                  <dt className="text-neutral-500">{placeInfo.labels[key] ?? key}</dt>
+                  <dd className="text-right font-medium text-neutral-800">{value}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+        )}
 
         <DashboardInput
-          label="Alamat"
+          label="Nama Daerah / Alamat Titik"
           required
-          placeholder="Alamat lengkap lokasi"
+          placeholder="Otomatis terisi saat memilih titik di peta"
+          helperText="Diisi otomatis dari titik yang dipilih di peta, bisa disesuaikan."
           error={errors.address?.message}
           {...register('address', { required: 'Alamat wajib diisi.' })}
         />
 
-        <DashboardInput
-          label="Dusun"
-          placeholder="Nama dusun (opsional)"
-          {...register('dusun')}
-        />
+        <div className="grid gap-4 md:grid-cols-2">
+          <DashboardInput
+            label="Dusun"
+            placeholder="Nama dusun (opsional)"
+            {...register('dusun')}
+          />
+
+          <DashboardInput
+            label="Link Google Maps (opsional)"
+            placeholder="https://maps.app.goo.gl/..."
+            helperText="Otomatis terisi dari titik di peta, bisa diganti."
+            {...register('google_maps_url')}
+          />
+        </div>
       </FormSection>
 
       <FormSection title="Informasi Kontak" description="Nomor atau email yang bisa dihubungi untuk potensi ini.">

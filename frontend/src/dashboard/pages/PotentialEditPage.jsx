@@ -73,6 +73,7 @@ export default function PotentialEditPage() {
           longitude: potential.location?.longitude ?? 107.6,
           address: potential.location?.address ?? '',
           dusun: potential.location?.dusun ?? '',
+          google_maps_url: potential.location?.google_maps_url ?? '',
           is_featured: potential.is_featured,
           cover_image_id: potential.cover_image_id ?? '',
           cover_image_url: potential.cover_image_url,

@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { MapContainer, TileLayer, Marker, useMapEvents, useMap } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, useMapEvents, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import '@/components/map/leaflet-fix';
 import '@/components/map/map.css';
@@ -35,7 +35,7 @@ function FlyToCenter({ lat, lng }) {
   return null;
 }
 
-export function MapPicker({ latitude, longitude, onChange, height = '240px' }) {
+export function MapPicker({ latitude, longitude, onChange, popupLabel, height = '240px' }) {
   const hasCoords = typeof latitude === 'number' && typeof longitude === 'number' && isFinite(latitude) && isFinite(longitude);
   const center = hasCoords ? [latitude, longitude] : [-6.9, 107.6];
   const zoom = hasCoords ? DEFAULT_ZOOM : 9;
@@ -67,7 +67,9 @@ export function MapPicker({ latitude, longitude, onChange, height = '240px' }) {
                   onChange({ latitude: pos.lat, longitude: pos.lng });
                 },
               }}
-            />
+            >
+              {popupLabel && <Popup className="map-picker-popup">{popupLabel}</Popup>}
+            </Marker>
             <FlyToCenter lat={latitude} lng={longitude} />
           </>
         )}

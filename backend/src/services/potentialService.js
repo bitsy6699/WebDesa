@@ -104,6 +104,7 @@ export async function create(data, userId, ipAddress) {
         longitude: data.longitude,
         address: data.address,
         dusun: data.dusun || null,
+        googleMapsUrl: data.google_maps_url || null,
       },
     });
 
@@ -151,7 +152,7 @@ export async function update(id, data, userId, ipAddress) {
     : existing.slug;
 
   await prisma.$transaction(async (tx) => {
-    if (data.latitude !== undefined || data.longitude !== undefined || data.address !== undefined || data.dusun !== undefined) {
+    if (data.latitude !== undefined || data.longitude !== undefined || data.address !== undefined || data.dusun !== undefined || data.google_maps_url !== undefined) {
       await tx.location.update({
         where: { id: existing.locationId },
         data: {
@@ -159,6 +160,7 @@ export async function update(id, data, userId, ipAddress) {
           ...(data.longitude !== undefined && { longitude: data.longitude }),
           ...(data.address !== undefined && { address: data.address }),
           ...(data.dusun !== undefined && { dusun: data.dusun || null }),
+          ...(data.google_maps_url !== undefined && { googleMapsUrl: data.google_maps_url || null }),
         },
       });
     }
@@ -240,6 +242,7 @@ function formatPotentialSummary(p) {
       longitude: Number(p.location.longitude),
       address: p.location.address,
       dusun: p.location.dusun,
+      google_maps_url: p.location.googleMapsUrl,
     } : null,
     is_featured: p.isFeatured,
     status: p.status,
@@ -270,6 +273,7 @@ function formatPotentialDetail(p) {
       longitude: Number(p.location.longitude),
       address: p.location.address,
       dusun: p.location.dusun,
+      google_maps_url: p.location.googleMapsUrl,
     } : null,
     metadata: p.metadata,
     contact: metaObj.contact || null,
