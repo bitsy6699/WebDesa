@@ -205,35 +205,17 @@
   pointer-events: none;
 }
 
-.magic-bento-card--chart {
-  grid-column: 1 / -1;
-  aspect-ratio: auto;
-  min-height: 200px;
-}
-
 .magic-bento-card--chart .magic-bento-card__content {
   flex: 1;
-  width: 100%;
+  min-height: 0;
 }
 
-.magic-bento-chart-content {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  width: 100%;
-  height: 100%;
-}
-
-.magic-bento-chart-copy {
-  max-width: 300px;
-}
-
-.magic-bento-chart-donut {
+.magic-bento-card__chart {
   flex: 1;
   width: 100%;
-  height: 180px;
-  max-width: 300px;
-  margin-left: auto;
+  min-height: 0;
+  height: 112px;
+  position: relative;
 }
 
 .magic-bento-chart-skeleton {
@@ -250,13 +232,6 @@
   }
   50% {
     opacity: 1;
-  }
-}
-
-@media (min-width: 768px) {
-  .magic-bento-chart-content {
-    flex-direction: row;
-    align-items: center;
   }
 }
 

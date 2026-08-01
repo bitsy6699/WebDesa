@@ -476,12 +476,10 @@ const MagicBento = ({
 
           const cardContent = (
             <>
-              {!card.chart && (
-                <div className="magic-bento-card__header">
-                  <div className="magic-bento-card__label">{card.label}</div>
-                  <div className="magic-bento-card__value">{card.value}</div>
-                </div>
-              )}
+              <div className="magic-bento-card__header">
+                <div className="magic-bento-card__label">{card.label}</div>
+                <div className="magic-bento-card__value">{card.value}</div>
+              </div>
               <div className="magic-bento-card__content">
                 {card.chart ? (
                   card.chart

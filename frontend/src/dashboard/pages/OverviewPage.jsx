@@ -1,7 +1,7 @@
 import { lazy, Suspense, useMemo } from 'react';
 import { ChartColumn, FolderTree, ImageIcon, MapPin, Plus, Store } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { ArcElement, Chart as ChartJS, Legend, Tooltip } from 'chart.js';
+import { ArcElement, BarElement, CategoryScale, Chart as ChartJS, Legend, LinearScale, Tooltip } from 'chart.js';
 import { DashboardCard } from '@/dashboard/components/organisms/DashboardCard';
 import { QuickActionCard } from '@/dashboard/components/organisms/QuickActionCard';
 import { PublishingProgress } from '@/dashboard/components/organisms/PublishingProgress';
@@ -10,11 +10,16 @@ import MagicBento from '@/components/MagicBento';
 import { useStatistics } from '@/hooks/useStatistics';
 import { useAuth } from '@/hooks/useAuth';
 
-ChartJS.register(ArcElement, Tooltip, Legend);
+ChartJS.register(ArcElement, BarElement, CategoryScale, LinearScale, Tooltip, Legend);
 
 const DoughnutChart = lazy(async () => {
   const { Doughnut } = await import('react-chartjs-2');
   return { default: Doughnut };
+});
+
+const BarChart = lazy(async () => {
+  const { Bar } = await import('react-chartjs-2');
+  return { default: Bar };
 });
 
 const CHART_COLORS = ['#6FAE8F', '#A7C957', '#D97706', '#B8C4C0'];
@@ -63,6 +68,52 @@ export default function OverviewPage() {
     };
   }, [stats]);
 
+  const statusData = useMemo(() => {
+    return {
+      labels: ['Diterbitkan', 'Draf', 'Diarsipkan'],
+      datasets: [
+        {
+          data: [stats?.total_potentials ?? 0, stats?.total_draft ?? 0, stats?.total_archived ?? 0],
+          backgroundColor: ['#6FAE8F', '#D97706', '#B8C4C0'],
+          borderColor: 'rgba(15, 61, 52, 1)',
+          borderWidth: 3,
+        },
+      ],
+    };
+  }, [stats]);
+
+  const categoryData = useMemo(() => {
+    const dist = stats?.category_distribution ?? [];
+    return {
+      labels: dist.map((c) => c.label),
+      datasets: [
+        {
+          data: dist.map((c) => c.count),
+          backgroundColor: 'rgba(111, 174, 143, 0.85)',
+          hoverBackgroundColor: 'rgba(167, 201, 87, 0.9)',
+          borderRadius: 4,
+          barThickness: 8,
+        },
+      ],
+    };
+  }, [stats]);
+
+  const dusunData = useMemo(() => {
+    const dist = stats?.dusun_distribution ?? [];
+    return {
+      labels: dist.map((d) => d.dusun),
+      datasets: [
+        {
+          data: dist.map((d) => d.count),
+          backgroundColor: 'rgba(167, 201, 87, 0.85)',
+          hoverBackgroundColor: 'rgba(111, 174, 143, 0.9)',
+          borderRadius: 4,
+          barThickness: 8,
+        },
+      ],
+    };
+  }, [stats]);
+
   const donutOptions = useMemo(() => ({
     responsive: true,
     maintainAspectRatio: false,
@@ -72,11 +123,11 @@ export default function OverviewPage() {
         position: 'bottom',
         labels: {
           color: '#ffffff',
-          boxWidth: 10,
-          boxHeight: 10,
+          boxWidth: 9,
+          boxHeight: 9,
           useBorderRadius: true,
           borderRadius: 3,
-          font: { size: 11, weight: 500 },
+          font: { size: 10, weight: 500 },
         },
       },
       tooltip: {
@@ -86,6 +137,39 @@ export default function OverviewPage() {
       },
     },
   }), []);
+
+  const barOptions = useMemo(() => ({
+    indexAxis: 'y',
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        backgroundColor: '#1C1917',
+        padding: 10,
+        cornerRadius: 8,
+      },
+    },
+    scales: {
+      x: {
+        beginAtZero: true,
+        ticks: { color: 'rgba(255,255,255,0.6)', font: { size: 9 } },
+        grid: { color: 'rgba(255,255,255,0.06)' },
+      },
+      y: {
+        ticks: { color: '#ffffff', font: { size: 9 } },
+        grid: { display: false },
+      },
+    },
+  }), []);
+
+  const renderChart = (ChartComponent, data, options) => (
+    <div className="magic-bento-card__chart">
+      <Suspense fallback={<div className="magic-bento-chart-skeleton" />}>
+        <ChartComponent data={data} options={options} />
+      </Suspense>
+    </div>
+  );
 
   const bentoCardData = useMemo(() => {
     if (!stats) return [];
@@ -135,22 +219,29 @@ export default function OverviewPage() {
       {
         color: '#0F3D34',
         label: 'Grafik',
-        chart: (
-          <div className="magic-bento-chart-content">
-            <div className="magic-bento-chart-copy">
-              <h2 className="magic-bento-card__title">Komposisi Data</h2>
-              <p className="magic-bento-card__description">Distribusi potensi, kategori, UMKM, dan dusun desa.</p>
-            </div>
-            <div className="magic-bento-chart-donut">
-              <Suspense fallback={<div className="magic-bento-chart-skeleton" />}>
-                <DoughnutChart data={donutData} options={donutOptions} />
-              </Suspense>
-            </div>
-          </div>
-        ),
+        value: String(stats.total_all),
+        chart: renderChart(DoughnutChart, donutData, donutOptions),
+      },
+      {
+        color: '#0F3D34',
+        label: 'Status',
+        value: String(stats.total_all),
+        chart: renderChart(DoughnutChart, statusData, donutOptions),
+      },
+      {
+        color: '#0F3D34',
+        label: 'Kategori',
+        value: String(stats.total_categories),
+        chart: renderChart(BarChart, categoryData, barOptions),
+      },
+      {
+        color: '#0F3D34',
+        label: 'Dusun',
+        value: String(stats.total_dusun),
+        chart: renderChart(BarChart, dusunData, barOptions),
       },
     ];
-  }, [stats, donutData, donutOptions]);
+  }, [stats, donutData, statusData, categoryData, dusunData, donutOptions, barOptions]);
 
   return (
     <div className="space-y-5">
