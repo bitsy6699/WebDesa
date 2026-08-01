@@ -24,6 +24,23 @@ const BarChart = lazy(async () => {
 
 const CHART_COLORS = ['#6FAE8F', '#A7C957', '#D97706', '#B8C4C0'];
 
+const centerTextPlugin = (total) => ({
+  id: 'centerTextPlugin',
+  afterDraw(chart) {
+    const { ctx, chartArea } = chart;
+    if (!chartArea) return;
+    const x = (chartArea.left + chartArea.right) / 2;
+    const y = (chartArea.top + chartArea.bottom) / 2;
+    ctx.save();
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillStyle = 'rgba(255,255,255,0.9)';
+    ctx.font = '700 15px system-ui, -apple-system, sans-serif';
+    ctx.fillText(String(total), x, y);
+    ctx.restore();
+  },
+});
+
 export default function OverviewPage() {
   const navigate = useNavigate();
   const { user } = useAuth();
@@ -92,7 +109,7 @@ export default function OverviewPage() {
           backgroundColor: 'rgba(111, 174, 143, 0.85)',
           hoverBackgroundColor: 'rgba(167, 201, 87, 0.9)',
           borderRadius: 4,
-          barThickness: 8,
+          barThickness: 6,
         },
       ],
     };
@@ -108,7 +125,7 @@ export default function OverviewPage() {
           backgroundColor: 'rgba(167, 201, 87, 0.85)',
           hoverBackgroundColor: 'rgba(111, 174, 143, 0.9)',
           borderRadius: 4,
-          barThickness: 8,
+          barThickness: 6,
         },
       ],
     };
@@ -117,7 +134,7 @@ export default function OverviewPage() {
   const donutOptions = useMemo(() => ({
     responsive: true,
     maintainAspectRatio: false,
-    cutout: '62%',
+    cutout: '60%',
     plugins: {
       legend: {
         position: 'bottom',
@@ -153,23 +170,41 @@ export default function OverviewPage() {
     scales: {
       x: {
         beginAtZero: true,
-        ticks: { color: 'rgba(255,255,255,0.6)', font: { size: 9 } },
+        border: { display: false },
+        ticks: { color: 'rgba(255,255,255,0.6)', font: { size: 8 }, maxTicksLimit: 4 },
         grid: { color: 'rgba(255,255,255,0.06)' },
       },
       y: {
-        ticks: { color: '#ffffff', font: { size: 9 } },
+        border: { display: false },
         grid: { display: false },
+        ticks: {
+          color: '#ffffff',
+          font: { size: 9 },
+          autoSkip: false,
+          maxRotation: 0,
+          callback(value) {
+            const label = this.getLabelForValue(value);
+            return label.length > 14 ? `${label.slice(0, 13)}…` : label;
+          },
+        },
       },
     },
   }), []);
 
-  const renderChart = (ChartComponent, data, options) => (
+  const renderChart = (ChartComponent, data, options, plugins = []) => (
     <div className="magic-bento-card__chart">
       <Suspense fallback={<div className="magic-bento-chart-skeleton" />}>
-        <ChartComponent data={data} options={options} />
+        <ChartComponent data={data} options={options} plugins={plugins} />
       </Suspense>
     </div>
   );
+
+  const renderChartOrEmpty = (hasData, ChartComponent, data, options, plugins = []) =>
+    hasData ? (
+      renderChart(ChartComponent, data, options, plugins)
+    ) : (
+      <div className="magic-bento-card__empty">Belum ada data</div>
+    );
 
   const bentoCardData = useMemo(() => {
     if (!stats) return [];
@@ -180,7 +215,13 @@ export default function OverviewPage() {
         description: 'Potensi desa yang telah diterbitkan',
         label: 'Ringkasan',
         value: String(stats.total_potentials),
-        chart: renderChart(DoughnutChart, statusData, donutOptions),
+        chart: renderChartOrEmpty(
+          (stats.total_potentials + stats.total_draft + stats.total_archived) > 0,
+          DoughnutChart,
+          statusData,
+          donutOptions,
+          [centerTextPlugin(stats.total_potentials)],
+        ),
       },
       {
         color: '#0F3D34',
@@ -188,7 +229,7 @@ export default function OverviewPage() {
         description: 'Kelompok konten desa',
         label: 'Taksonomi',
         value: String(stats.total_categories),
-        chart: renderChart(BarChart, categoryData, barOptions),
+        chart: renderChartOrEmpty((stats.category_distribution ?? []).length > 0, BarChart, categoryData, barOptions),
       },
       {
         color: '#0F3D34',
@@ -196,7 +237,13 @@ export default function OverviewPage() {
         description: 'Total seluruh potensi termasuk draf',
         label: 'Semua Data',
         value: String(stats.total_all),
-        chart: renderChart(DoughnutChart, donutData, donutOptions),
+        chart: renderChartOrEmpty(
+          (stats.total_potentials + stats.total_categories + stats.total_umkm + stats.total_dusun) > 0,
+          DoughnutChart,
+          donutData,
+          donutOptions,
+          [centerTextPlugin(stats.total_all)],
+        ),
       },
       {
         color: '#0F3D34',
@@ -211,7 +258,7 @@ export default function OverviewPage() {
         description: 'Wilayah administratif desa',
         label: 'Lokasi',
         value: String(stats.total_dusun),
-        chart: renderChart(BarChart, dusunData, barOptions),
+        chart: renderChartOrEmpty((stats.dusun_distribution ?? []).length > 0, BarChart, dusunData, barOptions),
       },
       {
         color: '#0F3D34',
@@ -256,7 +303,7 @@ export default function OverviewPage() {
       {/* Stats Bento Grid */}
       <section aria-label="Statistik ringkasan">
         {statsLoading ? (
-          <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {Array.from({ length: 4 }).map((_, i) => (
               <div key={i} className="h-[180px] animate-pulse rounded-2xl border border-[#E7E7E7] bg-neutral-100" />
             ))}
@@ -265,14 +312,12 @@ export default function OverviewPage() {
           <MagicBento
             cardData={bentoCardData}
             glowColor="24, 77, 71"
-            spotlightRadius={280}
-            particleCount={10}
             enableTilt={false}
-            enableMagnetism
-            clickEffect
-            enableStars
-            enableSpotlight
-            enableBorderGlow
+            enableMagnetism={false}
+            clickEffect={false}
+            enableStars={false}
+            enableSpotlight={false}
+            enableBorderGlow={false}
           />
         )}
       </section>
