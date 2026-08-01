@@ -180,6 +180,7 @@ export default function OverviewPage() {
         description: 'Potensi desa yang telah diterbitkan',
         label: 'Ringkasan',
         value: String(stats.total_potentials),
+        chart: renderChart(DoughnutChart, statusData, donutOptions),
       },
       {
         color: '#0F3D34',
@@ -187,6 +188,7 @@ export default function OverviewPage() {
         description: 'Kelompok konten desa',
         label: 'Taksonomi',
         value: String(stats.total_categories),
+        chart: renderChart(BarChart, categoryData, barOptions),
       },
       {
         color: '#0F3D34',
@@ -194,6 +196,7 @@ export default function OverviewPage() {
         description: 'Total seluruh potensi termasuk draf',
         label: 'Semua Data',
         value: String(stats.total_all),
+        chart: renderChart(DoughnutChart, donutData, donutOptions),
       },
       {
         color: '#0F3D34',
@@ -208,6 +211,7 @@ export default function OverviewPage() {
         description: 'Wilayah administratif desa',
         label: 'Lokasi',
         value: String(stats.total_dusun),
+        chart: renderChart(BarChart, dusunData, barOptions),
       },
       {
         color: '#0F3D34',
@@ -215,30 +219,6 @@ export default function OverviewPage() {
         description: 'Potensi yang masih dalam penyusunan',
         label: 'Tertunda',
         value: String(stats.total_draft),
-      },
-      {
-        color: '#0F3D34',
-        label: 'Grafik',
-        value: String(stats.total_all),
-        chart: renderChart(DoughnutChart, donutData, donutOptions),
-      },
-      {
-        color: '#0F3D34',
-        label: 'Status',
-        value: String(stats.total_all),
-        chart: renderChart(DoughnutChart, statusData, donutOptions),
-      },
-      {
-        color: '#0F3D34',
-        label: 'Kategori',
-        value: String(stats.total_categories),
-        chart: renderChart(BarChart, categoryData, barOptions),
-      },
-      {
-        color: '#0F3D34',
-        label: 'Dusun',
-        value: String(stats.total_dusun),
-        chart: renderChart(BarChart, dusunData, barOptions),
       },
     ];
   }, [stats, donutData, statusData, categoryData, dusunData, donutOptions, barOptions]);
