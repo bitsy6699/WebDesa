@@ -58,6 +58,22 @@ export function PotentialForm({ mode = 'create', initialData }) {
   const latitude = watch('latitude');
   const longitude = watch('longitude');
   const address = watch('address');
+  const categoryId = watch('category_id');
+
+  const selectedCategory = categories.find((cat) => cat.id === categoryId);
+  const acaFields = selectedCategory?.schema?.schemaDefinition?.fields ?? [];
+
+  const [acaValues, setAcaValues] = useState({});
+
+  useEffect(() => {
+    const meta = initialData?.metadata && typeof initialData.metadata === 'object' ? initialData.metadata : {};
+    const next = {};
+    for (const field of acaFields) {
+      next[field.name] = meta[field.name] ?? '';
+    }
+    setAcaValues(next);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedCategory?.id]);
 
   const [placeInfo, setPlaceInfo] = useState(null);
   const [geoLoading, setGeoLoading] = useState(false);
@@ -121,6 +137,11 @@ export function PotentialForm({ mode = 'create', initialData }) {
   }, [createMutation.isSuccess, updateMutation.isSuccess, navigate]);
 
   const onSubmit = (data) => {
+    const acaPayload = {};
+    for (const field of acaFields) {
+      acaPayload[field.name] = acaValues[field.name] ?? '';
+    }
+
     const payload = {
       category_id: data.category_id,
       title: data.title,
@@ -136,6 +157,7 @@ export function PotentialForm({ mode = 'create', initialData }) {
       gallery: data.gallery || [],
       metadata: {
         ...(initialData?.metadata || {}),
+        ...acaPayload,
         contact: {
           whatsapp: data.contact_whatsapp || null,
           phone: data.contact_phone || null,
@@ -358,6 +380,22 @@ export function PotentialForm({ mode = 'create', initialData }) {
           />
         </div>
       </FormSection>
+
+      {acaFields.length > 0 ? (
+        <FormSection title="Data Khusus Kategori" description={`Bidang tambahan khusus untuk kategori "${selectedCategory.label}".`}>
+          <div className="grid gap-4 md:grid-cols-2">
+            {acaFields.map((field) => (
+              <DashboardInput
+                key={field.name}
+                label={field.label ?? field.name}
+                type={field.type === 'number' ? 'number' : 'text'}
+                value={acaValues[field.name] ?? ''}
+                onChange={(e) => setAcaValues((current) => ({ ...current, [field.name]: e.target.value }))}
+              />
+            ))}
+          </div>
+        </FormSection>
+      ) : null}
 
       <FormSection title="Tautan" description="Link media sosial dan marketplace.">
         <div className="grid gap-6 md:grid-cols-2">

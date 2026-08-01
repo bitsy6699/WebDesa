@@ -26,8 +26,8 @@ export function useCreateCategory() {
         label: draft.name,
         slug: draft.slug,
         description: draft.description ?? null,
-        color_code: draft.colorCode ?? null,
-        icon_key: draft.iconKey ?? null,
+        colorCode: draft.colorCode ?? null,
+        iconKey: draft.iconKey ?? null,
       }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: queryKeys.categories.all });
@@ -44,8 +44,8 @@ export function useUpdateCategory() {
         label: draft.name,
         slug: draft.slug,
         description: draft.description ?? null,
-        color_code: draft.colorCode ?? null,
-        icon_key: draft.iconKey ?? null,
+        colorCode: draft.colorCode ?? null,
+        iconKey: draft.iconKey ?? null,
       }),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: queryKeys.categories.all });

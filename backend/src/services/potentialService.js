@@ -15,8 +15,8 @@ export async function list({ search, category, featured, status, sort, page, per
   if (category) {
     where.category = { slug: category };
   }
-  if (featured === true || featured === 'true') {
-    where.isFeatured = true;
+  if (featured !== undefined && featured !== null) {
+    where.isFeatured = featured === true || featured === 'true';
   }
   if (status) {
     where.status = status;

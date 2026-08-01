@@ -61,7 +61,7 @@ export default function OverviewPage() {
     { icon: ImageIcon, title: 'Unggah Media', description: 'Tambah gambar.', onClick: () => navigate('/dashboard/media') },
     { icon: ChartColumn, title: 'Statistik', description: 'Pantau performa.', onClick: () => navigate('/dashboard/statistics') },
     { icon: Store, title: 'Data UMKM', description: 'Usaha mikro desa.', onClick: () => navigate('/dashboard/potentials') },
-    { icon: MapPin, title: 'Peta Desa', description: 'Distribusi potensi.', onClick: () => navigate('/dashboard/potentials') },
+    { icon: MapPin, title: 'Peta Desa', description: 'Distribusi potensi.', onClick: () => navigate('/dashboard/map') },
   ];
 
   const donutData = useMemo(() => {

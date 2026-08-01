@@ -36,8 +36,8 @@ function buildCategoryRecord(category) {
     type: 'Taksonomi',
     updatedAt: 'Baru saja',
     description: category.description ?? null,
-    colorCode: category.color_code ?? null,
-    iconKey: category.icon_key ?? null,
+    colorCode: category.colorCode ?? null,
+    iconKey: category.iconKey ?? null,
   };
 }
 

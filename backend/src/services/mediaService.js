@@ -44,7 +44,11 @@ export async function upload(file, userId, ipAddress) {
   });
 
   await logAction(userId, 'upload_media', media.id, 'Media', ipAddress);
-  return media;
+  return {
+    ...media,
+    filepath: resolveMediaUrl(media.filepath),
+    filesize: Number(media.filesize),
+  };
 }
 
 export async function remove(id, userId, ipAddress) {

@@ -6,6 +6,7 @@ import { DashboardDataTable } from '@/dashboard/components/data/DashboardDataTab
 import FadeContent from '@/components/FadeContent';
 import { TableToolbar } from '@/dashboard/components/data/TableToolbar';
 import { TableSearch } from '@/dashboard/components/data/TableSearch';
+import { TableFilters } from '@/dashboard/components/data/TableFilters';
 import { TablePagination } from '@/dashboard/components/data/TablePagination';
 import { BulkActionBar } from '@/dashboard/components/data/BulkActionBar';
 import { RowActionMenu } from '@/dashboard/components/data/RowActionMenu';
@@ -14,14 +15,31 @@ import { Alert } from '@/dashboard/components/organisms/Alert';
 import { EmptyState } from '@/dashboard/components/organisms/EmptyState';
 import { useAdminPotentials } from '@/hooks/useAdminPotentials';
 import { useDeletePotential, useToggleStatus } from '@/hooks/usePotentialMutations';
+import { useCategories } from '@/hooks/useCategories';
+
+const selectClass = 'rounded-xl border border-[#E7E7E7] bg-white px-3 py-2 text-[0.8125rem] text-neutral-800 outline-none transition-all duration-150 hover:border-neutral-300 focus:border-[#184D47] focus:ring-2 focus:ring-[#184D47]/20';
 
 export default function PotentialsPage() {
   const navigate = useNavigate();
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(1);
   const [selectedIds, setSelectedIds] = useState([]);
+  const [statusFilter, setStatusFilter] = useState('all');
+  const [categoryFilter, setCategoryFilter] = useState('');
+  const [featuredFilter, setFeaturedFilter] = useState('all');
+  const [sort, setSort] = useState('latest');
 
-  const { data, isLoading, error } = useAdminPotentials({ page, search: search.length >= 3 ? search : undefined, per_page: 10 });
+  const { data: categories = [] } = useCategories();
+
+  const { data, isLoading, error } = useAdminPotentials({
+    page,
+    search: search.length >= 3 ? search : undefined,
+    per_page: 10,
+    status: statusFilter === 'all' ? undefined : statusFilter,
+    category: categoryFilter || undefined,
+    featured: featuredFilter === 'all' ? undefined : featuredFilter === 'featured',
+    sort: sort === 'latest' ? undefined : sort,
+  });
   const deleteMutation = useDeletePotential();
   const toggleStatusMutation = useToggleStatus();
 
@@ -51,6 +69,14 @@ export default function PotentialsPage() {
 
   const handleToggleStatus = (id, currentStatus) => {
     toggleStatusMutation.mutate({ id, currentStatus });
+  };
+
+  const handleBulkDelete = () => {
+    if (!window.confirm(`Hapus ${selectedIds.length} potensi terpilih?`)) {
+      return;
+    }
+    selectedIds.forEach((id) => deleteMutation.mutate(String(id)));
+    setSelectedIds([]);
   };
 
   return (
@@ -85,17 +111,49 @@ export default function PotentialsPage() {
           <div className="space-y-3">
             <BulkActionBar
               selectedCount={selectedIds.length}
-              onDelete={() => {
-                if (window.confirm(`Hapus ${selectedIds.length} potensi terpilih?`)) {
-                  selectedIds.forEach((id) => deleteMutation.mutate(String(id)));
-                  setSelectedIds([]);
-                }
-              }}
+              onDelete={handleBulkDelete}
             />
             <TableToolbar
               title="Explorer"
               actions={
-                <TableSearch value={search} onChange={(v) => { setSearch(v); setPage(1); }} placeholder="Cari potensi..." />
+                <TableFilters
+                  filters={
+                    <>
+                      <TableSearch value={search} onChange={(v) => { setSearch(v); setPage(1); }} placeholder="Cari potensi..." />
+                      <select className={selectClass} value={statusFilter} onChange={(e) => { setStatusFilter(e.target.value); setPage(1); }}>
+                        <option value="all">Semua status</option>
+                        <option value="draft">Draf</option>
+                        <option value="published">Diterbitkan</option>
+                        <option value="archived">Diarsipkan</option>
+                      </select>
+                      <select className={selectClass} value={categoryFilter} onChange={(e) => { setCategoryFilter(e.target.value); setPage(1); }}>
+                        <option value="">Semua kategori</option>
+                        {categories.map((cat) => (
+                          <option key={cat.id} value={cat.slug}>{cat.label}</option>
+                        ))}
+                      </select>
+                      <select className={selectClass} value={featuredFilter} onChange={(e) => { setFeaturedFilter(e.target.value); setPage(1); }}>
+                        <option value="all">Semua</option>
+                        <option value="featured">Unggulan</option>
+                        <option value="not">Non-unggulan</option>
+                      </select>
+                      <select className={selectClass} value={sort} onChange={(e) => { setSort(e.target.value); setPage(1); }}>
+                        <option value="latest">Terbaru</option>
+                        <option value="oldest">Terlama</option>
+                        <option value="name_asc">Nama A–Z</option>
+                        <option value="name_desc">Nama Z–A</option>
+                      </select>
+                    </>
+                  }
+                  onReset={() => {
+                    setSearch('');
+                    setStatusFilter('all');
+                    setCategoryFilter('');
+                    setFeaturedFilter('all');
+                    setSort('latest');
+                    setPage(1);
+                  }}
+                />
               }
             />
           </div>

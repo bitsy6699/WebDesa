@@ -14,7 +14,7 @@ export default function MediaPage() {
   const [page, setPage] = useState(1);
   const [previewMedia, setPreviewMedia] = useState(null);
 
-  const { data, isLoading } = useMediaList({ page, per_page: 12 });
+  const { data, isLoading, isError, error } = useMediaList({ page, per_page: 12 });
   const uploadMutation = useUploadMedia();
   const deleteMutation = useDeleteMedia();
 
@@ -81,6 +81,10 @@ export default function MediaPage() {
           <LoaderCircle className="h-4 w-4 animate-spin" />
           <span>Mengunggah gambar...</span>
         </div>
+      )}
+
+      {isError && (
+        <Alert title="Gagal memuat media." description={error?.message ?? 'Silakan coba lagi.'} variant="danger" />
       )}
 
       <FadeContent duration={600} delay={0} threshold={0.1}>

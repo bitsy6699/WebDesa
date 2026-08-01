@@ -35,7 +35,7 @@ const GROUP_TITLES = {
 const DEFAULT_VALUES = Object.fromEntries(SETTINGS_FIELDS.map((f) => [f.key, '']));
 
 export default function SettingsPage() {
-  const { user } = useAuth();
+  const { user, updateUser } = useAuth();
 
   const [profileSuccess, setProfileSuccess] = useState('');
   const [profileError, setProfileError] = useState('');
@@ -78,6 +78,7 @@ export default function SettingsPage() {
 
     try {
       await api.put(API_ROUTES.AUTH_PROFILE, data);
+      updateUser({ username: data.username });
       setProfileSuccess('Profil berhasil diperbarui.');
     } catch (err) {
       const axiosErr = err;

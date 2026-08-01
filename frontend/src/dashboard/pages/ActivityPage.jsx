@@ -9,29 +9,42 @@ import { useActivityLogs } from '@/hooks/useActivityLogs';
 import { useState } from 'react';
 
 const actionIcons = {
-  'auth.login': { icon: LogIn, color: 'text-[#184D47]' },
-  'auth.logout': { icon: LogOut, color: 'text-neutral-400' },
-  'potential.created': { icon: Plus, color: 'text-[#184D47]' },
-  'potential.updated': { icon: Pencil, color: 'text-sky-600' },
-  'potential.deleted': { icon: Trash2, color: 'text-red-500' },
-  'potential.featured_toggled': { icon: Star, color: 'text-amber-500' },
-  'media.uploaded': { icon: Upload, color: 'text-[#184D47]' },
-  'media.deleted': { icon: Trash2, color: 'text-red-500' },
-  'settings.updated': { icon: Settings, color: 'text-neutral-400' },
-  'update_settings': { icon: Settings, color: 'text-neutral-400' },
+  login: { icon: LogIn, color: 'text-[#184D47]' },
+  logout: { icon: LogOut, color: 'text-neutral-400' },
+  create_potential: { icon: Plus, color: 'text-[#184D47]' },
+  update_potential: { icon: Pencil, color: 'text-sky-600' },
+  delete_potential: { icon: Trash2, color: 'text-red-500' },
+  toggle_featured: { icon: Star, color: 'text-amber-500' },
+  import_potentials: { icon: Upload, color: 'text-[#184D47]' },
+  upload_media: { icon: Upload, color: 'text-[#184D47]' },
+  delete_media: { icon: Trash2, color: 'text-red-500' },
+  create_category: { icon: Plus, color: 'text-[#184D47]' },
+  update_category: { icon: Pencil, color: 'text-sky-600' },
+  delete_category: { icon: Trash2, color: 'text-red-500' },
+  update_settings: { icon: Settings, color: 'text-neutral-400' },
 };
 
 const actionLabels = {
-  'auth.login': 'login',
-  'auth.logout': 'logout',
-  'potential.created': 'potensi dibuat',
-  'potential.updated': 'potensi diperbarui',
-  'potential.deleted': 'potensi dihapus',
-  'potential.featured_toggled': 'unggulan diubah',
-  'media.uploaded': 'media diunggah',
-  'media.deleted': 'media dihapus',
-  'settings.updated': 'pengaturan diubah',
-  'update_settings': 'pengaturan diubah',
+  login: 'masuk ke sistem',
+  logout: 'keluar dari sistem',
+  create_potential: 'membuat potensi',
+  update_potential: 'memperbarui potensi',
+  delete_potential: 'menghapus potensi',
+  toggle_featured: 'mengubah status unggulan potensi',
+  import_potentials: 'mengimpor data potensi',
+  upload_media: 'mengunggah media',
+  delete_media: 'menghapus media',
+  create_category: 'membuat kategori',
+  update_category: 'memperbarui kategori',
+  delete_category: 'menghapus kategori',
+  update_settings: 'memperbarui pengaturan',
+};
+
+const subjectLabels = {
+  Potential: 'potensi',
+  Media: 'media',
+  Category: 'kategori',
+  Setting: 'pengaturan',
 };
 
 function timeAgo(dateString) {
@@ -87,9 +100,10 @@ export default function ActivityPage() {
             <FadeContent duration={600} delay={0} threshold={0.1}>
             <div className="divide-y divide-[#E8ECEA]">
               {data?.data.map((log) => {
-              const actionConfig = actionIcons[log.action] ?? { icon: LogIn, color: 'text-neutral-400' };
+              const actionConfig = actionIcons[log.action] ?? { icon: Settings, color: 'text-neutral-400' };
               const Icon = actionConfig.icon;
-              const label = actionLabels[log.action] ?? log.action.replace('.', ' ');
+              const label = actionLabels[log.action] ?? `melakukan aksi ${log.action}`;
+              const subjectLabel = subjectLabels[log.subject_type] ?? log.subject_type;
 
               return (
                 <div key={log.id} className="flex items-start gap-3 py-3.5 first:pt-0 last:pb-0">
@@ -101,6 +115,7 @@ export default function ActivityPage() {
                       <span className="font-medium text-neutral-800">{log.user?.username ?? 'System'}</span>
                       {' '}
                       <span className="text-neutral-500">{label}</span>
+                      {log.subject_type && <span className="text-neutral-500"> · {subjectLabel}</span>}
                     </p>
                     <p className="mt-0.5 text-[0.75rem] text-neutral-400">
                       {timeAgo(log.created_at)}

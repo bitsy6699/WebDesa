@@ -72,9 +72,16 @@ export function AuthProvider({ children }) {
     setState({ user, token, isLoading: false, isAuthenticated: true });
   }, []);
 
+  const updateUser = useCallback((userPatch) => {
+    setState((current) => ({
+      ...current,
+      user: current.user ? { ...current.user, ...userPatch } : current.user,
+    }));
+  }, []);
+
   const value = useMemo(
-    () => ({ ...state, login, logout }),
-    [state, login, logout],
+    () => ({ ...state, login, logout, updateUser }),
+    [state, login, logout, updateUser],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

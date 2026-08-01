@@ -79,6 +79,7 @@ export default function PotentialEditPage() {
           cover_image_url: potential.cover_image_url,
           gallery: potential.gallery_details?.map((g) => g.id) ?? [],
           gallery_details: potential.gallery_details ?? [],
+          metadata: potential.metadata,
           contact: potential.contact ?? { whatsapp: '', phone: '', email: '' },
           social_media: potential.social_media ?? { tiktok: '', instagram: '', facebook: '' },
           marketplaces: potential.marketplaces ?? { shopee: '', tokopedia: '', lazada: '' },

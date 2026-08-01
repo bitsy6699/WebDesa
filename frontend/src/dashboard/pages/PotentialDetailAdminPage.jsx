@@ -1,37 +1,14 @@
-import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { PotentialDetailPage } from '@/dashboard/features/potentials/PotentialDetailPage';
 import { Alert } from '@/dashboard/components/organisms/Alert';
-import api from '@/services/api';
-import { API_ROUTES } from '@/constants/routes';
+import { useAdminPotential } from '@/hooks/useAdminPotentials';
 import FadeContent from '@/components/FadeContent';
 
 export default function PotentialDetailAdminPage() {
   const { id } = useParams();
-  const [potential, setPotential] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+  const { data: potential, isLoading, isError } = useAdminPotential(id);
 
-  useEffect(() => {
-    if (!id) return;
-
-    const fetchPotential = async () => {
-      try {
-        const response = await api.get(
-          API_ROUTES.ADMIN_POTENTIAL(id),
-        );
-        setPotential(response.data.data);
-      } catch {
-        setError('Gagal memuat data potensi.');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchPotential();
-  }, [id]);
-
-  if (loading) {
+  if (isLoading) {
     return (
       <FadeContent duration={600} delay={0} threshold={0.1}>
         <div className="flex items-center justify-center py-20">
@@ -41,11 +18,11 @@ export default function PotentialDetailAdminPage() {
     );
   }
 
-  if (error || !potential) {
+  if (isError || !potential) {
     return (
       <FadeContent duration={600} delay={0} threshold={0.1}>
         <div className="space-y-5">
-          <Alert title={error ?? 'Potensi tidak ditemukan.'} variant="danger" />
+          <Alert title="Gagal memuat data potensi." variant="danger" />
         </div>
       </FadeContent>
     );

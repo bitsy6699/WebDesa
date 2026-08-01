@@ -34,6 +34,14 @@ export async function fetchPotentialDetail(
   return response.data.data;
 }
 
+/** Fetch single potential detail (admin — includes all statuses). */
+export async function fetchAdminPotential(id) {
+  const response = await api.get(
+    API_ROUTES.ADMIN_POTENTIAL(id),
+  );
+  return response.data.data;
+}
+
 /** Create a new potential (admin). */
 export async function createPotential(data) {
   const response = await api.post(
@@ -70,7 +78,14 @@ export async function togglePotentialFeatured(id) {
 
 /** Toggle publish status between draft and published (admin). */
 export async function togglePotentialStatus(id, currentStatus) {
-  const newStatus = currentStatus === 'published' ? 'draft' : 'published';
+  let newStatus;
+  if (currentStatus === 'published') {
+    newStatus = 'draft';
+  } else if (currentStatus === 'archived') {
+    newStatus = 'draft';
+  } else {
+    newStatus = 'published';
+  }
   const response = await api.put(
     API_ROUTES.ADMIN_POTENTIAL(id),
     { status: newStatus },

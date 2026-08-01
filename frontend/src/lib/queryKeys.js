@@ -16,6 +16,7 @@ export const queryKeys = {
   adminPotentials: {
     all: ['admin-potentials'],
     list: (params) => ['admin-potentials', params],
+    detail: (id) => ['admin-potentials', id],
   },
   categories: {
     all: ['categories'],

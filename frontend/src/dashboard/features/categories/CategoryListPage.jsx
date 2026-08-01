@@ -8,23 +8,21 @@ import { TableFilters } from '@/dashboard/components/data/TableFilters';
 import { TablePagination } from '@/dashboard/components/data/TablePagination';
 import { BulkActionBar } from '@/dashboard/components/data/BulkActionBar';
 import { RowActionMenu } from '@/dashboard/components/data/RowActionMenu';
-import { PublishStatusToggle } from '@/dashboard/components/data/PublishStatusToggle';
 import { Alert } from '@/dashboard/components/organisms/Alert';
 import { useCategories } from './api/hooks';
 import { mapCategoriesToRows } from './utils';
 
-export function CategoryListPage({ onCreate, onView, onEdit, onDelete, onRefresh }) {
+export function CategoryListPage({ onCreate, onView, onEdit, onDelete, onBulkDelete, onRefresh }) {
   const [query, setQuery] = useState('');
   const [page, setPage] = useState(1);
   const [selectedIds, setSelectedIds] = useState([]);
   const [sortField, setSortField] = useState('name');
   const [sortDirection, setSortDirection] = useState('asc');
-  const [statusFilter, setStatusFilter] = useState('all');
   const { data: categories = [], isLoading, isError, error, refetch } = useCategories();
 
   useEffect(() => {
     setPage(1);
-  }, [query, statusFilter]);
+  }, [query]);
 
   const rows = useMemo(() => {
     const mappedRows = mapCategoriesToRows(categories);
@@ -33,8 +31,7 @@ export function CategoryListPage({ onCreate, onView, onEdit, onDelete, onRefresh
     return mappedRows
       .filter((item) => {
         const matchesQuery = !normalizedQuery || item.name.toLowerCase().includes(normalizedQuery) || item.slug.toLowerCase().includes(normalizedQuery);
-        const matchesStatus = statusFilter === 'all' || (statusFilter === 'published' && item.status === 'Diterbitkan');
-        return matchesQuery && matchesStatus;
+        return matchesQuery;
       })
       .sort((left, right) => {
         const valueA = left[sortField] ?? '';
@@ -42,9 +39,10 @@ export function CategoryListPage({ onCreate, onView, onEdit, onDelete, onRefresh
         const comparison = String(valueA).localeCompare(String(valueB), undefined, { sensitivity: 'base' });
         return sortDirection === 'asc' ? comparison : comparison * -1;
       });
-  }, [categories, query, sortDirection, sortField, statusFilter]);
+  }, [categories, query, sortDirection, sortField]);
 
   const pagedRows = rows.slice((page - 1) * 5, page * 5);
+  const selectedRows = rows.filter((row) => selectedIds.includes(row.id));
 
   const toggleSelection = (id) => {
     setSelectedIds((current) => (current.includes(id) ? current.filter((item) => item !== id) : [...current, id]));
@@ -104,7 +102,7 @@ export function CategoryListPage({ onCreate, onView, onEdit, onDelete, onRefresh
         onSort={handleSort}
         toolbar={
           <div className="space-y-3">
-            <BulkActionBar selectedCount={selectedIds.length} />
+            <BulkActionBar selectedCount={selectedIds.length} onDelete={() => onBulkDelete?.(selectedRows)} />
             <TableToolbar
               title="Manajer taksonomi"
               actions={
@@ -112,15 +110,10 @@ export function CategoryListPage({ onCreate, onView, onEdit, onDelete, onRefresh
                   filters={
                     <>
                       <TableSearch value={query} onChange={setQuery} placeholder="Cari kategori" />
-                      <select className="rounded-xl border border-[#E7E7E7] bg-white px-3 py-2 text-[0.8125rem] text-neutral-800 outline-none transition-all duration-150 hover:border-neutral-300 focus:border-[#184D47] focus:ring-2 focus:ring-[#184D47]/20" value={statusFilter} onChange={(event) => setStatusFilter(event.target.value)}>
-                        <option value="all">Semua status</option>
-                        <option value="published">Diterbitkan</option>
-                      </select>
                     </>
                   }
                   onReset={() => {
                     setQuery('');
-                    setStatusFilter('all');
                   }}
                 />
               }
@@ -130,7 +123,6 @@ export function CategoryListPage({ onCreate, onView, onEdit, onDelete, onRefresh
         columns={[
           { key: 'name', header: 'Nama' },
           { key: 'slug', header: 'Tautan' },
-          { key: 'status', header: 'Status', render: (row) => <PublishStatusToggle published={row.status === 'Diterbitkan'} /> },
           { key: 'updatedAt', header: 'Terakhir diperbarui' },
         ]}
         rowActions={(row) => (
