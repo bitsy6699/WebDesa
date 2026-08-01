@@ -215,6 +215,7 @@ export default function OverviewPage() {
         description: 'Potensi desa yang telah diterbitkan',
         label: 'Ringkasan',
         value: String(stats.total_potentials),
+        wide: true,
         chart: renderChartOrEmpty(
           (stats.total_potentials + stats.total_draft + stats.total_archived) > 0,
           DoughnutChart,
@@ -237,6 +238,7 @@ export default function OverviewPage() {
         description: 'Total seluruh potensi termasuk draf',
         label: 'Semua Data',
         value: String(stats.total_all),
+        wide: true,
         chart: renderChartOrEmpty(
           (stats.total_potentials + stats.total_categories + stats.total_umkm + stats.total_dusun) > 0,
           DoughnutChart,

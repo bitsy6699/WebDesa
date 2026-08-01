@@ -465,7 +465,7 @@ const MagicBento = ({
 
       <BentoCardGrid gridRef={gridRef}>
         {cards.map((card, index) => {
-          const baseClassName = `magic-bento-card ${textAutoHide ? 'magic-bento-card--text-autohide' : ''} ${enableBorderGlow ? 'magic-bento-card--border-glow' : ''} ${card.chart ? 'magic-bento-card--chart' : ''}`;
+          const baseClassName = `magic-bento-card ${textAutoHide ? 'magic-bento-card--text-autohide' : ''} ${enableBorderGlow ? 'magic-bento-card--border-glow' : ''} ${card.wide ? 'magic-bento-card--wide' : ''} ${card.chart ? 'magic-bento-card--chart' : ''}`;
           const cardProps = {
             className: baseClassName,
             style: {
@@ -481,14 +481,11 @@ const MagicBento = ({
                 <div className="magic-bento-card__value">{card.value}</div>
               </div>
               <div className="magic-bento-card__content">
-                {card.chart ? (
-                  card.chart
-                ) : (
-                  <>
-                    <h2 className="magic-bento-card__title">{card.title}</h2>
-                    <p className="magic-bento-card__description">{card.description}</p>
-                  </>
-                )}
+                <div className="magic-bento-card__copy">
+                  <h2 className="magic-bento-card__title">{card.title}</h2>
+                  <p className="magic-bento-card__description">{card.description}</p>
+                </div>
+                {card.chart}
               </div>
             </>
           );
