@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { motion, useReducedMotion } from 'framer-motion';
-import { Store, Tractor, Fish, Map as MapIcon, Building2, Activity, Layers } from 'lucide-react';
+import { Store, Tractor, Fish, Map as MapIcon, Building2, Activity, Sprout, Trees, Layers } from 'lucide-react';
 import { Skeleton } from '@/components/atoms/Skeleton';
 import { HERO_2 } from '@/lib/imageCompositions';
 
@@ -16,15 +16,30 @@ const FALLBACK_CATEGORIES = [
 function CategoryIcon({ iconKey, color, size = 24 }) {
   const cls = 'shrink-0 transition-colors duration-300';
   const style = { width: size, height: size, color };
-  switch (iconKey) {
-    case 'store':    return <Store    className={cls} style={style} aria-hidden="true" />;
-    case 'tractor':  return <Tractor  className={cls} style={style} aria-hidden="true" />;
-    case 'fish':     return <Fish     className={cls} style={style} aria-hidden="true" />;
-    case 'map':      return <MapIcon  className={cls} style={style} aria-hidden="true" />;
-    case 'building': return <Building2 className={cls} style={style} aria-hidden="true" />;
-    case 'activity': return <Activity  className={cls} style={style} aria-hidden="true" />;
-    default:         return <Layers   className={cls} style={style} aria-hidden="true" />;
+  const key = `${iconKey ?? ''}`.toLowerCase();
+
+  if (['sprout', 'pertanian', 'wheat', 'agriculture', 'farm'].some((value) => key.includes(value))) {
+    return <Sprout className={cls} style={style} aria-hidden="true" />;
   }
+  if (['tree', 'trees', 'forest', 'tree-pine', 'palmtree', 'nature', 'wisata'].some((value) => key.includes(value))) {
+    return <Trees className={cls} style={style} aria-hidden="true" />;
+  }
+  if (['beef', 'fish', 'peternakan', 'livestock', 'aquatic'].some((value) => key.includes(value))) {
+    return <Fish className={cls} style={style} aria-hidden="true" />;
+  }
+  if (['store', 'umkm', 'shop', 'market', 'business'].some((value) => key.includes(value))) {
+    return <Store className={cls} style={style} aria-hidden="true" />;
+  }
+  if (['tractor', 'farm'].some((value) => key.includes(value))) {
+    return <Tractor className={cls} style={style} aria-hidden="true" />;
+  }
+  if (['map', 'mountain', 'compass', 'tourism', 'sarana'].some((value) => key.includes(value))) {
+    return <MapIcon className={cls} style={style} aria-hidden="true" />;
+  }
+  if (['building', 'activity', 'kegiatan'].some((value) => key.includes(value))) {
+    return <Building2 className={cls} style={style} aria-hidden="true" />;
+  }
+  return <Layers className={cls} style={style} aria-hidden="true" />;
 }
 
 const cardEnter = (i) => ({

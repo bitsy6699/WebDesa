@@ -65,19 +65,19 @@ function CategoryIcon({ iconKey, label, color, size = 56 }) {
     return <Sprout className={sharedClassName} style={style} aria-hidden="true" />;
   }
 
-  if (['tree', 'trees', 'forest', 'wisata', 'nature'].some((value) => key.includes(value))) {
+  if (['tree', 'trees', 'forest', 'tree-pine', 'palmtree', 'nature'].some((value) => key.includes(value))) {
     return <Trees className={sharedClassName} style={style} aria-hidden="true" />;
   }
 
-  if (['mountain', 'landmark', 'tourism', 'wisata'].some((value) => key.includes(value))) {
+  if (['mountain', 'landmark', 'tourism', 'compass', 'wisata'].some((value) => key.includes(value))) {
     return <Landmark className={sharedClassName} style={style} aria-hidden="true" />;
   }
 
-  if (['fish', 'peternakan', 'seafood', 'aquatic'].some((value) => key.includes(value))) {
+  if (['fish', 'peternakan', 'beef', 'livestock', 'seafood', 'aquatic'].some((value) => key.includes(value))) {
     return <Fish className={sharedClassName} style={style} aria-hidden="true" />;
   }
 
-  if (['package', 'produk', 'product', 'umkm', 'business'].some((value) => key.includes(value))) {
+  if (['package', 'produk', 'product', 'umkm', 'business', 'briefcase'].some((value) => key.includes(value))) {
     return <Package className={sharedClassName} style={style} aria-hidden="true" />;
   }
 
@@ -87,6 +87,14 @@ function CategoryIcon({ iconKey, label, color, size = 56 }) {
 
   if (['factory', 'industry', 'manufacture'].some((value) => key.includes(value))) {
     return <Factory className={sharedClassName} style={style} aria-hidden="true" />;
+  }
+
+  if (['heart', 'health', 'kesehatan'].some((value) => key.includes(value))) {
+    return <Activity className={sharedClassName} style={style} aria-hidden="true" />;
+  }
+
+  if (['graduation', 'education', 'pendidikan'].some((value) => key.includes(value))) {
+    return <Landmark className={sharedClassName} style={style} aria-hidden="true" />;
   }
 
   switch (key) {
@@ -132,7 +140,7 @@ const CategoryCard = memo(function CategoryCard({
               />
             ) : (
               <div className="flex h-[84px] w-full items-center justify-center">
-                <CategoryIcon iconKey={category.icon_key} label={category.label} color={color} size={56} />
+                <CategoryIcon iconKey={category.iconKey} label={category.label} color={color} size={56} />
               </div>
             )}
           </div>
@@ -262,7 +270,7 @@ export default function CategoriesExplorer() {
         ) : (
           <div className="grid grid-cols-1 gap-[32px] md:grid-cols-2 xl:grid-cols-3">
             {items.map((category, index) => {
-              const color = category.color_code ?? 'var(--color-primary)';
+              const color = category.colorCode ?? 'var(--color-primary)';
               const count = countsBySlug[category.slug] ?? 0;
 
               return (

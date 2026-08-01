@@ -2,30 +2,7 @@ import { Link } from 'react-router-dom';
 import { motion, useReducedMotion } from 'framer-motion';
 import { MessageCircle, Phone, Mail, Clock, ArrowRight } from 'lucide-react';
 import { HERO_2 } from '@/lib/imageCompositions';
-
-const CONTACT_METHODS = [
-  {
-    icon: MessageCircle,
-    label: 'WhatsApp',
-    value: 'Chat Langsung',
-    href: 'https://wa.me/6281234567890',
-    color: '#22C55E',
-  },
-  {
-    icon: Phone,
-    label: 'Telepon',
-    value: '(0232) 123-4567',
-    href: 'tel:+6202321234567',
-    color: '#3B82F6',
-  },
-  {
-    icon: Mail,
-    label: 'Email',
-    value: 'info@karamatwangi.desa.id',
-    href: 'mailto:info@karamatwangi.desa.id',
-    color: '#F59E0B',
-  },
-];
+import { usePublicContact } from '@/hooks/usePublicSettings';
 
 const OFFICE_HOURS = [
   { day: 'Senin – Jumat', time: '08:00 – 16:00 WIB' },
@@ -35,6 +12,31 @@ const OFFICE_HOURS = [
 
 export function ContactSection() {
   const prefersReducedMotion = useReducedMotion();
+  const contact = usePublicContact();
+
+  const contactMethods = [
+    {
+      icon: MessageCircle,
+      label: 'WhatsApp',
+      value: 'Chat Langsung',
+      href: contact.whatsappUrl,
+      color: '#22C55E',
+    },
+    {
+      icon: Phone,
+      label: 'Telepon',
+      value: contact.phone ?? '—',
+      href: contact.phoneHref,
+      color: '#3B82F6',
+    },
+    {
+      icon: Mail,
+      label: 'Email',
+      value: contact.email ?? '—',
+      href: contact.emailHref,
+      color: '#F59E0B',
+    },
+  ].filter((m) => m.href);
 
   return (
     <section
@@ -70,7 +72,7 @@ export function ContactSection() {
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          {CONTACT_METHODS.map((method) => {
+          {contactMethods.map((method) => {
             const Icon = method.icon;
             return (
               <motion.a

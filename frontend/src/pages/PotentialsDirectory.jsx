@@ -121,6 +121,7 @@ export default function PotentialsDirectory() {
     page: currentPage,
     search: committedSearch || undefined,
     category: activeCategory || undefined,
+    sort: activeSort === 'latest' ? undefined : activeSort,
   });
 
   const { data: featuredData, isLoading: isLoadingFeatured } = usePotentials({

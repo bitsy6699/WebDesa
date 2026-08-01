@@ -67,10 +67,10 @@ export function StatisticsSection({ id, summary }) {
   }
 
   const metrics = summary ? [
-    { value: summary.totalPotentials || 0, label: 'Total Potensi', suffix: '' },
-    { value: summary.publishedPotentials || 0, label: 'Potensi Publikasi', suffix: '' },
-    { value: summary.totalCategories || 0, label: 'Kategori', suffix: '' },
-    { value: summary.totalMedia || 0, label: 'Media Tersimpan', suffix: '' },
+    { value: summary.total_potentials || 0, label: 'Total Potensi', suffix: '' },
+    { value: summary.total_umkm || 0, label: 'UMKM', suffix: '' },
+    { value: summary.total_categories || 0, label: 'Kategori', suffix: '' },
+    { value: summary.total_dusun || 0, label: 'Dusun', suffix: '' },
   ] : [];
 
   const hasData = metrics.some((m) => m.value > 0);

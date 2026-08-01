@@ -19,6 +19,7 @@ const SETTINGS_FIELDS = [
   { key: 'site_description', group: 'general', type: 'textarea', label: 'Deskripsi', placeholder: 'Deskripsi singkat desa' },
   { key: 'contact_email', group: 'contact', type: 'email', label: 'Email', placeholder: 'contoh: info@karamatwangi.desa.id' },
   { key: 'contact_phone', group: 'contact', type: 'text', label: 'Telepon', placeholder: 'contoh: 022123456' },
+  { key: 'contact_whatsapp', group: 'contact', type: 'text', label: 'WhatsApp', placeholder: 'contoh: 6281234567890' },
   { key: 'contact_address', group: 'contact', type: 'textarea', label: 'Alamat', placeholder: 'Alamat kantor desa' },
   { key: 'facebook_url', group: 'social', type: 'url', label: 'Facebook', placeholder: 'https://facebook.com/...' },
   { key: 'instagram_url', group: 'social', type: 'url', label: 'Instagram', placeholder: 'https://instagram.com/...' },

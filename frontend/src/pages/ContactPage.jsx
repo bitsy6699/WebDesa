@@ -12,6 +12,7 @@ import { PageHero } from '@/components/molecules/PageHero';
 import { PageSection } from '@/components/molecules/PageSection';
 import { PageCTA } from '@/components/molecules/PageCTA';
 import { FAQSection } from '@/components/organisms/FAQSection';
+import { usePublicContact } from '@/hooks/usePublicSettings';
 
 const FAQ_ITEMS = [
   {
@@ -31,8 +32,6 @@ const FAQ_ITEMS = [
     answer: 'Kantor Desa Karamatwangi terletak di Jl. Raya Karamatwangi No. 1, Kec. Cikajang, Kabupaten Garut, Jawa Barat 44171.',
   },
 ];
-
-const WHATSAPP_URL = 'https://wa.me/6281234567890';
 
 function ContactMethodCard({ icon: Icon, title, value, helper, href, delay }) {
   return (
@@ -60,6 +59,39 @@ function ContactMethodCard({ icon: Icon, title, value, helper, href, delay }) {
 }
 
 export default function ContactPage() {
+  const contact = usePublicContact();
+
+  const contactMethods = [
+    {
+      icon: MessageCircle,
+      title: 'WhatsApp',
+      value: 'Chat Langsung',
+      helper: 'Respons paling cepat',
+      href: contact.whatsappUrl,
+    },
+    {
+      icon: Phone,
+      title: 'Telepon',
+      value: contact.phone ?? '—',
+      helper: 'Senin – Sabtu, 08:00–16:00 WIB',
+      href: contact.phoneHref,
+    },
+    {
+      icon: Mail,
+      title: 'Email',
+      value: contact.email ?? '—',
+      helper: 'Balasan dalam 1×24 jam',
+      href: contact.emailHref,
+    },
+    {
+      icon: MapPin,
+      title: 'Alamat',
+      value: contact.address ?? 'Kantor Desa',
+      helper: 'Kec. Cikajang, Kab. Garut',
+      href: 'https://maps.app.goo.gl/KbRwkAn84srD3k9KA',
+    },
+  ].filter((m) => m.href);
+
   return (
     <>
       <SEO
@@ -118,38 +150,17 @@ export default function ContactPage() {
           </p>
         </div>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-5">
-          <ContactMethodCard
-            icon={MessageCircle}
-            title="WhatsApp"
-            value="Chat Langsung"
-            helper="Respons paling cepat"
-            href={WHATSAPP_URL}
-            delay={0}
-          />
-          <ContactMethodCard
-            icon={Phone}
-            title="Telepon"
-            value="(0232) 123-4567"
-            helper="Senin – Sabtu, 08:00–16:00 WIB"
-            href="tel:+6202321234567"
-            delay={0.05}
-          />
-          <ContactMethodCard
-            icon={Mail}
-            title="Email"
-            value="info@karamatwangi.desa.id"
-            helper="Balasan dalam 1×24 jam"
-            href="mailto:info@karamatwangi.desa.id"
-            delay={0.1}
-          />
-          <ContactMethodCard
-            icon={MapPin}
-            title="Alamat"
-            value="Jl. Raya Karamatwangi No. 1"
-            helper="Kec. Cikajang, Kab. Garut"
-            href="https://maps.app.goo.gl/KbRwkAn84srD3k9KA"
-            delay={0.15}
-          />
+          {contactMethods.map((method, i) => (
+            <ContactMethodCard
+              key={method.title}
+              icon={method.icon}
+              title={method.title}
+              value={method.value}
+              helper={method.helper}
+              href={method.href}
+              delay={i * 0.05}
+            />
+          ))}
         </div>
       </PageSection>
 

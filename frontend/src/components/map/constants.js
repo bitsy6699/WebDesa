@@ -8,10 +8,12 @@ export const MIN_ZOOM = 11;
 export const MAX_ZOOM = 18;
 
 export const CATEGORY_COLORS = {
-  wisata: '#22C55E',
+  'wisata-alam': '#22C55E',
   umkm: '#F59E0B',
-  pertanian: '#3B82F6',
-  budaya: '#A855F7',
+  pertanian: '#EAB308',
+  perkebunan: '#3B82F6',
+  peternakan: '#F97316',
+  agroforestri: '#059669',
   default: '#184D47',
 };
 
@@ -21,10 +23,12 @@ export function getCategoryColor(slug) {
 
 export function getCategoryIcon(slug) {
   const icons = {
-    wisata: '🏔️',
-    umkm: '🏪',
+    'wisata-alam': '🏔️',
     pertanian: '🌾',
-    budaya: '🎭',
+    perkebunan: '🌳',
+    peternakan: '🐄',
+    umkm: '🏪',
+    agroforestri: '🌲',
   };
   return icons[slug?.toLowerCase()] || '📍';
 }

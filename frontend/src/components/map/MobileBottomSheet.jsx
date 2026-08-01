@@ -41,7 +41,7 @@ export function MobileBottomSheet({ potential, onClose }) {
     <AnimatePresence>
       {potential && (
         <motion.div
-          className="fixed inset-x-0 bottom-0 z-[1000] lg:hidden"
+          className="fixed inset-0 z-[1000] lg:hidden"
           initial={prefersReducedMotion ? { opacity: 0 } : { y: '100%' }}
           animate={prefersReducedMotion ? { opacity: 1 } : { y: 0 }}
           exit={prefersReducedMotion ? { opacity: 0 } : { y: '100%' }}
@@ -49,7 +49,7 @@ export function MobileBottomSheet({ potential, onClose }) {
         >
           {/* Backdrop */}
           <motion.div
-            className="absolute inset-x-0 -top-[200vh] bg-black/40"
+            className="absolute inset-0 bg-black/40"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -59,7 +59,7 @@ export function MobileBottomSheet({ potential, onClose }) {
           {/* Sheet */}
           <div
             ref={sheetRef}
-            className="relative bg-white rounded-t-2xl shadow-[0_-8px_30px_rgba(0,0,0,0.15)] max-h-[70vh] overflow-y-auto"
+            className="absolute inset-x-0 bottom-0 bg-white rounded-t-2xl shadow-[0_-8px_30px_rgba(0,0,0,0.15)] max-h-[70vh] overflow-y-auto"
             onTouchStart={handleTouchStart}
             onTouchEnd={handleTouchEnd}
           >
