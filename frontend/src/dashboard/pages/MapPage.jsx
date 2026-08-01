@@ -1,13 +1,13 @@
 import { useState, useCallback, useMemo, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { MapContainer, TileLayer, useMap, Marker, Popup } from 'react-leaflet';
+import { MapContainer, TileLayer, useMap, Popup } from 'react-leaflet';
 import L from 'leaflet';
-import { Map, Layers } from 'lucide-react';
+import { Layers } from 'lucide-react';
 import { PageHeader } from '@/dashboard/components/molecules/PageHeader';
 import { DashboardButton } from '@/dashboard/components/atoms/DashboardButton';
 import { DashboardCard } from '@/dashboard/components/organisms/DashboardCard';
 import FadeContent from '@/components/FadeContent';
-import { usePotentials } from '@/hooks/usePotentials';
+import { useAdminPotentials } from '@/hooks/useAdminPotentials';
 import { useCategories } from '@/hooks/useCategories';
 import { MarkerClusterGroup } from '@/components/map/MapMarkers';
 import { MapFilters } from '@/components/map/MapFilters';
@@ -62,7 +62,7 @@ export default function DashboardMapPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedPotential, setSelectedPotential] = useState(null);
 
-  const { data: potentialsData, isLoading: potentialsLoading } = usePotentials({ per_page: 200, status: 'published' });
+  const { data: potentialsData, isLoading: potentialsLoading } = useAdminPotentials({ per_page: 500 });
   const { data: categories } = useCategories();
 
   const potentials = useMemo(() => {

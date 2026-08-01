@@ -77,7 +77,7 @@ export default function MapExplorer() {
   const [selectedPotential, setSelectedPotential] = useState(null);
   const isMobile = useIsMobile();
 
-  const { data: potentialsData, isLoading: potentialsLoading } = usePotentials({ perPage: 200, status: 'published' });
+  const { data: potentialsData, isLoading: potentialsLoading } = usePotentials({ per_page: 200, status: 'published' });
 
   const { data: categories } = useCategories();
 

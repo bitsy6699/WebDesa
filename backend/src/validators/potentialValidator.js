@@ -54,5 +54,5 @@ export const potentialListValidation = [
   query('status').optional().isIn(['draft', 'published', 'archived']),
   query('sort').optional().isIn(['latest', 'oldest', 'name', 'featured']),
   query('page').optional().isInt({ min: 1 }),
-  query('per_page').optional().isInt({ min: 1, max: 50 }),
+  query('per_page').optional().isInt({ min: 1, max: 500 }),
 ];
