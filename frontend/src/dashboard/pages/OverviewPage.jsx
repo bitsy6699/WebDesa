@@ -215,7 +215,6 @@ export default function OverviewPage() {
         description: 'Potensi desa yang telah diterbitkan',
         label: 'Ringkasan',
         value: String(stats.total_potentials),
-        wide: true,
         chart: renderChartOrEmpty(
           (stats.total_potentials + stats.total_draft + stats.total_archived) > 0,
           DoughnutChart,
@@ -238,7 +237,6 @@ export default function OverviewPage() {
         description: 'Total seluruh potensi termasuk draf',
         label: 'Semua Data',
         value: String(stats.total_all),
-        wide: true,
         chart: renderChartOrEmpty(
           (stats.total_potentials + stats.total_categories + stats.total_umkm + stats.total_dusun) > 0,
           DoughnutChart,
@@ -249,25 +247,11 @@ export default function OverviewPage() {
       },
       {
         color: '#0F3D34',
-        title: 'UMKM',
-        description: 'Usaha mikro kecil menengah',
-        label: 'Bisnis',
-        value: String(stats.total_umkm),
-      },
-      {
-        color: '#0F3D34',
         title: 'Dusun',
         description: 'Wilayah administratif desa',
         label: 'Lokasi',
         value: String(stats.total_dusun),
         chart: renderChartOrEmpty((stats.dusun_distribution ?? []).length > 0, BarChart, dusunData, barOptions),
-      },
-      {
-        color: '#0F3D34',
-        title: 'Draf',
-        description: 'Potensi yang masih dalam penyusunan',
-        label: 'Tertunda',
-        value: String(stats.total_draft),
       },
     ];
   }, [stats, donutData, statusData, categoryData, dusunData, donutOptions, barOptions]);

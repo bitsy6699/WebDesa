@@ -131,33 +131,6 @@
   .card-grid {
     grid-template-columns: repeat(4, 1fr);
   }
-
-  .magic-bento-card:nth-child(1) {
-    grid-column: 1 / span 2;
-  }
-
-  .magic-bento-card:nth-child(3) {
-    grid-column: 3 / span 2;
-  }
-
-  .magic-bento-card--wide .magic-bento-card__content {
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1.25rem;
-  }
-
-  .magic-bento-card--wide .magic-bento-card__copy {
-    flex: 1;
-    min-width: 0;
-  }
-
-  .magic-bento-card--wide .magic-bento-card__chart,
-  .magic-bento-card--wide .magic-bento-card__empty {
-    flex: none;
-    width: 180px;
-    height: 180px;
-  }
 }
 
 .magic-bento-card--border-glow::after {
