@@ -24,13 +24,15 @@ const DEFAULT_FAQS = [
 
 function FAQItem({ faq, index, isOpen, onToggle }) {
   return (
-    <div className="border-b border-[#E0E8E4] last:border-b-0">
+    <div
+      className={[
+        'border-b border-[#E0E8E4] last:border-b-0 transition-colors duration-200',
+        isOpen ? 'bg-[var(--bg-surface-muted)]' : 'hover:bg-[var(--bg-surface-muted)]/50',
+      ].join(' ')}
+    >
       <button
         onClick={onToggle}
-        className={[
-          'flex w-full items-center justify-between gap-4 rounded-xl py-5 text-left transition-colors duration-200',
-          isOpen ? 'bg-[var(--bg-surface-muted)]' : 'hover:bg-[var(--bg-surface-muted)]',
-        ].join(' ')}
+        className="flex w-full items-center justify-between gap-4 py-4 text-left transition-colors duration-200 sm:py-5"
         aria-expanded={isOpen}
       >
         <span className="relative pl-5">
@@ -38,7 +40,7 @@ function FAQItem({ faq, index, isOpen, onToggle }) {
             className="absolute left-0 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full transition-colors duration-300"
             style={{ backgroundColor: isOpen ? '#184D47' : '#D6D3D1' }}
           />
-          <span className="text-[15px] font-semibold text-[var(--text-primary)]">
+          <span className="text-[15px] font-semibold leading-snug text-[var(--text-primary)]">
             {faq.question}
           </span>
         </span>
@@ -59,9 +61,9 @@ function FAQItem({ faq, index, isOpen, onToggle }) {
             transition={{ type: 'spring', stiffness: 200, damping: 22, mass: 0.8 }}
             className="overflow-hidden"
           >
-            <div className="relative pl-5 pb-5">
+            <div className="relative pl-5 pb-5 sm:pb-6">
               <div
-                className="absolute left-0 top-0 bottom-5 w-px bg-primary/15"
+                className="absolute left-0 top-0 bottom-5 w-px bg-primary/20"
                 aria-hidden="true"
               />
               <p className="text-[14px] leading-[1.8] text-[var(--text-body)]">
@@ -102,7 +104,7 @@ export function FAQSection({ faqs = DEFAULT_FAQS }) {
           </p>
         </div>
 
-        <div className="rounded-[20px] bg-white border border-[#E8EFEC] px-6 shadow-[0_1px_3px_rgba(15,61,52,0.03),0_4px_12px_rgba(15,61,52,0.06)]">
+        <div className="rounded-[20px] bg-white border border-[#E8EFEC] px-4 sm:px-6 shadow-[0_1px_3px_rgba(15,61,52,0.03),0_4px_12px_rgba(15,61,52,0.06)]">
           {faqs.map((faq, i) => (
             <FAQItem
               key={i}
