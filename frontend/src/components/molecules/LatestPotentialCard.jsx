@@ -146,11 +146,7 @@ export const LatestPotentialCard = memo(
 
             <div className="mt-auto pt-2">
               <span
-                className="inline-flex items-center gap-2 rounded-full px-4 py-2.5 text-sm font-semibold text-primary-dark transition-colors duration-300 ease-out [@media(hover:hover)]:group-hover:bg-[var(--color-primary)] [@media(hover:hover)]:group-hover:text-white"
-                style={{
-                  background: 'rgba(255,255,255,0.35)',
-                  border: '1px solid rgba(24,77,71,0.12)',
-                }}
+                className="inline-flex items-center gap-2 rounded-full border border-[rgba(24,77,71,0.12)] bg-white/35 px-4 py-2.5 text-sm font-semibold text-primary-dark transition-colors duration-300 ease-out [@media(hover:hover)]:group-hover:bg-[var(--color-primary)] [@media(hover:hover)]:group-hover:text-white"
               >
                 Lihat Detail
                 <ArrowRight className="h-4 w-4" aria-hidden="true" />
