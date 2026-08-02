@@ -27,7 +27,10 @@ function FAQItem({ faq, index, isOpen, onToggle }) {
     <div className="border-b border-[#E0E8E4] last:border-b-0">
       <button
         onClick={onToggle}
-        className="flex w-full items-center justify-between gap-4 py-5 text-left transition-colors duration-200 hover:bg-[#F8FAF8] -mx-2 px-2 rounded-xl"
+        className={[
+          'flex w-full items-center justify-between gap-4 rounded-xl py-5 text-left transition-colors duration-200',
+          isOpen ? 'bg-[var(--bg-surface-muted)]' : 'hover:bg-[var(--bg-surface-muted)]',
+        ].join(' ')}
         aria-expanded={isOpen}
       >
         <span className="relative pl-5">
