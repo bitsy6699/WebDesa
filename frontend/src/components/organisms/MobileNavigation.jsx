@@ -7,7 +7,7 @@ import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 /**
  * MobileNavigation — Off-canvas slide-in navigation drawer.
  *
- * - Right-side slide with Framer Motion
+ * - Left-side slide with Framer Motion
  * - Focus trap via escape key
  * - Backdrop click to close
  * - Body scroll lock when open
@@ -65,10 +65,10 @@ export function MobileNavigation({
 
           {/* Drawer panel */}
           <motion.div
-            className="fixed inset-y-0 right-0 w-72 rounded-l-[28px] border border-white/60 bg-white/95 shadow-[0_24px_70px_rgba(15,61,52,0.16)] backdrop-blur-[24px] flex flex-col"
-            initial={{ x: '100%' }}
+            className="fixed inset-y-0 left-0 w-72 rounded-r-[28px] border border-white/60 bg-white/95 shadow-[0_24px_70px_rgba(15,61,52,0.16)] backdrop-blur-[24px] flex flex-col"
+            initial={{ x: '-100%' }}
             animate={{ x: 0 }}
-            exit={{ x: '100%' }}
+            exit={{ x: '-100%' }}
             transition={prefersReducedMotion
               ? { duration: 0 }
               : { duration: 0.25, ease: [0.25, 0.1, 0.25, 1] }}
