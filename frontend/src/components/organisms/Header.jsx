@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Leaf, LayoutDashboard } from 'lucide-react';
+import { Menu, X, Leaf, Compass } from 'lucide-react';
 import { Button } from '@/components/atoms/Button';
 import { IconButton } from '@/components/atoms/IconButton';
 import { MobileNavigation } from './MobileNavigation';
@@ -9,8 +9,10 @@ import { clsx } from 'clsx';
 
 const NAV_LINKS = [
   { label: 'Beranda', href: '/' },
+  { label: 'Tentang', href: '/about' },
   { label: 'Potensi', href: '/potentials' },
   { label: 'Statistik', href: '/statistics' },
+  { label: 'Kontak', href: '/contact' },
 ];
 
 function VillageLogo({ transparent }) {
@@ -96,7 +98,7 @@ export function Header() {
           WebkitBackdropFilter: transparent ? undefined : 'blur(20px)',
         }}
       >
-        <div className="container mx-auto px-4 h-[88px] flex items-center justify-between gap-6">
+        <div className={clsx('container mx-auto px-4 flex items-center justify-between gap-6 transition-[height] duration-500 ease-out', isScrolled ? 'h-16' : 'h-[88px]')}>
           <Link
             to="/"
             className="flex items-center gap-2.5 rounded-xl shrink-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-[--border-focus]"
@@ -146,7 +148,7 @@ export function Header() {
           </nav>
 
           <div className="hidden lg:flex items-center shrink-0">
-            <Link to="/login" tabIndex={-1}>
+            <Link to="/potentials">
               <Button
                 variant="primary"
                 size="sm"
@@ -157,8 +159,8 @@ export function Header() {
                     : 'bg-primary hover:bg-primary-dark text-white',
                 )}
               >
-                <LayoutDashboard className="w-3.5 h-3.5" aria-hidden="true" />
-                Dashboard Admin
+                <Compass className="w-3.5 h-3.5" aria-hidden="true" />
+                Jelajahi Potensi
               </Button>
             </Link>
           </div>

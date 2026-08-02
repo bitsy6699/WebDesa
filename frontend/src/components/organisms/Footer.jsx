@@ -132,6 +132,7 @@ export function Footer() {
                   { label: 'Statistik', to: '/statistics' },
                   { label: 'Tentang', to: '/about' },
                   { label: 'Kontak', to: '/contact' },
+                  { label: 'Dashboard Admin', to: '/login' },
                 ].map((link) => (
                   <li key={link.label}>
                     <Link
