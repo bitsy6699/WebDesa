@@ -10,29 +10,7 @@ const CARD_SHADOW = '0 2px 8px rgba(15,61,52,0.04), 0 12px 32px rgba(15,61,52,0.
 const CARD_SHADOW_HOVER = '0 4px 12px rgba(15,61,52,0.06), 0 20px 48px rgba(15,61,52,0.12)';
 const TILT_MAX = 2;
 
-function getCategoryEmoji(slug) {
-  switch (slug) {
-    case 'pertanian':
-      return '🌱';
-    case 'peternakan':
-      return '🥛';
-    case 'wisata':
-    case 'wisata-alam':
-      return '🏞';
-    case 'umkm':
-      return '🛍';
-    case 'perkebunan':
-      return '🌳';
-    case 'agroforestri':
-      return '🌲';
-    case 'budaya':
-      return '🎭';
-    default:
-      return '✦';
-  }
-}
-
-function CategoryBadge({ label, slug, colorCode }) {
+function CategoryBadge({ label, colorCode }) {
   return (
     <span
       className="inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-semibold text-white transition-transform duration-300 ease-out [@media(hover:hover)]:group-hover:-translate-y-1.5"
@@ -48,7 +26,6 @@ function CategoryBadge({ label, slug, colorCode }) {
         style={{ backgroundColor: colorCode ?? '#184D47' }}
         aria-hidden="true"
       />
-      <span aria-hidden="true">{getCategoryEmoji(slug)}</span>
       {label}
     </span>
   );
@@ -185,7 +162,6 @@ function FeaturedPotentialCardContent({ item, variant, stretch }) {
           <div className="absolute top-4 left-4 z-10">
             <CategoryBadge
               label={item.category.label}
-              slug={item.category.slug}
               colorCode={item.category.color_code}
             />
           </div>
