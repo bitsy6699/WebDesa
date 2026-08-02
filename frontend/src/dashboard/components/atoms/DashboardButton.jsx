@@ -36,7 +36,7 @@ export const DashboardButton = forwardRef(
         {...props}
       >
         {loading ? <LoaderCircle className="h-4 w-4 animate-spin" /> : null}
-        <span>{children}</span>
+        <span className="inline-flex items-center gap-2">{children}</span>
       </Tag>
     );
   },
