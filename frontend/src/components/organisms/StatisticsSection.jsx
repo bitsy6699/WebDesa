@@ -52,7 +52,20 @@ export function StatisticsSection({ id, summary }) {
   if (isLoading) {
     return (
       <section ref={sectionRef} id={id} className="relative overflow-hidden" style={{ background: 'var(--bg-surface-alt)', paddingTop: 'clamp(80px, 10vw, 120px)', paddingBottom: 'clamp(72px, 8vw, 104px)' }}>
-        <div className="mx-auto max-w-[1160px] px-4 sm:px-6 lg:px-8">
+        <div
+          className="absolute inset-0 pointer-events-none"
+          aria-hidden="true"
+          style={{
+            backgroundImage: `url(${HERO_2})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            filter: 'blur(28px) saturate(0.5)',
+            transform: 'scale(1.1)',
+            opacity: 0.1,
+          }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-[var(--bg-surface-alt)] via-[var(--bg-surface-alt)]/85 to-[var(--bg-surface-alt)] pointer-events-none" aria-hidden="true" />
+        <div className="relative z-10 mx-auto max-w-[1160px] px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
             {Array.from({ length: 4 }).map((_, i) => (
               <div key={i} className="text-center">
@@ -97,12 +110,21 @@ export function StatisticsSection({ id, summary }) {
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundAttachment: prefersReducedMotion ? 'scroll' : 'fixed',
-          filter: 'blur(40px) saturate(0.3)',
-          transform: 'scale(1.15)',
+          filter: 'blur(28px) saturate(0.5)',
+          transform: 'scale(1.1)',
+          opacity: 0.1,
         }}
       />
 
-      <div className="absolute inset-0 bg-gradient-to-b from-[var(--bg-surface-alt)]/90 via-[var(--bg-surface-alt)]/70 to-[var(--bg-surface-alt)]/90 pointer-events-none" aria-hidden="true" />
+      <div className="absolute inset-0 bg-gradient-to-b from-[var(--bg-surface-alt)] via-[var(--bg-surface-alt)]/85 to-[var(--bg-surface-alt)] pointer-events-none" aria-hidden="true" />
+
+      <div
+        className="absolute inset-0 pointer-events-none"
+        aria-hidden="true"
+        style={{
+          background: 'radial-gradient(ellipse 70% 50% at 50% 20%, rgba(24,77,71,0.08) 0%, rgba(24,77,71,0) 70%)',
+        }}
+      />
 
       <div className="relative z-10 mx-auto max-w-[1160px] px-4 sm:px-6 lg:px-8 text-center">
         <motion.p
