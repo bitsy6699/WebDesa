@@ -134,17 +134,13 @@ export function FeaturedPotentialsSection({ id, potentials, isLoading = false })
               role="list"
               aria-label="Daftar potensi unggulan desa"
             >
-              {potentials.map((item, index) => (
+              {potentials.map((item) => (
                 <div
                   key={item.id}
-                  className={`snap-start shrink-0 ${index === 0 ? 'w-[85vw]' : 'w-[75vw]'}`}
+                  className="snap-start shrink-0 w-[80vw]"
                   role="listitem"
                 >
-                  {index === 0 ? (
-                    <FeaturedLargeCard item={item} />
-                  ) : (
-                    <FeaturedSmallCard item={item} />
-                  )}
+                  <FeaturedSmallCard item={item} />
                 </div>
               ))}
             </div>
