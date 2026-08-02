@@ -110,8 +110,8 @@ export function FeaturedPotentialsSection({ id, potentials, isLoading = false })
               {smallCards.length > 0 && (
                 <div className="flex w-[40%] flex-col gap-7">
                   {smallCards.map((item) => (
-                    <motion.div key={item.id} variants={childUp}>
-                      <FeaturedSmallCard item={item} />
+                    <motion.div key={item.id} variants={childUp} className="min-h-0 flex-1">
+                      <FeaturedSmallCard item={item} stretch />
                     </motion.div>
                   ))}
                 </div>

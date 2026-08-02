@@ -17,9 +17,14 @@ function getCategoryEmoji(slug) {
     case 'peternakan':
       return '🥛';
     case 'wisata':
+    case 'wisata-alam':
       return '🏞';
     case 'umkm':
       return '🛍';
+    case 'perkebunan':
+      return '🌳';
+    case 'agroforestri':
+      return '🌲';
     case 'budaya':
       return '🎭';
     default:
@@ -73,8 +78,8 @@ function GlassReflection({ enabled }) {
   );
 }
 
-function FeaturedPotentialCardContent({ item, variant }) {
-  const aspectClass = variant === 'large' ? 'aspect-[4/3]' : 'aspect-video';
+function FeaturedPotentialCardContent({ item, variant, stretch }) {
+  const aspectClass = variant === 'large' ? 'aspect-[4/3]' : stretch ? 'h-full' : 'aspect-video';
   const cardRef = useRef(null);
   const prefersReducedMotion = useReducedMotion();
   const [canHover, setCanHover] = useState(false);
@@ -206,7 +211,7 @@ function FeaturedPotentialCardContent({ item, variant }) {
             </div>
 
             <motion.span
-              className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full text-white opacity-0 scale-[0.9] [@media(hover:hover)]:group-hover:opacity-100 [@media(hover:hover)]:group-hover:scale-100"
+              className="inline-flex h-12 w-12 shrink-0 items-center justify-center rounded-full text-white opacity-100 scale-100 [@media(hover:hover)]:opacity-0 [@media(hover:hover)]:scale-[0.9] [@media(hover:hover)]:group-hover:opacity-100 [@media(hover:hover)]:group-hover:scale-100"
               style={{
                 background: 'rgba(255,255,255,0.16)',
                 backdropFilter: 'blur(20px)',
@@ -230,8 +235,8 @@ export function FeaturedLargeCard({ item }) {
   return <FeaturedPotentialCardContent item={item} variant="large" />;
 }
 
-export function FeaturedSmallCard({ item }) {
-  return <FeaturedPotentialCardContent item={item} variant="small" />;
+export function FeaturedSmallCard({ item, stretch }) {
+  return <FeaturedPotentialCardContent item={item} variant="small" stretch={stretch} />;
 }
 
 function FeaturedCardSkeleton({ variant }) {
