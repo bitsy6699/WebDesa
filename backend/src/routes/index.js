@@ -57,6 +57,9 @@ router.put('/auth/password', authenticate, updatePasswordValidation, authControl
 
 router.get('/admin/me', authenticate, authController.me);
 router.get('/admin/potentials', authenticate, potentialListValidation, potentialController.adminIndex);
+router.post('/admin/potentials/import', authenticate, uploadImport.single('file'), importExportController.importPotentials);
+router.get('/admin/potentials/import/template', authenticate, importExportController.template);
+router.get('/admin/potentials/export', authenticate, importExportController.exportPotentials);
 router.get('/admin/potentials/:id', authenticate, potentialController.showAdmin);
 router.post('/admin/categories', authenticate, storeCategoryValidation, categoryController.store);
 router.put('/admin/categories/:id', authenticate, updateCategoryValidation, categoryController.update);
@@ -72,10 +75,6 @@ router.post('/admin/media/upload', authenticate, upload.single('file'), mediaCon
 router.delete('/admin/media/:id', authenticate, mediaController.destroy);
 
 router.put('/admin/settings', authenticate, settingsController.update);
-
-router.post('/admin/potentials/import', authenticate, uploadImport.single('file'), importExportController.importPotentials);
-router.get('/admin/potentials/import/template', authenticate, importExportController.template);
-router.get('/admin/potentials/export', authenticate, importExportController.exportPotentials);
 
 router.get('/admin/activity-logs', authenticate, activityLogController.index);
 

@@ -47,6 +47,8 @@ export default function PotentialsPage() {
   const deleteMutation = useDeletePotential();
   const toggleStatusMutation = useToggleStatus();
 
+  const [transferAlert, setTransferAlert] = useState(null);
+
   const allColumns = [
     {
       key: 'cover_image_url',
@@ -148,14 +150,21 @@ export default function PotentialsPage() {
       {deleteMutation.error && (
         <Alert title={deleteMutation.error?.message ?? 'Gagal menghapus.'} variant="danger" />
       )}
+      {transferAlert && (
+        <Alert
+          title={transferAlert.message}
+          variant={transferAlert.variant}
+          onDismiss={() => setTransferAlert(null)}
+        />
+      )}
 
       <PageHeader
         title="Potensi"
         description="Kelola data potensi desa Karamatwangi."
         badge={`${data?.meta?.total ?? 0} total`}
         actions={
-          <div className="flex items-center gap-2">
-            <PotentialImportExport />
+          <div className="flex flex-wrap items-center gap-2">
+            <PotentialImportExport onResult={setTransferAlert} />
             <DashboardButton onClick={() => navigate('/dashboard/potentials/new')}>
               + Buat Potensi
             </DashboardButton>
