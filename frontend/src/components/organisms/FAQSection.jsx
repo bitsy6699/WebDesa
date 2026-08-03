@@ -77,7 +77,7 @@ function FAQItem({ faq, index, isOpen, onToggle }) {
   );
 }
 
-export function FAQSection({ faqs = DEFAULT_FAQS }) {
+export function FAQSection({ faqs = DEFAULT_FAQS, showAllLink = true }) {
   const prefersReducedMotion = useReducedMotion();
   const [openIndex, setOpenIndex] = useState(null);
 
@@ -116,15 +116,17 @@ export function FAQSection({ faqs = DEFAULT_FAQS }) {
           ))}
         </div>
 
-        <div className="mt-8 text-center">
-          <Link
-            to="/contact"
-            className="inline-flex items-center gap-2 text-[14px] font-semibold text-primary hover:text-primary-dark transition-colors duration-200 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-lg px-2 py-1"
-          >
-            Lihat Semua Pertanyaan
-            <ArrowRight className="w-4 h-4" />
-          </Link>
-        </div>
+        {showAllLink && (
+          <div className="mt-8 text-center">
+            <Link
+              to="/contact"
+              className="inline-flex items-center gap-2 text-[14px] font-semibold text-primary hover:text-primary-dark transition-colors duration-200 focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-lg px-2 py-1"
+            >
+              Lihat Semua Pertanyaan
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+        )}
       </div>
     </section>
   );
