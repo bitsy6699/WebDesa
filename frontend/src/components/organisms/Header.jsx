@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Leaf, Compass } from 'lucide-react';
-import { Button } from '@/components/atoms/Button';
+import { Menu, X, Leaf } from 'lucide-react';
 import { IconButton } from '@/components/atoms/IconButton';
 import { MobileNavigation } from './MobileNavigation';
 import { APP_NAME } from '@/constants/app';
@@ -146,24 +145,6 @@ export function Header() {
               );
             })}
           </nav>
-
-          <div className="hidden lg:flex items-center shrink-0">
-            <Link to="/potentials">
-              <Button
-                variant="primary"
-                size="sm"
-                className={clsx(
-                  'gap-1.5 rounded-full font-semibold transition-all duration-300',
-                  transparent
-                    ? 'bg-primary/85 border border-white/20 text-white hover:bg-primary-dark shadow-none'
-                    : 'bg-primary hover:bg-primary-dark text-white',
-                )}
-              >
-                <Compass className="w-3.5 h-3.5" aria-hidden="true" />
-                Jelajahi Potensi
-              </Button>
-            </Link>
-          </div>
 
           <IconButton
             icon={isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
