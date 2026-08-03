@@ -3,7 +3,6 @@ import {
   MapPin,
   Phone,
   Mail,
-  ExternalLink,
   MessageCircle,
 } from 'lucide-react';
 import SEO from '@/components/SEO';
@@ -43,8 +42,8 @@ function ContactMethodCard({ icon: Icon, title, value, helper, href, delay }) {
     >
       <a
         href={href}
-        target="_blank"
-        rel="noopener noreferrer"
+        target={href?.startsWith('http') ? '_blank' : undefined}
+        rel={href?.startsWith('http') ? 'noopener noreferrer' : undefined}
         className="group block h-full rounded-[24px] border border-primary/10 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-md"
       >
         <div className="mb-4 flex items-center justify-center w-12 h-12 rounded-[12px] bg-primary/8 text-primary transition-colors duration-300 group-hover:bg-primary group-hover:text-white">
@@ -65,7 +64,7 @@ export default function ContactPage() {
     {
       icon: MessageCircle,
       title: 'WhatsApp',
-      value: 'Chat Langsung',
+      value: contact.whatsappNumber || 'Chat Langsung',
       helper: 'Respons paling cepat',
       href: contact.whatsappUrl,
     },
@@ -122,17 +121,11 @@ export default function ContactPage() {
       {/* ── 2. Welcome Message ──────────────────────────── */}
       <PageSection>
         <div className="text-center max-w-[560px] mx-auto mb-0">
-          <motion.p
-            initial={{ opacity: 0, y: 12 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="text-[17px] text-neutral-500 leading-relaxed"
-          >
+          <p className="text-[17px] text-neutral-500 leading-relaxed">
             Kami percaya setiap warga berhak mendapat layanan yang mudah diakses.
             Hubungi kami melalui saluran di bawah ini, dan tim kami akan
             membantu Anda sebaik mungkin.
-          </motion.p>
+          </p>
         </div>
       </PageSection>
 
@@ -167,13 +160,7 @@ export default function ContactPage() {
       {/* ── 4. Office Hours ─────────────────────────────── */}
       <PageSection>
         <div className="max-w-[560px] mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="text-center mb-10"
-          >
+          <div className="text-center mb-10">
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary mb-2">
               Waktu Layanan
             </p>
@@ -183,7 +170,7 @@ export default function ContactPage() {
             <p className="mt-3 text-[15px] leading-[1.75] text-neutral-500 max-w-[560px] mx-auto">
               Waktu layanan kantor desa untuk warga yang membutuhkan bantuan.
             </p>
-          </motion.div>
+          </div>
 
           <div className="rounded-[24px] border border-primary/10 bg-white shadow-sm overflow-hidden">
             {[
@@ -210,52 +197,6 @@ export default function ContactPage() {
               </div>
             ))}
           </div>
-        </div>
-      </PageSection>
-
-      {/* ── 5. Location ─────────────────────────────────── */}
-      <PageSection>
-        <div className="text-center mb-10">
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary mb-2">
-            Alamat Kantor
-          </p>
-          <h2 className="font-heading text-[1.5rem] font-bold leading-[1.2] tracking-[-0.02em] text-primary-dark sm:text-[1.75rem]">
-            Lokasi Desa Karamatwangi
-          </h2>
-          <p className="mt-3 text-[15px] leading-[1.75] text-neutral-500 max-w-[560px] mx-auto">
-            Kunjungi langsung kantor desa kami untuk bertemu dengan tim.
-          </p>
-        </div>
-<div className="max-w-[560px] mx-auto">
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="rounded-[24px] border border-primary/10 bg-white p-8 shadow-sm flex flex-col"
-          >
-            <div className="flex items-center justify-center w-12 h-12 rounded-[12px] bg-primary/8 text-primary mb-5">
-              <MapPin className="w-6 h-6" aria-hidden="true" />
-            </div>
-            <h3 className="font-heading text-lg font-bold text-primary mb-2">
-              Kantor Desa Karamatwangi
-            </h3>
-            <p className="text-sm text-neutral-500 leading-relaxed mb-6">
-              Jl. Raya Karamatwangi No. 1, Kec. Cikajang, Kabupaten Garut,
-              Jawa Barat 44171
-            </p>
-            <div className="mt-auto">
-              <a
-                href="https://maps.app.goo.gl/KbRwkAn84srD3k9KA"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-primary/8 text-primary text-sm font-semibold transition-colors hover:bg-primary hover:text-white focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
-              >
-                Buka di Maps
-                <ExternalLink className="w-4 h-4" aria-hidden="true" />
-              </a>
-            </div>
-          </motion.div>
         </div>
       </PageSection>
 
