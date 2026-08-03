@@ -223,35 +223,15 @@ export default function ContactPage() {
             Lokasi Desa Karamatwangi
           </h2>
           <p className="mt-3 text-[15px] leading-[1.75] text-neutral-500 max-w-[560px] mx-auto">
-            Kunjungi langsung kantor desa kami atau temukan di peta.
+            Kunjungi langsung kantor desa kami untuk bertemu dengan tim.
           </p>
         </div>
-        <div className="grid lg:grid-cols-[1fr_380px] gap-6 items-stretch">
+<div className="max-w-[560px] mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
-            className="rounded-[24px] border border-primary/10 overflow-hidden shadow-sm"
-          >
-            <iframe
-              title="Lokasi Desa Karamatwangi"
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15814.198441028982!2d107.7847!3d-7.3589!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e68e6b7f7f7f7f7%3A0x7f7f7f7f7f7f7f7f!2sKec.%20Cikajang%2C%20Kabupaten%20Garut%2C%20Jawa%20Barat!5e0!3m2!1sid!2sid!4v1700000000000"
-              width="100%"
-              height="100%"
-              style={{ border: 0, minHeight: '360px' }}
-              allowFullScreen=""
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-              className="w-full"
-            />
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.08 }}
             className="rounded-[24px] border border-primary/10 bg-white p-8 shadow-sm flex flex-col"
           >
             <div className="flex items-center justify-center w-12 h-12 rounded-[12px] bg-primary/8 text-primary mb-5">
