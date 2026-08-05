@@ -47,7 +47,7 @@ export function MobileNavigation({
         <motion.div
           key="mobile-nav"
           id={id}
-          className="md:hidden fixed inset-0 z-50"
+          className="md:hidden fixed inset-0 z-[1200]"
           role="dialog"
           aria-modal="true"
           aria-label="Menu navigasi"

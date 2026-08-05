@@ -56,7 +56,7 @@ function GlassReflection({ enabled }) {
 }
 
 function FeaturedPotentialCardContent({ item, variant, stretch }) {
-  const aspectClass = variant === 'large' ? 'aspect-[4/3]' : stretch ? 'h-full' : 'aspect-video';
+  const aspectClass = variant === 'large' ? 'aspect-[4/3]' : stretch ? 'h-full' : 'aspect-[4/3]';
   const cardRef = useRef(null);
   const prefersReducedMotion = useReducedMotion();
   const [canHover, setCanHover] = useState(false);
@@ -216,7 +216,7 @@ export function FeaturedSmallCard({ item, stretch }) {
 }
 
 function FeaturedCardSkeleton({ variant }) {
-  const aspectClass = variant === 'large' ? 'aspect-[4/3]' : 'aspect-video';
+  const aspectClass = variant === 'large' ? 'aspect-[4/3]' : 'aspect-[4/3]';
 
   return (
     <div
