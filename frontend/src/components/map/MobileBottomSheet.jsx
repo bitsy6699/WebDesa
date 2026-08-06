@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
-import { X } from 'lucide-react';
+import { X, MapPin } from 'lucide-react';
 import { getCategoryColor, getCategoryIcon } from './constants';
 
 /**
@@ -14,7 +14,7 @@ export function MobileBottomSheet({ potential, onClose }) {
   const touchStartY = useRef(0);
 
   const color = getCategoryColor(potential?.category?.slug);
-  const icon = getCategoryIcon(potential?.category?.slug);
+  const Icon = getCategoryIcon(potential?.category?.slug);
   const detailPath = potential
     ? `/potentials/${potential.category?.slug || 'lainnya'}/${potential.slug}`
     : '#';
@@ -101,7 +101,7 @@ export function MobileBottomSheet({ potential, onClose }) {
                 className="inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[12px] font-semibold text-white"
                 style={{ background: color }}
               >
-                {icon} {potential.category?.label || 'Lainnya'}
+                <Icon className="w-3.5 h-3.5" /> {potential.category?.label || 'Lainnya'}
               </span>
 
               {/* Title */}
@@ -111,8 +111,8 @@ export function MobileBottomSheet({ potential, onClose }) {
 
               {/* Address */}
               {potential.location?.address && (
-                <p className="mt-2 text-[14px] leading-relaxed text-[#6B7B78]">
-                  📍 {potential.location.address}
+                <p className="mt-2 flex items-start gap-1 text-[14px] leading-relaxed text-[#6B7B78]">
+                  <MapPin className="w-4 h-4 mt-0.5 shrink-0" /> {potential.location.address}
                 </p>
               )}
 

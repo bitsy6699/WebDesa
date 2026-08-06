@@ -2,6 +2,8 @@
  * Map constants — center, zoom, category colors, defaults.
  */
 
+import { Trees, TreePine, Wheat, Beef, Store, Mountain, MapPin } from 'lucide-react';
+
 export const MAP_CENTER = [-7.35, 107.85];
 export const MAP_ZOOM = 13;
 export const MIN_ZOOM = 11;
@@ -23,14 +25,14 @@ export function getCategoryColor(slug) {
 
 export function getCategoryIcon(slug) {
   const icons = {
-    'wisata-alam': '🏔️',
-    pertanian: '🌾',
-    perkebunan: '🌳',
-    peternakan: '🐄',
-    umkm: '🏪',
-    agroforestri: '🌲',
+    'wisata-alam': Mountain,
+    pertanian: Wheat,
+    perkebunan: TreePine,
+    peternakan: Beef,
+    umkm: Store,
+    agroforestri: Trees,
   };
-  return icons[slug?.toLowerCase()] || '📍';
+  return icons[slug?.toLowerCase()] || MapPin;
 }
 
 export const KARAMATWANGI_BOUNDS = [

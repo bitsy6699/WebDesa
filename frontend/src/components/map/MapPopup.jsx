@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { MapPin } from 'lucide-react';
 import { getCategoryColor, getCategoryIcon } from './constants';
 
 /**
@@ -8,7 +9,7 @@ import { getCategoryColor, getCategoryIcon } from './constants';
 export function MapPopup({ potential }) {
   const { title, category, location, cover_image_url, slug } = potential;
   const color = getCategoryColor(category?.slug);
-  const icon = getCategoryIcon(category?.slug);
+  const Icon = getCategoryIcon(category?.slug);
   const detailPath = `/potentials/${category?.slug || 'lainnya'}/${slug}`;
 
   return (
@@ -38,7 +39,7 @@ export function MapPopup({ potential }) {
           className="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-semibold text-white"
           style={{ background: color }}
         >
-          {icon} {category?.label || 'Lainnya'}
+          <Icon className="w-3 h-3" /> {category?.label || 'Lainnya'}
         </span>
 
         {/* Title */}
@@ -48,8 +49,8 @@ export function MapPopup({ potential }) {
 
         {/* Address */}
         {location?.address && (
-          <p className="mt-1 text-[12px] leading-relaxed text-[#6B7B78] line-clamp-2">
-            📍 {location.address}
+          <p className="mt-1 flex items-start gap-1 text-[12px] leading-relaxed text-[#6B7B78] line-clamp-2">
+            <MapPin className="w-3 h-3 mt-0.5 shrink-0" /> {location.address}
           </p>
         )}
 

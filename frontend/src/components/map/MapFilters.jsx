@@ -63,7 +63,7 @@ export function MapFilters({
         </button>
         {categories?.map((cat) => {
           const color = getCategoryColor(cat.slug);
-          const icon = getCategoryIcon(cat.slug);
+          const Icon = getCategoryIcon(cat.slug);
           const isActive = activeCategory === cat.slug;
           return (
             <button
@@ -76,7 +76,7 @@ export function MapFilters({
               } focus-visible:ring-2 focus-visible:ring-[#184D47] focus-visible:ring-offset-2`}
               style={isActive ? { background: color, borderColor: color } : undefined}
             >
-              {icon} {cat.label}
+              <Icon className="w-4 h-4" /> {cat.label}
             </button>
           );
         })}
