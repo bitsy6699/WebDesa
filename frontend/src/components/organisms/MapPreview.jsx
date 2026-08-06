@@ -105,7 +105,9 @@ export function MapPreview({ potentials = [] }) {
             </h3>
 
             <div className="flex flex-col gap-2">
-              {markers.map((m) => (
+              {markers.map((m) => {
+                const Icon = getCategoryIcon(m.category?.slug);
+                return (
                 <Link
                   key={m.id}
                   to={`/potentials/${m.category?.slug || 'lainnya'}/${m.slug}`}
@@ -115,7 +117,7 @@ export function MapPreview({ potentials = [] }) {
                     className="flex-shrink-0 w-8 h-8 rounded-lg flex items-center justify-center text-white text-[13px]"
                     style={{ background: getCategoryColor(m.category?.slug) }}
                   >
-                    {getCategoryIcon(m.category?.slug)}
+                    <Icon className="w-4 h-4" />
                   </div>
                   <div className="min-w-0 flex-1">
                     <p className="text-[13px] font-semibold text-[var(--text-primary)] truncate">{m.title}</p>
@@ -123,7 +125,8 @@ export function MapPreview({ potentials = [] }) {
                   </div>
                   <ArrowRight className="w-3.5 h-3.5 text-[var(--text-caption)] flex-shrink-0" />
                 </Link>
-              ))}
+              );
+            })}
             </div>
 
             <Link
