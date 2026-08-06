@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { X, MapPin } from 'lucide-react';
 import { getCategoryColor, getCategoryIcon } from './constants';
+import { useLenis } from '@/lib/lenis';
 
 /**
  * MobileBottomSheet — bottom sheet replacing popup on mobile viewports.
@@ -15,6 +16,7 @@ export function MobileBottomSheet({ potential, onClose }) {
 
   const color = getCategoryColor(potential?.category?.slug);
   const Icon = getCategoryIcon(potential?.category?.slug);
+  const lenis = useLenis();
   const detailPath = potential
     ? `/potentials/${potential.category?.slug || 'lainnya'}/${potential.slug}`
     : '#';
@@ -27,6 +29,16 @@ export function MobileBottomSheet({ potential, onClose }) {
     document.addEventListener('keydown', handleKey);
     return () => document.removeEventListener('keydown', handleKey);
   }, [potential, onClose]);
+
+  useEffect(() => {
+    if (!potential) return;
+    document.body.style.overflow = 'hidden';
+    lenis?.stop();
+    return () => {
+      document.body.style.overflow = '';
+      lenis?.start();
+    };
+  }, [potential, lenis]);
 
   const handleTouchStart = (e) => {
     touchStartY.current = e.touches[0].clientY;

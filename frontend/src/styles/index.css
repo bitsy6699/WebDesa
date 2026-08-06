@@ -145,6 +145,27 @@
     @apply bg-background text-foreground;
   }
 
+  /* Lenis smooth scroll — companion styles.
+   * .lenis-smooth overrides the native scroll-behavior so Lenis's wheel
+   * animation isn't fighting the browser's own smooth scrolling.
+   * Ref: https://github.com/darkroomengineering/lenis */
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+
+  .lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+  }
+
+  .lenis.lenis-stopped {
+    overflow: hidden;
+  }
+
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Plus Jakarta Sans', sans-serif;
   }

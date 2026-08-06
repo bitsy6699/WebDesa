@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Button } from '@/components/atoms/Button';
 import { clsx } from 'clsx';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
+import { useLenis } from '@/lib/lenis';
 
 /**
  * MobileNavigation — Off-canvas slide-in navigation drawer.
@@ -22,12 +23,20 @@ export function MobileNavigation({
   id,
 }) {
   const prefersReducedMotion = useReducedMotion();
+  const lenis = useLenis();
 
   /* Lock body scroll when drawer is open */
   useEffect(() => {
     document.body.style.overflow = isOpen ? 'hidden' : '';
-    return () => { document.body.style.overflow = ''; };
-  }, [isOpen]);
+    if (lenis) {
+      if (isOpen) lenis.stop();
+      else lenis.start();
+    }
+    return () => {
+      document.body.style.overflow = '';
+      lenis?.start();
+    };
+  }, [isOpen, lenis]);
 
   /* Escape key closes */
   useEffect(() => {
