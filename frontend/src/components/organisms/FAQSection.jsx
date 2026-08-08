@@ -26,7 +26,7 @@ function FAQItem({ faq, index, isOpen, onToggle }) {
   return (
     <div
       className={[
-        'border-b border-[#E0E8E4] last:border-b-0 transition-colors duration-200',
+        'border-b border-[#E0E8E4] last:border-b-0 px-4 sm:px-6 transition-colors duration-200',
         isOpen ? 'bg-[var(--bg-surface-muted)]' : 'hover:bg-[var(--bg-surface-muted)]/50',
       ].join(' ')}
     >
@@ -104,7 +104,7 @@ export function FAQSection({ faqs = DEFAULT_FAQS, showAllLink = true }) {
           </p>
         </div>
 
-        <div className="rounded-[20px] bg-white border border-[#E8EFEC] px-4 sm:px-6 shadow-[0_1px_3px_rgba(15,61,52,0.03),0_4px_12px_rgba(15,61,52,0.06)]">
+        <div className="overflow-hidden rounded-[20px] bg-white border border-[#E8EFEC] shadow-[0_1px_3px_rgba(15,61,52,0.03),0_4px_12px_rgba(15,61,52,0.06)]">
           {faqs.map((faq, i) => (
             <FAQItem
               key={i}
