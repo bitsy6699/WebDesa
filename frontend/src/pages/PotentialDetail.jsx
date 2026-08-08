@@ -400,7 +400,7 @@ export default function PotentialDetail() {
           1. HERO — compact, category + location + title only
       ══════════════════════════════════════════════════════════════════════ */}
       <PageHero
-        image={cover_image_url || '/assets/images/placeholder-card.svg'}
+        image={cover_image_url || '/assets/images/placeholder-hero.svg'}
         imageAlt={title}
         title={title}
         variant="image"
